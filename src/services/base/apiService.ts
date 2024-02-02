@@ -1,4 +1,3 @@
-
 import axios from "axios";
 
 const BASE_URL = "https://localhost:7133/api";
@@ -13,10 +12,41 @@ const apiClient = axios.create({
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response && error.response.status === 500) {
-      return Promise.reject(new Error("Sunucu hatası"));
+    if (!error.response) {
+      return Promise.reject(new Error("Ağ hatası veya yanıt yok"));
     }
-    return Promise.reject(error);
+    const { data } = error.response;
+
+    let customError = {
+      generalMessage: "Beklenmeyen bir hata oluştu.",
+      validationErrors: null,
+      status: data.Status,
+    };
+
+    switch (data.Status) {
+      case 400: // Validation veya Business Logic Error
+        if (data.Errors) {
+          // Validation Error
+          customError.generalMessage = "Doğrulama hataları mevcut.";
+          customError.validationErrors = data.Errors;
+        } else if (data.title === "Rule violation") {
+          // Business Logic Error
+          customError.generalMessage = data.detail || "İş kuralları ihlali.";
+        }
+        break;
+      case 401: // Authorization Error
+        customError.generalMessage = data.detail || "Yetkilendirme hatası.";
+        break;
+      case 404: // Not Found Error
+        customError.generalMessage = data.detail || "Kaynak bulunamadı.";
+        break;
+      case 500: // Internal Server Error
+        customError.generalMessage = "Sunucu hatası.";
+        break;
+    }
+
+    // Bu noktada, tanımlanmış özel durumlar dışında bir hata varsa
+    return Promise.reject(customError);
   }
 );
 

@@ -12,8 +12,11 @@ import { GetListContactUsInformationListItemDto } from "../../services/contactUs
 import contactUsInformationStore from "../../stores/contactUsInformation/contactUsInformationStore";
 import { CreateContactCommand } from "../../services/contact/dtos/CreateContactCommand";
 import contactStore from "../../stores/contact/contactStore";
+import { observer } from "mobx-react";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
-const ContactPage = () => {
+const ContactPage = observer(() => {
   const [focusedInputFullName, setFocusedInputFullName] = useState(null);
   const [focusedInputEmail, setFocusedInputEmail] = useState(null);
   const [focusedInputPhoneNumber, setFocusedInputPhoneNumber] = useState(null);
@@ -119,11 +122,32 @@ const ContactPage = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      const response = await contactStore.createContact(contact);
-      console.log(response);
-    } catch (error) {
-      console.error(error);
+      var result = await contactStore.createContact(contact);
+      if (result.id !== null) {
+        toast.success("Form başarıyla gönderildi.");
+        clearContact();
+      }
+    } catch (error: any) {
+      if (error.validationErrors) {
+        error.validationErrors.forEach((valError: any) => {
+          valError.Errors.forEach((errMsg: any) => {
+            toast.warning(errMsg);
+          });
+        });
+      } else {
+        // Genel hata mesajı
+        toast.error("Formu gönderirken bir hata oluştu.");
+      }
     }
+  };
+
+  const clearContact = () => {
+    setContact({
+      fullName: "",
+      email: "",
+      phoneNumber: "",
+      message: "",
+    });
   };
 
   useEffect(() => {
@@ -211,6 +235,7 @@ const ContactPage = () => {
                 type="text"
                 name="fullName"
                 className={styles.input}
+                value={contact.fullName}
                 onFocus={() => handleFocus("fullName")}
                 onBlur={() => handleBlur("fullName")}
                 onChange={handleInputChange}
@@ -227,6 +252,7 @@ const ContactPage = () => {
                 type="email"
                 name="email"
                 className={styles.input}
+                value={contact.email}
                 onFocus={() => handleFocus("email")}
                 onBlur={() => handleBlur("email")}
                 onChange={handleInputChange}
@@ -243,6 +269,7 @@ const ContactPage = () => {
                 type="tel"
                 name="phoneNumber"
                 className={styles.input}
+                value={contact.phoneNumber}
                 onFocus={() => handleFocus("phoneNumber")}
                 onBlur={() => handleBlur("phoneNumber")}
                 onChange={handleInputChange}
@@ -258,6 +285,7 @@ const ContactPage = () => {
               <textarea
                 name="message"
                 className={styles.input}
+                value={contact.message}
                 onFocus={() => handleFocus("message")}
                 onBlur={() => handleBlur("message")}
                 onChange={handleInputChange}
@@ -269,8 +297,20 @@ const ContactPage = () => {
           </form>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
-};
+});
 
 export default ContactPage;
