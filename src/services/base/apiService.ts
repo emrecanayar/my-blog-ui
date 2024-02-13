@@ -29,16 +29,16 @@ apiClient.interceptors.response.use(
           // Validation Error
           customError.generalMessage = "Doğrulama hataları mevcut.";
           customError.validationErrors = data.Errors;
-        } else if (data.title === "Rule violation") {
+        } else if (data.Title === "Rule violation") {
           // Business Logic Error
-          customError.generalMessage = data.detail || "İş kuralları ihlali.";
+          customError.generalMessage = data.Detail || "İş kuralları ihlali.";
         }
         break;
       case 401: // Authorization Error
-        customError.generalMessage = data.detail || "Yetkilendirme hatası.";
+        customError.generalMessage = data.Detail || "Yetkilendirme hatası.";
         break;
       case 404: // Not Found Error
-        customError.generalMessage = data.detail || "Kaynak bulunamadı.";
+        customError.generalMessage = data.Detail || "Kaynak bulunamadı.";
         break;
       case 500: // Internal Server Error
         customError.generalMessage = "Sunucu hatası.";

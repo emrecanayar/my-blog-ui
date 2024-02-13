@@ -11,6 +11,7 @@ import Login from "./pages/login/Login";
 import Write from "./pages/write/Write";
 import ContactPage from "./pages/contact/Contact";
 import About from "./pages/about/About";
+import "react-toastify/dist/ReactToastify.css";
 
 function App({ children }: any) {
   return (
