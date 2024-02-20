@@ -3,8 +3,9 @@ import { action, observable } from "mobx";
 import { PageRequest } from "../../services/base/models/PageRequest";
 import { DynamicQuery } from "../../services/base/models/DynamicQuery";
 import categoryService from "../../services/category/categoryService";
+import { BaseStore } from "../base/baseStore";
 
-export class CategoryStore {
+export class CategoryStore extends BaseStore {
   @observable categoriesListByDynamic: CategoryListModel =
     {} as CategoryListModel;
 
@@ -20,7 +21,10 @@ export class CategoryStore {
       );
       this.categoriesListByDynamic = result.data;
       return result.data;
-    } catch (error) {}
+    } catch (error: any) {
+      this.handleApiError(error);
+      throw error;
+    }
   };
 }
 const categoryStore = new CategoryStore();

@@ -3,6 +3,7 @@ import styles from "./categoryList.module.css";
 import categoryStore from "../../stores/category/categoryStore";
 import { useEffect, useState } from "react";
 import { CategoryListModel } from "../../services/category/dtos/categoryListModel";
+import config from "../../config";
 
 const CategoryList = () => {
   const [popularCategories, setPopularCategories] =
@@ -41,7 +42,7 @@ const CategoryList = () => {
               key={category.id}
             >
               <img
-                src={category.categoryUploadedFiles[0].newPath}
+                src={`${config.FILE_BASE_URL}${category.categoryUploadedFiles[0].newPath}`}
                 alt={category.name}
                 width={32}
                 height={32}
