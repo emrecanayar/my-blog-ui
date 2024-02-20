@@ -61,6 +61,12 @@ const apiService = {
 
   delete: (url: string) =>
     apiClient.delete(url).then((response) => response.data),
+
+  postWithQuery: (url: string, params: any, data: any) => {
+    const queryString = new URLSearchParams(params).toString();
+    const fullUrl = `${url}?${queryString}`;
+    return apiClient.post(fullUrl, data).then((response) => response.data);
+  },
 };
 
 export default apiService;
