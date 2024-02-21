@@ -1,55 +1,46 @@
-.container {
+.cardContainer {
   position: relative;
+  background: #FFFFFF;
+  border: 1px solid #E2E2E2;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 60px; /* Buton için altta yeterli yer bırakın */
+}
+
+.cardContainer .thumbnail {
+  width: 100%;
+  height: 200px; /* Adjust based on your preference */
+  background-color: #f0f0f0; /* Placeholder color */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+
+.container {
   display: flex;
   flex-direction: column;
 }
 
-.select {
-  padding: 12px 15px;
-  border-radius: 5px;
-  border: 1px solid #e2e2e2;
-  font-size: 16px;
-  outline: none;
-  transition: all 0.3s ease-in-out;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  position: relative;
-  background-color: #fff;
-  cursor: pointer;
-}
-
-
-.select::-ms-expand {
-  display: none;
-}
-
-.select::after {
-  content: '\25BC';
-  position: absolute;
-  top: 50%;
-  right: 15px;
-  transform: translateY(-50%);
-  pointer-events: none;
-  color: #333;
-  font-size: 12px;
-}
-
-.select:hover,
-.select:focus {
-  border-color: #a2a2a2;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-
 .editor {
-  display: flex;
-  gap: 20px;
-  height: 700px;
+  height: auto; /* Adjust based on your content */
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .label {
-  font-size: 18px;
+  font-weight: bold;
+  margin-top: 20px;
   margin-bottom: 10px;
 }
 
@@ -107,10 +98,18 @@
   width: 100%;
 }
 
+.thumbnail-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
 .publish {
   position: absolute;
-  top: 0px;
-  right: 0px;
+  bottom: 10px; /* Alt kısımdan boşluk bırak */
+  right: 20px; /* Sağ kısımdan boşluk bırak */
   padding: 10px 20px;
   border: none;
   background-color: #1a8917;
