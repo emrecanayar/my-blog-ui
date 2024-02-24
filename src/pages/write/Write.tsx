@@ -7,6 +7,12 @@ import { CategoryListModel } from "../../services/category/dtos/categoryListMode
 import { handleApiError } from "../../helpers/errorHelpers";
 import Select from "react-select";
 import UploadFile from "../../components/uploadFile/UploadFile";
+import TagInput from "../../components/tagInput/TagInput";
+import { Image } from "antd";
+import { CreateArticleCommand } from "../../services/article/dtos/createArticleCommand";
+import { modules, formats } from "./options/reactQuillOptions";
+import useFileUpload from "../../hooks/useFileUpload";
+import uploadedFileStore from "../../stores/uploadedFile/uploadedFileStore";
 
 export interface OptionsTypes {
   value: string;
@@ -14,55 +20,17 @@ export interface OptionsTypes {
 }
 
 const WritePage = () => {
-  const [value, setValue] = useState("");
-  const [title, setTitle] = useState("");
+  const [createArticle, setCreateArticle] = useState<CreateArticleCommand>({
+    title: "",
+    content: "",
+    categoryId: "",
+    tag: [],
+    tokens: [],
+  });
+  const [hasUploadThumbnail, setHasUploadThumbnail] = useState(false);
   const [categories, setCategories] = useState<CategoryListModel>(
     {} as CategoryListModel
   );
-
-  var toolbarOptions = [
-    ["bold", "italic", "underline", "strike"],
-    ["blockquote", "code-block"],
-    [{ header: 1 }, { header: 2 }],
-    [{ list: "ordered" }, { list: "bullet" }],
-    [{ script: "sub" }, { script: "super" }],
-    [{ indent: "-1" }, { indent: "+1" }],
-    [{ direction: "rtl" }],
-    [{ size: ["small", false, "large", "huge"] }],
-    [{ header: [1, 2, 3, 4, 5, 6, false] }],
-    [{ color: [] }, { background: [] }],
-    [{ font: [] }],
-    [{ align: [] }],
-    ["image"],
-    ["video"],
-    ["link"],
-    ["clean"],
-  ];
-  const modules = {
-    toolbar: toolbarOptions,
-  };
-
-  const formats = [
-    "header",
-    "font",
-    "size",
-    "bold",
-    "italic",
-    "underline",
-    "align",
-    "strike",
-    "script",
-    "blockquote",
-    "background",
-    "list",
-    "bullet",
-    "indent",
-    "link",
-    "image",
-    "video",
-    "color",
-    "code-block",
-  ];
 
   useEffect(() => {
     fetchCategoriesData();
@@ -81,6 +49,47 @@ const WritePage = () => {
     }
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setCreateArticle((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleQuillChange = (content: string) => {
+    setCreateArticle((prevState) => ({
+      ...prevState,
+      content: content,
+    }));
+  };
+
+  const handleCategoryChange = (selectedOption: any) => {
+    const categoryId = selectedOption ? selectedOption.value : "";
+    setCreateArticle((prevState) => ({
+      ...prevState,
+      categoryId: categoryId,
+    }));
+  };
+
+  const handleTagsChange = (newTags: string[]) => {
+    setCreateArticle((prevState) => ({
+      ...prevState,
+      tag: newTags,
+    }));
+  };
+
+  const handleSubmit = async (event: any) => {
+    event?.preventDefault();
+    try {
+      if (uploadedFileStore.uploadFile === null) return null;
+      createArticle.tokens.push(uploadedFileStore.uploadedFile.token);
+      setHasUploadThumbnail(true);
+    } catch (error) {}
+
+    console.log(createArticle);
+  };
   const options: OptionsTypes[] = [];
 
   categories.items?.forEach((category) => {
@@ -88,34 +97,69 @@ const WritePage = () => {
   });
 
   return (
-    <div className={styles.cardContainer}>
-      <h2>Makale Yaz</h2>
-      <div className={styles.thumbnailUpload}>
-        <UploadFile
-          uploadText="Thumbnail görseli yüklemek için bu alana tıklayın veya görseli sürükleyin"
-          uploadHint="Tek ve toplu dosya yükleme desteği"
+    <form onSubmit={handleSubmit}>
+      <div className={styles.cardContainer}>
+        <h2>Makale Yaz</h2>
+        <div className={styles.thumbnailUpload}>
+          {hasUploadThumbnail ? (
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <Image
+                width={750}
+                height={350}
+                src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+              />
+            </div>
+          ) : (
+            ""
+          )}
+
+          <h4 style={{ marginBottom: "5px" }}>Thumbnail Ekle</h4>
+          <UploadFile
+            uploadText="Thumbnail görseli yüklemek için bu alana tıklayın veya görseli sürükleyin"
+            uploadHint="Tek ve toplu dosya yükleme desteği"
+          />
+        </div>
+        <div>
+          <h4 style={{ marginBottom: "5px" }}>Kategori Seç</h4>
+          <Select
+            options={options}
+            placeholder="Kategori Seçiniz..."
+            onChange={handleCategoryChange}
+            value={options.find(
+              (option) => option.value === createArticle.categoryId
+            )}
+          />
+        </div>
+        <div>
+          <h4 style={{ marginBottom: "5px" }}>Etiketler</h4>
+          <TagInput
+            placeholder="Bir etkiket değeri yazın ve Enter'a basın"
+            onTagsChange={handleTagsChange}
+          />
+        </div>
+        <input
+          type="text"
+          placeholder="Makale Başlığı"
+          className={styles.input}
+          onChange={handleInputChange}
+          value={createArticle.title}
+          name="title"
         />
+        <div className={styles.editor}>
+          <ReactQuill
+            modules={modules}
+            theme="snow"
+            value={createArticle.content}
+            onChange={handleQuillChange}
+            placeholder="Makale içeriği..."
+            formats={formats}
+          />
+        </div>
+        <button type="submit" className={styles.publish}>
+          Yayınla
+        </button>
       </div>
-      <Select options={options} placeholder="Kategori Seçiniz..." />
-      <input
-        type="text"
-        placeholder="Makale Başlığı"
-        className={styles.input}
-        onChange={(e) => setTitle(e.target.value)}
-      />
-      <div className={styles.editor}>
-        <ReactQuill
-          modules={modules}
-          theme="snow"
-          value={value}
-          onChange={setValue}
-          placeholder="Makale içeriği..."
-          formats={formats}
-        />
-      </div>
-      <button className={styles.publish}>Yayınla</button>
-    </div>
+    </form>
   );
 };
-
 export default WritePage;

@@ -62,6 +62,15 @@ const apiService = {
   delete: (url: string) =>
     apiClient.delete(url).then((response) => response.data),
 
+    postFormData: (url: string, formData: FormData) =>
+    apiClient
+      .post(url, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => response.data),
+
   postWithQuery: (url: string, params: any, data: any) => {
     const queryString = new URLSearchParams(params).toString();
     const fullUrl = `${url}?${queryString}`;
