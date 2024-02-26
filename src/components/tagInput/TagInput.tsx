@@ -16,6 +16,7 @@ const TagInput = ({ placeholder, onTagsChange }: TagInputProps) => {
 
   const handleInputKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && inputValue.trim()) {
+      e.preventDefault(); // Bu satırı ekleyin
       const newTags = [...tags, inputValue.trim()];
       setTags(newTags);
       onTagsChange(newTags); // Etiket listesi güncellendiğinde dışarıya bilgi ver

@@ -14,6 +14,8 @@ import { modules, formats } from "./options/reactQuillOptions";
 import uploadedFileStore from "../../stores/uploadedFile/uploadedFileStore";
 import { observer } from "mobx-react";
 import config from "../../config";
+import articleStore from "../../stores/article/articleStore";
+import { toast } from "react-toastify";
 
 export interface OptionsTypes {
   value: string;
@@ -25,7 +27,7 @@ const WritePage = observer(() => {
     title: "",
     content: "",
     categoryId: "",
-    tag: [],
+    tags: [],
     tokens: [],
   });
 
@@ -77,18 +79,32 @@ const WritePage = observer(() => {
   const handleTagsChange = (newTags: string[]) => {
     setCreateArticle((prevState) => ({
       ...prevState,
-      tag: newTags,
+      tags: newTags,
+    }));
+  };
+
+  const clearCategoryTokens = () => {
+    setCreateArticle((prevState) => ({
+      ...prevState,
+      tokens: [],
     }));
   };
 
   const handleSubmit = async (event: any) => {
     event?.preventDefault();
     try {
+      clearCategoryTokens();
       if (uploadedFileStore.uploadFile === null) return null;
       createArticle.tokens.push(uploadedFileStore.uploadedFile.token);
-    } catch (error) {}
-
-    console.log(createArticle);
+      console.log(createArticle);
+      await articleStore.createArticle(createArticle);
+      toast.success("Makale başarıyla oluşturuldu. Yönleniyorsunuz...");
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 2000);
+    } catch (error) {
+      handleApiError(error);
+    }
   };
   const options: OptionsTypes[] = [];
 
