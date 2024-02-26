@@ -9,4 +9,9 @@ enum FileType {
   Mp4 = 7,
 }
 
-export { FileType };
+enum RecordStatu {
+  None = 0,
+  Active = 1,
+  Passive = 2,
+}
+export { FileType, RecordStatu };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import Home from "./pages/home/Home";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -12,8 +12,17 @@ import Write from "./pages/write/Write";
 import ContactPage from "./pages/contact/Contact";
 import About from "./pages/about/About";
 import "react-toastify/dist/ReactToastify.css";
+import authStore from "./stores/auth/authStore";
+import userStore from "./stores/user/userStore";
+import PrivateRoute from "./utils/PrivateRoute";
 
 function App({ children }: any) {
+  useEffect(() => {
+    authStore.initializeAuthState();
+    if (authStore.isAuthenticated) {
+      userStore.getFromAuth();
+    }
+  }, []);
   return (
     <ThemeContextProvider>
       <ThemeProvider>
@@ -26,7 +35,11 @@ function App({ children }: any) {
                 <Route path="/" element={<Home />} />
                 <Route path="/detail" element={<SinglePage />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/write" element={<Write />} />
+                <Route path="/write" element={
+                  <PrivateRoute>
+                    <Write />
+                  </PrivateRoute>
+                } />
                 <Route path="/contact" element={<ContactPage />} />
                 <Route path="/about" element={<About />} />
               </Routes>

@@ -8,7 +8,7 @@ import { handleApiError } from "../../helpers/errorHelpers";
 import Select from "react-select";
 import UploadFile from "../../components/uploadFile/UploadFile";
 import TagInput from "../../components/tagInput/TagInput";
-import { Image } from "antd";
+import { Card, Image } from "antd";
 import { CreateArticleCommand } from "../../services/article/dtos/createArticleCommand";
 import { modules, formats } from "./options/reactQuillOptions";
 import uploadedFileStore from "../../stores/uploadedFile/uploadedFileStore";
@@ -114,30 +114,32 @@ const WritePage = observer(() => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <h2 style={{ marginBottom: "5px" }}>Makale Ekle</h2>
       <div className={styles.cardContainer}>
-        <h2>Makale Yaz</h2>
         <div className={styles.thumbnailUpload}>
-          {uploadedFileStore.uploadedFilePath ? (
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <Image
-                width={750}
-                height={350}
-                src={`${config.FILE_BASE_URL}${uploadedFileStore.uploadedFilePath}`}
-                alt="Yüklenen Dosya"
-              />
-            </div>
-          ) : (
-            ""
-          )}
-
-          <h4 style={{ marginBottom: "5px" }}>Thumbnail Ekle</h4>
-          <UploadFile
-            uploadText="Thumbnail görseli yüklemek için bu alana tıklayın veya görseli sürükleyin"
-            uploadHint="Tek ve toplu dosya yükleme desteği"
-          />
+          <Card title="Thumbnail">
+            {uploadedFileStore.uploadedFilePath ? (
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <Image
+                  width={750}
+                  height={350}
+                  src={`${config.FILE_BASE_URL}${uploadedFileStore.uploadedFilePath}`}
+                  alt="Yüklenen Dosya"
+                />
+              </div>
+            ) : (
+              ""
+            )}
+          </Card>
+          <Card title="Thumbnail Ekle">
+            <UploadFile
+              uploadText="Thumbnail görseli yüklemek için bu alana tıklayın veya görseli sürükleyin"
+              uploadHint="Tek ve toplu dosya yükleme desteği"
+            />
+          </Card>
         </div>
-        <div>
-          <h4 style={{ marginBottom: "5px" }}>Kategori Seç</h4>
+
+        <Card title="Kategori Seç">
           <Select
             options={options}
             placeholder="Kategori Seçiniz..."
@@ -146,32 +148,33 @@ const WritePage = observer(() => {
               (option) => option.value === createArticle.categoryId
             )}
           />
-        </div>
-        <div>
-          <h4 style={{ marginBottom: "5px" }}>Etiketler</h4>
+        </Card>
+        <Card title="Etkiketler">
           <TagInput
             placeholder="Bir etkiket değeri yazın ve Enter'a basın"
             onTagsChange={handleTagsChange}
           />
-        </div>
-        <input
-          type="text"
-          placeholder="Makale Başlığı"
-          className={styles.input}
-          onChange={handleInputChange}
-          value={createArticle.title}
-          name="title"
-        />
-        <div className={styles.editor}>
-          <ReactQuill
-            modules={modules}
-            theme="snow"
-            value={createArticle.content}
-            onChange={handleQuillChange}
-            placeholder="Makale içeriği..."
-            formats={formats}
+        </Card>
+        <Card title="Makale Detayı">
+          <input
+            type="text"
+            placeholder="Makale Başlığı"
+            className={styles.input}
+            onChange={handleInputChange}
+            value={createArticle.title}
+            name="title"
           />
-        </div>
+          <div className={styles.editor}>
+            <ReactQuill
+              modules={modules}
+              theme="snow"
+              value={createArticle.content}
+              onChange={handleQuillChange}
+              placeholder="Makale içeriği..."
+              formats={formats}
+            />
+          </div>
+        </Card>
         <button type="submit" className={styles.publish}>
           Yayınla
         </button>

@@ -36,6 +36,7 @@ apiClient.interceptors.response.use(
         break;
       case 401: // Authorization Error
         customError.generalMessage = data.Detail || "Yetkilendirme hatası.";
+        window.location.href = "/login";
         break;
       case 404: // Not Found Error
         customError.generalMessage = data.Detail || "Kaynak bulunamadı.";
@@ -47,6 +48,19 @@ apiClient.interceptors.response.use(
 
     // Bu noktada, tanımlanmış özel durumlar dışında bir hata varsa
     return Promise.reject(customError);
+  }
+);
+
+apiClient.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token"); // Tokenı al
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`; // Header'a ekle
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
   }
 );
 
