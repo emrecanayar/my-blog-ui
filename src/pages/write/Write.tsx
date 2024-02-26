@@ -11,15 +11,16 @@ import TagInput from "../../components/tagInput/TagInput";
 import { Image } from "antd";
 import { CreateArticleCommand } from "../../services/article/dtos/createArticleCommand";
 import { modules, formats } from "./options/reactQuillOptions";
-import useFileUpload from "../../hooks/useFileUpload";
 import uploadedFileStore from "../../stores/uploadedFile/uploadedFileStore";
+import { observer } from "mobx-react";
+import config from "../../config";
 
 export interface OptionsTypes {
   value: string;
   label: string;
 }
 
-const WritePage = () => {
+const WritePage = observer(() => {
   const [createArticle, setCreateArticle] = useState<CreateArticleCommand>({
     title: "",
     content: "",
@@ -27,7 +28,7 @@ const WritePage = () => {
     tag: [],
     tokens: [],
   });
-  const [hasUploadThumbnail, setHasUploadThumbnail] = useState(false);
+
   const [categories, setCategories] = useState<CategoryListModel>(
     {} as CategoryListModel
   );
@@ -85,7 +86,6 @@ const WritePage = () => {
     try {
       if (uploadedFileStore.uploadFile === null) return null;
       createArticle.tokens.push(uploadedFileStore.uploadedFile.token);
-      setHasUploadThumbnail(true);
     } catch (error) {}
 
     console.log(createArticle);
@@ -101,12 +101,13 @@ const WritePage = () => {
       <div className={styles.cardContainer}>
         <h2>Makale Yaz</h2>
         <div className={styles.thumbnailUpload}>
-          {hasUploadThumbnail ? (
+          {uploadedFileStore.uploadedFilePath ? (
             <div style={{ display: "flex", justifyContent: "center" }}>
               <Image
                 width={750}
                 height={350}
-                src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+                src={`${config.FILE_BASE_URL}${uploadedFileStore.uploadedFilePath}`}
+                alt="Yüklenen Dosya"
               />
             </div>
           ) : (
@@ -161,5 +162,5 @@ const WritePage = () => {
       </div>
     </form>
   );
-};
+});
 export default WritePage;
