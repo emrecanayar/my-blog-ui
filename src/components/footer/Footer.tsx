@@ -8,7 +8,7 @@ import logo from "../../assets/logo.png";
 
 const Footer = () => {
   return (
-    <div className={styles.container}>
+    <div className={styles.container} style={{ marginTop: "100px" }}>
       <div className={styles.info}>
         <div className={styles.logo}>
           <img src={logo} alt="lama blog" width={50} height={50} />
