@@ -1,5 +1,8 @@
 import apiService from "../base/apiService";
 import { CustomResponseDto } from "../base/models/CustomResponseDto";
+import { DynamicQuery } from "../base/models/DynamicQuery";
+import { PageRequest } from "../base/models/PageRequest";
+import { ArticleListModel } from "./dtos/articleListModel";
 import { CreateArticleCommand } from "./dtos/createArticleCommand";
 import { CreatedArticleResponse } from "./dtos/createdArticleResponse";
 
@@ -12,6 +15,23 @@ export class ArticleService {
       return response;
     } catch (error) {
       console.log("ArticleService -> addArticle -> error", error);
+      throw error;
+    }
+  };
+
+  getArticleListByDynamic = async (
+    pageRequest: PageRequest,
+    dynamicQuery: DynamicQuery
+  ): Promise<CustomResponseDto<ArticleListModel>> => {
+    try {
+      const response = await apiService.postWithQuery(
+        "/Articles/GetListByDynamic",
+        pageRequest,
+        dynamicQuery
+      );
+      return response;
+    } catch (error) {
+      console.log("ArticleService -> getArticleListByDynamic -> error", error);
       throw error;
     }
   };
