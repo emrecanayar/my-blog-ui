@@ -1,11 +1,10 @@
 import styles from "./card.module.css";
-import p1 from "../../assets/p1.jpeg";
 import { Link } from "react-router-dom";
 import { GetListArticleListItemDto } from "../../services/article/dtos/getListArticleListItemDto";
-import config  from "../../config";
+import config from "../../config";
 
 export interface CardProps {
-  key: string;
+  key: number;
   item: GetListArticleListItemDto;
 }
 
@@ -13,7 +12,11 @@ const Card = ({ key, item }: any) => {
   return (
     <div className={styles.container} key={key}>
       <div className={styles.imageContainer}>
-        <img src={`${config.FILE_BASE_URL}${item.articleUploadedFiles[0].newPath}`} alt="" className={styles.image} />
+        <img
+          src={`${config.FILE_BASE_URL}${item.articleUploadedFiles[0].newPath}`}
+          alt=""
+          className={styles.image}
+        />
       </div>
       <div className={styles.textContainer}>
         <div className={styles.detail}>
