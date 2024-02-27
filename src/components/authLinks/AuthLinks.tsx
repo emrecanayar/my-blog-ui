@@ -37,7 +37,7 @@ const AuthLinks = observer(() => {
   return (
     <>
       {!status ? (
-        <Link to="/login">Giriş Yap</Link>
+        <Link to="/login">Giriş</Link>
       ) : (
         <>
           <Link to="/write" className={styles.writeLink}>
@@ -57,14 +57,14 @@ const AuthLinks = observer(() => {
       </div>
       {open && (
         <div className={styles.responsiveMenu}>
-          <Link to="/">HomePage</Link>
-          <Link to="/about">About</Link>
-          <Link to="/contact">Contact</Link>
+          <Link to="/">Ana Sayfa</Link>
+          <Link to="/about">Hakkımda</Link>
+          <Link to="/contact">İletişim</Link>
           {!status ? (
-            <Link to="/login">Login</Link>
+            <Link to="/login">Giriş</Link>
           ) : (
             <>
-              <Link to="/logout">Write</Link>
+              <Link to="/logout">Yaz</Link>
               <span className={styles.link}>Logout</span>
             </>
           )}

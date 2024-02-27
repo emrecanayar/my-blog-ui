@@ -2,6 +2,7 @@ import styles from "./card.module.css";
 import { Link } from "react-router-dom";
 import { GetListArticleListItemDto } from "../../services/article/dtos/getListArticleListItemDto";
 import config from "../../config";
+import { formatDate } from "../../helpers/dateHelper";
 
 export interface CardProps {
   key: number;
@@ -20,7 +21,7 @@ const Card = ({ key, item }: any) => {
       </div>
       <div className={styles.textContainer}>
         <div className={styles.detail}>
-          <span className={styles.date}>{item.date} - </span>
+          <span className={styles.date}>{formatDate(item.date)} - </span>
           <span className={styles.category}>{item.category.name}</span>
         </div>
         <Link to="/">
