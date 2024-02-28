@@ -28,7 +28,7 @@ const Card = ({ key, item }: any) => {
           <h1>{item.title}</h1>
         </Link>
         <p className={styles.desc}>{item.seoDescription}</p>
-        <Link to={`/`} className={styles.link}>
+        <Link to={`/detail/${item.id}`} className={styles.link}>
           Daha Fazla
         </Link>
       </div>

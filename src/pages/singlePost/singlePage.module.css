@@ -77,6 +77,11 @@
     font-weight: 300;
     margin-bottom: 20px;
   }
+
+  .tags {
+    margin-top: 20px; /* Etiketler ve makale içeriği arasında boşluk */
+  }
+  
   
   @media screen and (max-width: 1536px) {
     .title {

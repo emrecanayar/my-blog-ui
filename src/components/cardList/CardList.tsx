@@ -22,7 +22,7 @@ const CardList = () => {
     setLoading(true);
     try {
       let data = await articleStore.getArticlesListByDynamic(
-        { pageIndex: 0, pageSize: 5 },
+        { pageIndex: 0, pageSize: 4 },
         { sort: [{ field: "date", dir: "desc" }], filter: undefined }
       );
       setArticles(data);

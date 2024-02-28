@@ -5,6 +5,7 @@ import { PageRequest } from "../base/models/PageRequest";
 import { ArticleListModel } from "./dtos/articleListModel";
 import { CreateArticleCommand } from "./dtos/createArticleCommand";
 import { CreatedArticleResponse } from "./dtos/createdArticleResponse";
+import { GetByIdArticleResponse } from "./dtos/getByIdArticleResponse";
 
 export class ArticleService {
   addArticle = async (
@@ -32,6 +33,18 @@ export class ArticleService {
       return response;
     } catch (error) {
       console.log("ArticleService -> getArticleListByDynamic -> error", error);
+      throw error;
+    }
+  };
+
+  getArticleById = async (
+    id: string
+  ): Promise<CustomResponseDto<GetByIdArticleResponse>> => {
+    try {
+      const response = await apiService.get(`/Articles/${id}`);
+      return response;
+    } catch (error) {
+      console.log("ArticleService -> getArticleById -> error", error);
       throw error;
     }
   };

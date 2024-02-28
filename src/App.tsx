@@ -33,7 +33,7 @@ function App({ children }: any) {
               <Routes>
                 {children}
                 <Route path="/" element={<Home />} />
-                <Route path="/detail" element={<SinglePage />} />
+                <Route path="/detail/:id" element={<SinglePage />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/write" element={
                   <PrivateRoute>
