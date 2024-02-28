@@ -1,18 +1,20 @@
 import styles from "./pagination.module.css";
 
-const Pagination = ({ page, hasPrev, hasNext }: any) => {
-
+// Pagination component'i
+const Pagination = ({ page, hasPrev, hasNext, onPrev, onNext }: any) => {
   return (
     <div className={styles.container}>
       <button
-        className={styles.button}
+        className={styles.paginationButton}
         disabled={!hasPrev}
+        onClick={onPrev} // "Geri" butonu için tıklama olayı
       >
         Geri
       </button>
       <button
+        className={styles.paginationButton}
         disabled={!hasNext}
-        className={styles.button}
+        onClick={onNext} // "İleri" butonu için tıklama olayı
       >
         İleri
       </button>

@@ -32,7 +32,9 @@ const About = () => {
                 <h5>{item.title}</h5>
                 <p>{item.description}</p>
                 <Link to={item.url}>
-                  <button type="button">Bana Ulaş</button>
+                  <button className={styles.aboutButton} type="button">
+                    Bana Ulaş
+                  </button>
                 </Link>
               </div>
             ))}

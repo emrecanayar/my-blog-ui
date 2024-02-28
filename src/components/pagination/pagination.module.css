@@ -1,18 +1,24 @@
 .container {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .button {
-    width: 100px;
-    border: none;
-    padding: 16px;
-    background-color: crimson;
-    color: white;
-    cursor: pointer;
-  }
-  
-  .button:disabled{
-    background-color: rgba(220, 20, 60, 0.473);
-    cursor: not-allowed;
-  }
+  display: flex;
+  justify-content: space-between;
+}
+
+.paginationButton {
+  width: 100px;
+  border: none;
+  padding: 16px;
+  background-color: crimson; /* Butonun varsayılan arka plan rengi */
+  color: white; /* Butonun varsayılan yazı rengi */
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s; /* Renk değişiklikleri için yumuşak geçiş */
+}
+
+.paginationButton:hover {
+  background-color: darkred; /* Butonun üzerine gelindiğinde arka plan rengi */
+  color: yellow; /* Butonun üzerine gelindiğinde yazı rengi (isteğe bağlı) */
+}
+
+.paginationButton:disabled {
+  background-color: rgba(220, 20, 60, 0.473); /* Disabled buton için arka plan rengi */
+  cursor: not-allowed;
+}

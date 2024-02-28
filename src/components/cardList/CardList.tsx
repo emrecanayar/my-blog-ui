@@ -13,16 +13,17 @@ const CardList = () => {
   );
 
   const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
     fetchArticlesData();
-  }, []);
+  }, [currentPage]);
 
   const fetchArticlesData = async () => {
     setLoading(true);
     try {
       let data = await articleStore.getArticlesListByDynamic(
-        { pageIndex: 0, pageSize: 4 },
+        { pageIndex: currentPage, pageSize: 4 },
         { sort: [{ field: "date", dir: "desc" }], filter: undefined }
       );
       setArticles(data);
@@ -32,6 +33,20 @@ const CardList = () => {
       setLoading(false);
     }
   };
+
+  // Sayfa değiştirme fonksiyonları
+  const goToPrevPage = () => {
+    if (articles.hasPrevious) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const goToNextPage = () => {
+    if (articles.hasNext) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>En Son Gönderiler</h1>
@@ -46,7 +61,15 @@ const CardList = () => {
           ))
         )}
       </div>
-      <Pagination />
+      {articles.pages > 1 && (
+        <Pagination
+          page={currentPage}
+          hasPrev={articles.hasPrevious}
+          hasNext={articles.hasNext}
+          onPrev={goToPrevPage}
+          onNext={goToNextPage}
+        />
+      )}
     </div>
   );
 };
