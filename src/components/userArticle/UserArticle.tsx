@@ -1,4 +1,4 @@
-import styles from "./categoryArticle.module.css";
+import styles from "./userArticle.module.css";
 import { Link } from "react-router-dom";
 import { GetListArticleListItemDto } from "../../services/article/dtos/getListArticleListItemDto";
 import config from "../../config";
@@ -9,7 +9,7 @@ export interface CardProps {
   item: GetListArticleListItemDto;
 }
 
-const CategoryArticle = ({ key, item }: any) => {
+const UserArticle = ({ key, item }: any) => {
   return (
     <div className={styles.container} key={key}>
       <div className={styles.imageContainer}>
@@ -23,7 +23,7 @@ const CategoryArticle = ({ key, item }: any) => {
         <div className={styles.detail}>
           <span className={styles.date}>{formatDate(item.date)} - </span>
           <span className={styles.category}>
-            {item.category && item.category.name}
+            {item.user && item.category.name}
           </span>
         </div>
         <Link to="/">
@@ -37,4 +37,4 @@ const CategoryArticle = ({ key, item }: any) => {
     </div>
   );
 };
-export default CategoryArticle;
+export default UserArticle;

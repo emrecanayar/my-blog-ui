@@ -16,6 +16,7 @@ import authStore from "./stores/auth/authStore";
 import userStore from "./stores/user/userStore";
 import PrivateRoute from "./utils/PrivateRoute";
 import CategoryArticleList from "./pages/categoryArticleList/CategoryArticleList";
+import UserArticleList from "./pages/userArticleList/UserArticleList";
 
 function App({ children }: any) {
   useEffect(() => {
@@ -45,6 +46,7 @@ function App({ children }: any) {
                   }
                 />
                 <Route path="/category/:id" element={<CategoryArticleList />} />
+                <Route path="/myarticles/:id" element={<UserArticleList />} />
                 <Route path="/contact" element={<ContactPage />} />
                 <Route path="/about" element={<About />} />
               </Routes>

@@ -2,14 +2,15 @@ import { useEffect, useState } from "react";
 import { handleApiError } from "../../helpers/errorHelpers";
 import { ArticleListModel } from "../../services/article/dtos/articleListModel";
 import articleStore from "../../stores/article/articleStore";
-import styles from "./categoryArticleList.module.css";
-import { Spin } from "antd";
+import styles from "./userArticleList.module.css";
+import { Button, Result, Spin } from "antd";
 import Pagination from "../../components/pagination/Pagination";
-import CategoryArticle from "../../components/categoryArticle/CategoryArticle";
+
 import { useParams } from "react-router";
+import UserArticle from "../../components/userArticle/UserArticle";
 import NotFoundResult from "../../components/results/notFoundResult/notFoundResult";
 
-const CategoryArticleList = () => {
+const UserArticleList = () => {
   const [articles, setArticles] = useState<ArticleListModel>(
     {} as ArticleListModel
   );
@@ -30,7 +31,7 @@ const CategoryArticleList = () => {
         {
           sort: [{ field: "date", dir: "desc" }],
           filter: {
-            field: "category.id",
+            field: "user.id",
             operator: "eq",
             value: `${id}`,
           },
@@ -57,19 +58,21 @@ const CategoryArticleList = () => {
     }
   };
 
-  function HandleCategoryArticleList({ articles }: any) {
+  function HandleUserArticleList({ articles }: any) {
     if (!articles || !articles.items || articles.items.length === 0) {
       return (
         <div>
-          <NotFoundResult title="Bu kategoriye ait yazı bulunamadı..." />
+          <NotFoundResult title="Bu kullanıcıya ait yazı bulunamadı..." />
         </div>
       );
     }
 
     return (
       <div>
-        {articles.items[0]?.category?.name && (
-          <span>{articles.items[0].category.name}</span>
+        {articles.items[0]?.user && (
+          <span>
+            {articles.items[0].user.firstName} {articles.items[0].user.lastName}
+          </span>
         )}
       </div>
     );
@@ -79,7 +82,7 @@ const CategoryArticleList = () => {
     <div className={styles.container}>
       <h1 className={styles.title}>
         <span style={{ color: "crimson" }}>
-          <HandleCategoryArticleList articles={articles} />
+          <HandleUserArticleList articles={articles} />
         </span>
       </h1>
       <div className={styles.posts}>
@@ -90,7 +93,7 @@ const CategoryArticleList = () => {
         ) : (
           articles.items &&
           articles.items?.map((item, index) => (
-            <CategoryArticle item={item} key={index} id={index} />
+            <UserArticle item={item} key={index} id={index} />
           ))
         )}
       </div>
@@ -106,4 +109,4 @@ const CategoryArticleList = () => {
     </div>
   );
 };
-export default CategoryArticleList;
+export default UserArticleList;

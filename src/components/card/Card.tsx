@@ -14,7 +14,7 @@ const Card = ({ key, item }: any) => {
     <div className={styles.container} key={key}>
       <div className={styles.imageContainer}>
         <img
-          src={`${config.FILE_BASE_URL}${item.articleUploadedFiles[0].newPath}`}
+          src={`${config.FILE_BASE_URL}${item.articleUploadedFiles && item.articleUploadedFiles?.[0]?.newPath}`}
           alt=""
           className={styles.image}
         />

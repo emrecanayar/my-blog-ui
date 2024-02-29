@@ -25,7 +25,9 @@ const AuthLinks = observer(() => {
         </Link>
       </Menu.Item>
       <Menu.Item key="1">
-        <Link to="/settings">Ayarlar</Link>
+        <Link to={`/myarticles/${userStore.userInformation.id}`}>
+          Yazılarım
+        </Link>
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="3" onClick={() => authStore.logOutUser()}>
