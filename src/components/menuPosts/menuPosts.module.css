@@ -44,23 +44,23 @@
   width: max-content;
 }
 
-.category.travel {
+.category.a0 {
   background-color: #ff7857;
 }
 
-.culture {
+.category.a1 {
   background-color: #ffb14f;
 }
 
-.food {
+.category.a2 {
   background-color: #7fb881;
 }
 
-.fashion {
+.category.a3 {
   background-color: #ff7887;
 }
 
-.coding {
+.category.a4 {
   background-color: #775aec;
 }
 
@@ -80,4 +80,12 @@
 
 .date {
   color: gray;
+}
+
+.spinnerContainer {
+  display: flex;
+  justify-content: center; /* Yatayda ortala */
+  align-items: center; /* Dikeyde ortala */
+  /* height: 100vh; Bu satırı kaldırıyoruz. */
+  flex: 1; /* Esnek bir şekilde içeriği doldur. */
 }
