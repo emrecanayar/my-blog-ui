@@ -26,7 +26,6 @@ const SinglePage = () => {
     setLoading(true);
     try {
       let article = await articleStore.getArticleById(id);
-      console.log(article);
       setArticle(article);
     } catch (error) {
       handleApiError(error);
@@ -86,7 +85,6 @@ const SinglePage = () => {
                 <Comments />
               </div>
             </div>
-            <Menu />
           </div>
         </div>
       )}

@@ -15,6 +15,7 @@ import "react-toastify/dist/ReactToastify.css";
 import authStore from "./stores/auth/authStore";
 import userStore from "./stores/user/userStore";
 import PrivateRoute from "./utils/PrivateRoute";
+import CategoryArticleList from "./pages/categoryArticleList/CategoryArticleList";
 
 function App({ children }: any) {
   useEffect(() => {
@@ -35,11 +36,15 @@ function App({ children }: any) {
                 <Route path="/" element={<Home />} />
                 <Route path="/detail/:id" element={<SinglePage />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/write" element={
-                  <PrivateRoute>
-                    <Write />
-                  </PrivateRoute>
-                } />
+                <Route
+                  path="/write"
+                  element={
+                    <PrivateRoute>
+                      <Write />
+                    </PrivateRoute>
+                  }
+                />
+                <Route path="/category/:id" element={<CategoryArticleList />} />
                 <Route path="/contact" element={<ContactPage />} />
                 <Route path="/about" element={<About />} />
               </Routes>

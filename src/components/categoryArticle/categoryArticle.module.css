@@ -1,0 +1,68 @@
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-gap: 20px; /* Sütunlar arası boşluk */
+  align-items: start; /* Öğeleri üst kenara hizala */
+  margin-bottom: 30px; /* Alt kısımda boşluk */
+}
+
+.imageContainer {
+  flex: 1;
+  height: 350px;
+  position: relative;
+  padding: 0 15px; /* Sağ ve sol boşluk ekle */
+
+}
+
+.image {
+  object-fit: cover;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  inset: 0px;
+  color: transparent;
+}
+
+.textContainer {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  overflow: hidden; /* İçerik taşarsa gizle */
+  padding: 0 15px; /* Sağ ve sol boşluk ekle */
+
+}
+
+.date {
+  color: gray;
+}
+
+.category {
+  color: crimson;
+  font-weight: 500;
+}
+
+.desc {
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--softTextColor);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 7; /* İki satıra sınırla */
+  overflow: hidden; /* Fazla metni kes */
+  text-overflow: ellipsis; /* Kesilen yerde üç nokta göster */
+  font-size: calc(16px + 0.5vw); /* Genişlik arttıkça font boyutu da artar */
+  font-size: clamp(1rem, 2.5vw, 1.2rem); /* Ekran genişliğine bağlı olarak boyutlandır */
+}
+
+.link {
+  border-bottom: 1px solid crimson;
+  width: max-content;
+  padding: 2px 0px;
+}
+
+@media screen and (max-width: 1280px) {
+  .imageContainer {
+    display: none;
+  }
+}
