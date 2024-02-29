@@ -5,9 +5,9 @@ import articleStore from "../../stores/article/articleStore";
 import styles from "./categoryArticleList.module.css";
 import { Spin } from "antd";
 import Pagination from "../../components/pagination/Pagination";
-import CategoryArticle from "../../components/categoryArticle/CategoryArticle";
 import { useParams } from "react-router";
 import NotFoundResult from "../../components/results/notFoundResult/notFoundResult";
+import ArticleCard from "../../components/card/ArticleCard";
 
 const CategoryArticleList = () => {
   const [articles, setArticles] = useState<ArticleListModel>(
@@ -90,7 +90,7 @@ const CategoryArticleList = () => {
         ) : (
           articles.items &&
           articles.items?.map((item, index) => (
-            <CategoryArticle item={item} key={index} id={index} />
+            <ArticleCard key={index} item={item} variant="category" />
           ))
         )}
       </div>

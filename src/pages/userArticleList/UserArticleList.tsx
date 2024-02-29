@@ -3,12 +3,11 @@ import { handleApiError } from "../../helpers/errorHelpers";
 import { ArticleListModel } from "../../services/article/dtos/articleListModel";
 import articleStore from "../../stores/article/articleStore";
 import styles from "./userArticleList.module.css";
-import { Button, Result, Spin } from "antd";
+import { Spin } from "antd";
 import Pagination from "../../components/pagination/Pagination";
-
 import { useParams } from "react-router";
-import UserArticle from "../../components/userArticle/UserArticle";
 import NotFoundResult from "../../components/results/notFoundResult/notFoundResult";
+import ArticleCard from "../../components/card/ArticleCard";
 
 const UserArticleList = () => {
   const [articles, setArticles] = useState<ArticleListModel>(
@@ -93,7 +92,7 @@ const UserArticleList = () => {
         ) : (
           articles.items &&
           articles.items?.map((item, index) => (
-            <UserArticle item={item} key={index} id={index} />
+            <ArticleCard key={index} item={item} variant="user" />
           ))
         )}
       </div>

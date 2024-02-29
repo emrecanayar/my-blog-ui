@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import articleStore from "../../stores/article/articleStore";
-import Card from "../card/Card";
 import Pagination from "../pagination/Pagination";
 import styles from "./cardList.module.css";
 import { ArticleListModel } from "../../services/article/dtos/articleListModel";
 import { handleApiError } from "../../helpers/errorHelpers";
 import { Spin } from "antd";
+import ArticleCard from "../card/ArticleCard";
 
 const CardList = () => {
   const [articles, setArticles] = useState<ArticleListModel>(
@@ -57,7 +57,7 @@ const CardList = () => {
           </div>
         ) : (
           articles.items?.map((item, index) => (
-            <Card item={item} key={index} id={index} />
+            <ArticleCard item={item} key={index} />
           ))
         )}
       </div>
