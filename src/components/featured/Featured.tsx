@@ -1,16 +1,40 @@
 import styles from "./featured.module.css";
 import p1 from "../../assets/p1.jpeg";
+import featureStore from "../../stores/feature/featureStore";
+import { GetListFeatureListItemDto } from "../../services/feature/dtos/getListFeatureListItemDto";
+import { useEffect, useState } from "react";
+import { handleApiError } from "../../helpers/errorHelpers";
 
 const Featured = () => {
+  const [feature, setFeature] = useState<GetListFeatureListItemDto[]>(
+    [] as GetListFeatureListItemDto[]
+  );
+
+  useEffect(() => {
+    fetchFeatureData();
+  }, []);
+
+  const fetchFeatureData = async () => {
+    try {
+      let response = await featureStore.getlist();
+      setFeature(response);
+    } catch (error) {
+      handleApiError(error);
+    }
+  };
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>
-        <b>Yazılım dünyasının </b> derinliklerine bir yolculuk. En yeni
-        trendler, ipuçları ve sırlar burada sizi bekliyor.
+        <div
+          dangerouslySetInnerHTML={{
+            __html: feature.length > 0 ? feature[0].title : "",
+          }}
+        ></div>
       </h1>
       <div className={styles.post}>
         <div className={styles.imgContainer} style={{}}>
-          <img src={p1} alt="İlk Paragraf Görseli" className={styles.image}/>
+          <img src={p1} alt="İlk Paragraf Görseli" className={styles.image} />
         </div>
         <div className={styles.textContainer}>
           <h1 className={styles.postTitle}>
@@ -29,4 +53,5 @@ const Featured = () => {
     </div>
   );
 };
+
 export default Featured;

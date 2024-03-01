@@ -4,6 +4,7 @@ import { CategoryStore } from "./category/categoryStore";
 import { UploadedFileStore } from "./uploadedFile/uploadedFileStore";
 import { AuthStore } from "./auth/authStore";
 import { UserStore } from "./user/userStore";
+import { FeatureStore } from "./feature/featureStore";
 
 type RootStateContextValue = {
   aboutStore: AboutStore;
@@ -11,6 +12,7 @@ type RootStateContextValue = {
   uploadedFileStore: UploadedFileStore;
   authStore: AuthStore;
   userStore: UserStore;
+  featureStore: FeatureStore;
 };
 
 const RootStateContext = React.createContext<RootStateContextValue>(
@@ -21,6 +23,7 @@ const categoryStore = new CategoryStore();
 const uploadedFileStore = new UploadedFileStore();
 const authStore = new AuthStore();
 const userStore = new UserStore();
+const featureStore = new FeatureStore();
 
 export const RootStateProvider: React.FC<React.PropsWithChildren<{}>> = ({
   children,
@@ -33,6 +36,7 @@ export const RootStateProvider: React.FC<React.PropsWithChildren<{}>> = ({
         uploadedFileStore,
         authStore,
         userStore,
+        featureStore,
       }}
     >
       {children}
