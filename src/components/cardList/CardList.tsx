@@ -5,7 +5,7 @@ import styles from "./cardList.module.css";
 import { ArticleListModel } from "../../services/article/dtos/articleListModel";
 import { handleApiError } from "../../helpers/errorHelpers";
 import { Spin } from "antd";
-import ArticleCard from "../card/ArticleCard";
+import ArticleCard from "../articleCard/ArticleCard";
 
 const CardList = () => {
   const [articles, setArticles] = useState<ArticleListModel>(

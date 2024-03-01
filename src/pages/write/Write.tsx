@@ -10,7 +10,7 @@ import UploadFile from "../../components/uploadFile/UploadFile";
 import TagInput from "../../components/tagInput/TagInput";
 import { Card, Image } from "antd";
 import { CreateArticleCommand } from "../../services/article/dtos/createArticleCommand";
-import { modules, formats } from "./options/reactQuillOptions";
+import { modules, formats } from "../../options/reactQuillOptions";
 import uploadedFileStore from "../../stores/uploadedFile/uploadedFileStore";
 import { observer } from "mobx-react";
 import config from "../../config";

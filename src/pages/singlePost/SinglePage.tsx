@@ -1,6 +1,5 @@
 import styles from "./singlePage.module.css";
 import p1 from "../../assets/p1.jpeg";
-import Menu from "../../components/menu/Menu";
 import Comments from "../../components/comments/Comments";
 import { Spin, Tag } from "antd";
 import { useParams } from "react-router-dom";
@@ -72,7 +71,13 @@ const SinglePage = () => {
           </div>
           <div className={styles.content}>
             <div className={styles.post}>
-              <p className={styles.description}>{article.content}</p>
+              <p className={styles.description}>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: article.content,
+                  }}
+                ></div>
+              </p>
               <div className={styles.tags}>
                 {article.tags &&
                   article.tags.map((tag) => (

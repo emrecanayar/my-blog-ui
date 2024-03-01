@@ -29,11 +29,11 @@
   cursor: pointer;
 }
 
-.comments{
+.comments {
   margin-top: 50px;
 }
 
-.comment{
+.comment {
   margin-bottom: 50px;
 }
 
@@ -61,11 +61,47 @@
   font-weight: 500;
 }
 
-.date{
+.date {
   font-size: 14px;
 }
 
-.desc{
+.desc {
   font-size: 18px;
   font-weight: 300;
+}
+
+/* Özelleştirilmiş Card stiliniz */
+.customCard {
+  margin-top: 20px; /* İhtiyaca göre ayarlayın */
+  border-radius: 5px; /* Kartın köşe yuvarlaklığı */
+  /* Diğer gerekli stil ayarlamalarınız */
+}
+
+/* Özelleştirilmiş Input stiliniz */
+.customInput {
+  margin-bottom: 20px; /* Input altındaki boşluk */
+  /* Diğer gerekli stil ayarlamalarınız */
+}
+
+/* Özelleştirilmiş Switch ve metin stiliniz */
+.customSwitch {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* İkon ve metin arasındaki boşluk */
+  margin-bottom: 20px; /* Switch altındaki boşluk */
+  /* Diğer gerekli stil ayarlamalarınız */
+}
+
+/* Gösterme gizleme animasyonu için stil */
+.commentDetails {
+  /* Başlangıçta eleman görünmez olacak */
+  display: none;
+  opacity: 0;
+  transition: opacity 0.2s ease, display 0.2s ease;
+}
+
+/* React state'e bağlı olarak detaylar gösterildiğinde */
+.commentDetailsShow {
+  display: block;
+  opacity: 1;
 }

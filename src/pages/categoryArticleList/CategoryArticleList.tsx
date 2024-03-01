@@ -7,7 +7,7 @@ import { Spin } from "antd";
 import Pagination from "../../components/pagination/Pagination";
 import { useParams } from "react-router";
 import NotFoundResult from "../../components/results/notFoundResult/notFoundResult";
-import ArticleCard from "../../components/card/ArticleCard";
+import ArticleCard from "../../components/articleCard/ArticleCard";
 
 const CategoryArticleList = () => {
   const [articles, setArticles] = useState<ArticleListModel>(
