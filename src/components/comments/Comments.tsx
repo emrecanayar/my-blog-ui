@@ -2,7 +2,7 @@ import styles from "./comments.module.css";
 import p1 from "../../assets/p1.jpeg";
 import ReactQuill from "react-quill";
 import { modules, formats } from "../../options/reactQuillOptions";
-import { Card, Input, Pagination, Switch } from "antd";
+import { Card, Input, Spin, Switch } from "antd";
 import { useEffect, useState } from "react";
 import {
   AppstoreOutlined,
@@ -18,6 +18,9 @@ import { handleApiError } from "../../helpers/errorHelpers";
 import { CreateCommentCommand } from "../../services/comment/dtos/createCommentCommand";
 import commentStore from "../../stores/comment/commentStore";
 import { ToastContainer, toast } from "react-toastify";
+import { CommentListModel } from "../../services/comment/dtos/commentListModel";
+import Pagination from "../pagination/Pagination";
+import { formatDateForDate } from "../../helpers/dateHelper";
 
 export interface CommentsProps {
   articleId: string;
@@ -31,10 +34,37 @@ const Comments = ({ articleId }: CommentsProps) => {
   const [createComment, setCreateComment] = useState<CreateCommentCommand>(
     {} as CreateCommentCommand
   );
+  const [comments, setComments] = useState<CommentListModel>(
+    {} as CommentListModel
+  );
+  const [currentPage, setCurrentPage] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     isUserLoggedIn();
-  }, []);
+    fetchCommentsData();
+  }, [currentPage]);
+
+  const fetchCommentsData = async () => {
+    setLoading(true);
+    try {
+      let response = await commentStore.getListByDynamic(
+        {
+          pageIndex: currentPage,
+          pageSize: 4,
+        },
+        {
+          sort: [{ field: "datePosted", dir: "desc" }],
+          filter: { field: "articleId", operator: "eq", value: `${articleId}` },
+        }
+      );
+      setComments(response);
+    } catch (error) {
+      handleApiError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSumbitCreateComment = async () => {
     try {
@@ -54,6 +84,7 @@ const Comments = ({ articleId }: CommentsProps) => {
 
       let response = await commentStore.createComment(createComment);
       if (response.id !== undefined) {
+        await fetchCommentsData();
         toast.success("Yorumunuz başarıyla gönderildi.");
       }
     } catch (error) {
@@ -106,6 +137,19 @@ const Comments = ({ articleId }: CommentsProps) => {
       ...prevState,
       [name]: checked,
     }));
+  };
+
+  // Sayfa değiştirme fonksiyonları
+  const goToPrevPage = () => {
+    if (comments.hasPrevious) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const goToNextPage = () => {
+    if (comments.hasNext) {
+      setCurrentPage(currentPage + 1);
+    }
   };
 
   return (
@@ -206,30 +250,45 @@ const Comments = ({ articleId }: CommentsProps) => {
         </div>
       )}
       <div className={styles.comments}>
-        <div className={styles.comment}>
-          <div className={styles.user}>
-            <img
-              src={p1}
-              alt=""
-              width={50}
-              height={50}
-              className={styles.image}
-            />
-            <div className={styles.userInfo}>
-              <span className={styles.username}>Emre Can Ayar</span>
-              <span className={styles.date}>31.01.2024</span>
-            </div>
+        {loading ? (
+          <div className={styles.spinnerContainer}>
+            <Spin style={{ textAlign: "center" }} size="large" />
           </div>
-          <p className={styles.desc}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione
-            vitae culpa asperiores omnis fuga sed explicabo nostrum excepturi
-            libero ab tempore quaerat, quibusdam ullam dolor, deleniti, sapiente
-            assumenda neque beatae.
-          </p>
-        </div>
+        ) : comments && comments.items && comments.items.length > 0 ? (
+          comments.items.map((comment, index) => (
+            <div key={index} className={styles.comment}>
+              <div className={styles.user}>
+                <img
+                  src={p1} // Varsayılan bir resim olarak p1 kullanıldı
+                  alt={`${comment.user.firstName} ${comment.user.lastName}`}
+                  width={50}
+                  height={50}
+                  className={styles.image}
+                />
+                <div className={styles.userInfo}>
+                  <span className={styles.username}>
+                    {comment.user.firstName} {comment.user.lastName}
+                  </span>
+                  <span className={styles.date}>
+                    {formatDateForDate(comment.datePosted)}
+                  </span>
+                </div>
+              </div>
+              <p className={styles.desc}>{comment.content}</p>
+            </div>
+          ))
+        ) : (
+          <p>Yorum bulunamadı.</p>
+        )}
       </div>
       <div>
-        <Pagination style={{ display: "flex", justifyContent: "center" }} />
+        <Pagination
+          style={{ display: "flex", justifyContent: "center" }}
+          hasPrev={comments.hasPrevious}
+          hasNext={comments.hasNext}
+          onPrev={goToPrevPage}
+          onNext={goToNextPage}
+        />
       </div>
     </div>
   );
