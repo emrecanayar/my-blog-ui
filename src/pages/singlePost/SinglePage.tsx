@@ -87,7 +87,7 @@ const SinglePage = () => {
                   ))}
               </div>
               <div className={styles.comment}>
-                <Comments />
+                <Comments articleId={id as string} />
               </div>
             </div>
           </div>

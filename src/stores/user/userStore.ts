@@ -19,6 +19,7 @@ export class UserStore extends BaseStore {
       return response.data;
     } catch (error) {
       this.handleApiError(error);
+      throw error;
     }
   };
 }

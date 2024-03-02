@@ -29,6 +29,12 @@
   cursor: pointer;
 }
 
+.button:disabled {
+  background-color: #ccc; /* Gri tonu, pasif olduğunu belirtir */
+  color: #666; /* Yazı rengini koyu gri yap */
+  cursor: not-allowed; /* Üzerine gelindiğinde cursor'u yasak işareti yap */
+}
+
 .comments {
   margin-top: 50px;
 }
@@ -105,3 +111,4 @@
   display: block;
   opacity: 1;
 }
+
