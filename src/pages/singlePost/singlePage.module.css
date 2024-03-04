@@ -81,6 +81,15 @@
   .tags {
     margin-top: 20px; /* Etiketler ve makale içeriği arasında boşluk */
   }
+
+  .spinnerContainer {
+    display: flex;
+    justify-content: center; /* Yatayda ortala */
+    align-items: center; /* Dikeyde ortala */
+    /* height: 100vh; Bu satırı kaldırıyoruz. */
+    flex: 1; /* Esnek bir şekilde içeriği doldur. */
+  }
+  
   
   
   @media screen and (max-width: 1536px) {

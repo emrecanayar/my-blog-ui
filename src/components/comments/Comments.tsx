@@ -3,7 +3,7 @@ import p1 from "../../assets/p1.jpeg";
 import ReactQuill from "react-quill";
 import { modules, formats } from "../../options/reactQuillOptions";
 import { Card, Input, Spin, Switch } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   AppstoreOutlined,
   CheckOutlined,
@@ -39,6 +39,7 @@ const Comments = ({ articleId }: CommentsProps) => {
   );
   const [currentPage, setCurrentPage] = useState(0);
   const [loading, setLoading] = useState(false);
+  const quillRef = useRef<ReactQuill>(null);
 
   useEffect(() => {
     isUserLoggedIn();
@@ -68,7 +69,6 @@ const Comments = ({ articleId }: CommentsProps) => {
 
   const handleSumbitCreateComment = async () => {
     try {
-      console.log(createComment);
       if (
         createComment.authorName === undefined ||
         createComment.authorEmail === undefined
@@ -91,6 +91,11 @@ const Comments = ({ articleId }: CommentsProps) => {
     } catch (error) {
       handleApiError(error);
       toast.error("Yorumunuz gönderilemedi.");
+    } finally {
+      setCreateComment({} as CreateCommentCommand);
+      if (quillRef.current) {
+        quillRef.current.getEditor().clipboard.dangerouslyPasteHTML("");
+      }
     }
   };
 
@@ -163,6 +168,7 @@ const Comments = ({ articleId }: CommentsProps) => {
           placeholder="yorum yaz..."
           formats={formats}
           className={styles.input}
+          ref={quillRef}
           onChange={handleQuillChange}
         />
         <button
@@ -267,7 +273,12 @@ const Comments = ({ articleId }: CommentsProps) => {
                   className={styles.image}
                 />
                 <div className={styles.userInfo}>
-                  <span className={styles.username}>{comment.authorName}</span>
+                  <span className={styles.username}>
+                    {comment.authorName}{" "}
+                    {comment.user && (
+                      <span className={styles.memberTag}>Üye</span>
+                    )}
+                  </span>
                   <span className={styles.date}>
                     {formatDateForDate(comment.datePosted)}
                   </span>
@@ -283,7 +294,7 @@ const Comments = ({ articleId }: CommentsProps) => {
             </div>
           ))
         ) : (
-          <p>Yorum bulunamadı.</p>
+          <p style={{ marginBottom: "20px" }}>Yorum bulunamadı.</p>
         )}
       </div>
       <div>

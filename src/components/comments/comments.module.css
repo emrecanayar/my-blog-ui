@@ -112,6 +112,16 @@
   opacity: 1;
 }
 
+.memberTag {
+  background-color: #87d068; /* Mavi arka plan rengi */
+  color: white; /* Beyaz yazı rengi */
+  padding: 3px 6px; /* İç boşluk */
+  border-radius: 4px; /* Kenar yuvarlaklığı */
+  font-size: 0.75rem; /* Font boyutu */
+  margin-left: 8px; /* Sol taraftan boşluk */
+  vertical-align: middle; /* Dikey hizalama */
+}
+
 .spinnerContainer {
   display: flex;
   justify-content: center; /* Yatayda ortala */
