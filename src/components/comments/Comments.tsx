@@ -68,6 +68,7 @@ const Comments = ({ articleId }: CommentsProps) => {
 
   const handleSumbitCreateComment = async () => {
     try {
+      console.log(createComment);
       if (
         createComment.authorName === undefined ||
         createComment.authorEmail === undefined
@@ -260,21 +261,25 @@ const Comments = ({ articleId }: CommentsProps) => {
               <div className={styles.user}>
                 <img
                   src={p1} // Varsayılan bir resim olarak p1 kullanıldı
-                  alt={`${comment.user.firstName} ${comment.user.lastName}`}
+                  alt={comment.authorName}
                   width={50}
                   height={50}
                   className={styles.image}
                 />
                 <div className={styles.userInfo}>
-                  <span className={styles.username}>
-                    {comment.user.firstName} {comment.user.lastName}
-                  </span>
+                  <span className={styles.username}>{comment.authorName}</span>
                   <span className={styles.date}>
                     {formatDateForDate(comment.datePosted)}
                   </span>
                 </div>
               </div>
-              <p className={styles.desc}>{comment.content}</p>
+              <p className={styles.desc}>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: comment.content,
+                  }}
+                ></div>
+              </p>
             </div>
           ))
         ) : (

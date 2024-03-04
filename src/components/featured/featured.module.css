@@ -52,6 +52,14 @@
     border-radius: 5px;
     width: max-content;
   }
+
+  .spinnerContainer {
+    display: flex;
+    justify-content: center; /* Yatayda ortala */
+    align-items: center; /* Dikeyde ortala */
+    /* height: 100vh; Bu satırı kaldırıyoruz. */
+    flex: 1; /* Esnek bir şekilde içeriği doldur. */
+  }
   
   @media screen and (max-width: 1280px) {
     .title {
