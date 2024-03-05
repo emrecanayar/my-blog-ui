@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import AuthLinks from "../authLinks/AuthLinks";
 import ThemeToggle from "../themeToggle/ThemeToggle";
 import { Avatar } from "antd";
+import WhatsAppButton from "../whatsAppButton/WhatsAppButton";
 
 const Navbar = () => {
   return (
@@ -16,7 +17,13 @@ const Navbar = () => {
         <img src={githubLogo} alt="github" width={24} height={24} />
         <img src={linkedinLogo} alt="linkedin" width={24} height={24} />
         <img src={xLogo} alt="x" width={24} height={24} />
-        <img src={whatsappLogo} alt="whatsapp" width={24} height={24} />
+        <WhatsAppButton
+          phone="905379184330"
+          message="Test"
+          icon={whatsappLogo}
+          width={24}
+          height={24}
+        />
       </div>
       <div className={styles.logo}>
         <Avatar

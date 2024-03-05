@@ -14,6 +14,7 @@ import { GetListTagListItemDto } from "../../services/tag/dtos/getListTagListIte
 import { GetListResponse } from "../../services/base/models/GetListResponse";
 import { GetListFooterListItemDto } from "../../services/footer/dtos/getListFooterListItemDto";
 import footerStore from "../../stores/footer/footerStore";
+import WhatsAppButton from "../whatsAppButton/WhatsAppButton";
 
 const Footer = () => {
   const [categories, setCategories] = useState<CategoryListModel>(
@@ -104,7 +105,13 @@ const Footer = () => {
           <img src={githubLogo} alt="" width={18} height={18} />
           <img src={linkedinLogo} alt="" width={18} height={18} />
           <img src={xLogo} alt="" width={18} height={18} />
-          <img src={whatsappLogo} alt="" width={18} height={18} />
+          <WhatsAppButton
+            phone="905379184330"
+            message="Test"
+            icon={whatsappLogo}
+            width={18}
+            height={18}
+          />
         </div>
       </div>
       <div className={styles.links}>

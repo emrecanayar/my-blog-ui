@@ -12,6 +12,15 @@
   font-size: 14px;
 }
 
+.categoryItem:hover {
+  transform: scale(1.05);
+  /* 5% büyüt */
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+  /* Gölge efekti ekle */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  /* Animasyon için geçiş süresi */
+}
+
 .categoryItem.a0 {
   background-color: #57c4ff31;
 }
@@ -38,8 +47,11 @@
 
 .spinnerContainer {
   display: flex;
-  justify-content: center; /* Yatayda ortala */
-  align-items: center; /* Dikeyde ortala */
+  justify-content: center;
+  /* Yatayda ortala */
+  align-items: center;
+  /* Dikeyde ortala */
   /* height: 100vh; Bu satırı kaldırıyoruz. */
-  flex: 1; /* Esnek bir şekilde içeriği doldur. */
+  flex: 1;
+  /* Esnek bir şekilde içeriği doldur. */
 }
