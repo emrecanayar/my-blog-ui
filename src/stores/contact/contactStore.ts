@@ -4,7 +4,7 @@ import { CreatedContactResponse } from "../../services/contact/dtos/CreatedConta
 import contactService from "../../services/contact/contactService";
 import { BaseStore } from "../base/baseStore";
 
-class ContactStore extends BaseStore {
+export class ContactStore extends BaseStore {
   @observable public addedContacts: CreatedContactResponse =
     {} as CreatedContactResponse;
 

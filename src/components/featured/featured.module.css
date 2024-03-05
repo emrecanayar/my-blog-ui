@@ -51,6 +51,7 @@
     border: none;
     border-radius: 5px;
     width: max-content;
+    background-color: lightgray;
   }
 
   .spinnerContainer {
