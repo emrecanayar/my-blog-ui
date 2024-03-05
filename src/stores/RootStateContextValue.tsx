@@ -11,6 +11,8 @@ import { ContactStore } from "./contact/contactStore";
 import { ContactUsInformationStore } from "./contactUsInformation/contactUsInformationStore";
 import { EditorArticlePickStore } from "./editorArticlePick/editorArticlePickStore";
 import { HeadArticleFeatureStore } from "./headArticleFeature/headArticleFeatureStore";
+import { TagStore } from "./tag/tagStore";
+import { FooterStore } from "./footer/footerStore";
 
 type RootStateContextValue = {
   aboutStore: AboutStore;
@@ -24,8 +26,10 @@ type RootStateContextValue = {
   contactStore: ContactStore;
   contactUsInformation: ContactUsInformationStore;
   editorArticlePick: EditorArticlePickStore;
-  feature: FeatureStore;  
-  headArticleFeature : HeadArticleFeatureStore;
+  feature: FeatureStore;
+  headArticleFeature: HeadArticleFeatureStore;
+  tagStore: TagStore;
+  footerStore: FooterStore;
 };
 
 const RootStateContext = React.createContext<RootStateContextValue>(
@@ -44,6 +48,8 @@ const contactUsInformation = new ContactUsInformationStore();
 const editorArticlePick = new EditorArticlePickStore();
 const feature = new FeatureStore();
 const headArticleFeature = new HeadArticleFeatureStore();
+const tagStore = new TagStore();
+const footerStore = new FooterStore();
 
 export const RootStateProvider: React.FC<React.PropsWithChildren<{}>> = ({
   children,
@@ -63,7 +69,9 @@ export const RootStateProvider: React.FC<React.PropsWithChildren<{}>> = ({
         contactUsInformation,
         editorArticlePick,
         feature,
-        headArticleFeature
+        headArticleFeature,
+        tagStore,
+        footerStore,
       }}
     >
       {children}
