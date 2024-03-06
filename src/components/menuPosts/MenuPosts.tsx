@@ -78,11 +78,11 @@ const MenuPosts = ({ withImage, type }: MenuPostsProps) => {
             const dynamicClass = styles[`a${index % 6}`];
             const categoryClass = `${styles.category} ${dynamicClass}`;
             return (
-              <>
-                <Link to="/" className={styles.item}>
+              <div key={index}>
+                <Link to="/" className={styles.item} key={index}>
                   <div className={styles.imageContainer}>
                     <img
-                      src={`${config.FILE_BASE_URL}${article.articleUploadedFiles[0].newPath}`}
+                      src={`${config.FILE_BASE_URL}${article.articleUploadedFiles?.[0]?.newPath}`}
                       alt=""
                       className={styles.image}
                     />
@@ -103,7 +103,7 @@ const MenuPosts = ({ withImage, type }: MenuPostsProps) => {
                     </div>
                   </div>
                 </Link>
-              </>
+              </div>
             );
           })}
       </>
@@ -118,11 +118,11 @@ const MenuPosts = ({ withImage, type }: MenuPostsProps) => {
             const dynamicClass = styles[`a${index % 6}`];
             const categoryClass = `${styles.category} ${dynamicClass}`;
             return (
-              <>
-                <Link to="/" className={styles.item}>
+              <div key={index}>
+                <Link to="/" className={styles.item} key={index}>
                   <div className={styles.imageContainer}>
                     <img
-                      src={`${config.FILE_BASE_URL}${article.article.articleUploadedFiles[0].newPath}`}
+                      src={`${config.FILE_BASE_URL}${article.article.articleUploadedFiles?.[0]?.newPath}`}
                       alt=""
                       className={styles.image}
                     />
@@ -145,7 +145,7 @@ const MenuPosts = ({ withImage, type }: MenuPostsProps) => {
                     </div>
                   </div>
                 </Link>
-              </>
+              </div>
             );
           })}
       </>

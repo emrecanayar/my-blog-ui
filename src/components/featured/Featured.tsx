@@ -88,14 +88,14 @@ const Featured = () => {
                 {headArticleFeature.items?.[0]?.title}
               </h1>
               <p className={styles.postDesc}>
-                <div
+                <span
                   dangerouslySetInnerHTML={{
                     __html:
                       headArticleFeature.items?.length > 0
                         ? headArticleFeature.items?.[0]?.content
                         : "",
                   }}
-                ></div>
+                ></span>
               </p>
               <Link
                 to={`/category/${headArticleFeature.items?.[0]?.categoryId}`}

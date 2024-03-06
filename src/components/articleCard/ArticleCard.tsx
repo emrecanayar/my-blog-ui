@@ -43,11 +43,11 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
           <h1>{item.title}</h1>
         </Link>
         <p className={styles.desc}>
-          <div
+          <span
             dangerouslySetInnerHTML={{
               __html: item.seoDescription,
             }}
-          ></div>
+          ></span>
         </p>
         <Link to={`/detail/${item.id}`} className={styles.link}>
           Devamını Oku

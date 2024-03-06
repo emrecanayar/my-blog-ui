@@ -62,7 +62,7 @@ const SinglePage = () => {
               <img
                 src={`${config.FILE_BASE_URL}${
                   article.articleUploadedFiles &&
-                  article.articleUploadedFiles[0]?.newPath
+                  article.articleUploadedFiles?.[0]?.newPath
                 }`}
                 alt=""
                 className={styles.image}
