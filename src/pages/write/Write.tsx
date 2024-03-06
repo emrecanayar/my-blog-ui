@@ -35,6 +35,8 @@ const WritePage = observer(() => {
     {} as CategoryListModel
   );
 
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
+
   useEffect(() => {
     fetchCategoriesData();
   }, []);
@@ -91,10 +93,15 @@ const WritePage = observer(() => {
   };
 
   const handleSubmit = async (event: any) => {
+    setLoadingSubmit(true);
     event?.preventDefault();
     try {
       clearCategoryTokens();
-      if (uploadedFileStore.uploadFile === null) return null;
+      if (!uploadedFileStore.uploadFile) {
+        toast.error("Lütfen bir dosya yükleyin.");
+        setLoadingSubmit(false);
+        return;
+      }
       createArticle.tokens.push(uploadedFileStore.uploadedFile.token);
       console.log(createArticle);
       await articleStore.createArticle(createArticle);
@@ -104,6 +111,8 @@ const WritePage = observer(() => {
       }, 2000);
     } catch (error) {
       handleApiError(error);
+    } finally {
+      setLoadingSubmit(false);
     }
   };
   const options: OptionsTypes[] = [];
@@ -175,7 +184,11 @@ const WritePage = observer(() => {
             />
           </div>
         </Card>
-        <button type="submit" className={styles.publish}>
+        <button
+          type="submit"
+          className={styles.publish}
+          disabled={loadingSubmit}
+        >
           Yayınla
         </button>
       </div>
