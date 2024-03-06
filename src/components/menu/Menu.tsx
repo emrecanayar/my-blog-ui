@@ -1,5 +1,6 @@
 import MenuCategories from "../menuCategories/MenuCategories";
 import MenuPosts from "../menuPosts/MenuPosts";
+import Subscription from "../subscription/Subscription";
 import styles from "./menu.module.css";
 
 const Menu = () => {
@@ -14,6 +15,8 @@ const Menu = () => {
       <h2 className={styles.subtitle}>Editörün seçtiği</h2>
       <h1 className={styles.title}>Editörün Seçimi</h1>
       <MenuPosts withImage={true} type={2} />
+      <h1 className={styles.title}>Abone Ol</h1>
+      <Subscription />
     </div>
   );
 };

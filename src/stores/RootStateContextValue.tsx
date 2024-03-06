@@ -13,6 +13,7 @@ import { EditorArticlePickStore } from "./editorArticlePick/editorArticlePickSto
 import { HeadArticleFeatureStore } from "./headArticleFeature/headArticleFeatureStore";
 import { TagStore } from "./tag/tagStore";
 import { FooterStore } from "./footer/footerStore";
+import { SubscriptionStore } from "./subscription/subscriptionStore";
 
 type RootStateContextValue = {
   aboutStore: AboutStore;
@@ -30,6 +31,7 @@ type RootStateContextValue = {
   headArticleFeature: HeadArticleFeatureStore;
   tagStore: TagStore;
   footerStore: FooterStore;
+  subscriptionStore: SubscriptionStore;
 };
 
 const RootStateContext = React.createContext<RootStateContextValue>(
@@ -50,6 +52,7 @@ const feature = new FeatureStore();
 const headArticleFeature = new HeadArticleFeatureStore();
 const tagStore = new TagStore();
 const footerStore = new FooterStore();
+const subscriptionStore = new SubscriptionStore();
 
 export const RootStateProvider: React.FC<React.PropsWithChildren<{}>> = ({
   children,
@@ -72,6 +75,7 @@ export const RootStateProvider: React.FC<React.PropsWithChildren<{}>> = ({
         headArticleFeature,
         tagStore,
         footerStore,
+        subscriptionStore,
       }}
     >
       {children}

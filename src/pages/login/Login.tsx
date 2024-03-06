@@ -20,7 +20,7 @@ const LoginPage = observer(() => {
   }
 
   useEffect(() => {
-    authStore.logOutUser();
+    authStore.logOutLoginUserAutomatically();
   }, []);
 
   const handleInputChange = (e: any) => {

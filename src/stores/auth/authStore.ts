@@ -43,6 +43,12 @@ export class AuthStore extends BaseStore {
     this.isAuthenticated = false;
     window.location.href = "/";
   };
+
+  @action
+  logOutLoginUserAutomatically = () => {
+    localStorage.removeItem("token");
+    this.isAuthenticated = false;
+  }
 }
 const authStore = new AuthStore();
 export default authStore;
