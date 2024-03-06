@@ -27,10 +27,10 @@ export class AuthStore extends BaseStore {
   };
 
   @action
-initializeAuthState = () => {
-  const token = localStorage.getItem("token");
-  this.isAuthenticated = !!token;
-};
+  initializeAuthState = () => {
+    const token = localStorage.getItem("token");
+    this.isAuthenticated = !!token;
+  };
 
   @action
   authenticatedUser = () => {
@@ -41,6 +41,7 @@ initializeAuthState = () => {
   logOutUser = () => {
     localStorage.removeItem("token");
     this.isAuthenticated = false;
+    window.location.href = "/";
   };
 }
 const authStore = new AuthStore();
