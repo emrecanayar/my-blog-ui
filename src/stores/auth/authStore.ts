@@ -3,10 +3,13 @@ import { UserForLoginDto } from "../../services/auth/dtos/userForLoginDto";
 import authService from "../../services/auth/authService";
 import { LoggedHttpResponse } from "../../services/auth/dtos/loggedHttpResponse";
 import { BaseStore } from "../base/baseStore";
+import { UserForRegisterDto } from "../../services/auth/dtos/userForRegisterDto";
+import { AccessToken } from "../../services/auth/dtos/accessToken";
 
 export class AuthStore extends BaseStore {
   @observable loggedHttpResponse: LoggedHttpResponse = {} as LoggedHttpResponse;
   @observable isAuthenticated: boolean = false;
+  @observable accessToken: AccessToken = {} as AccessToken;
 
   constructor() {
     super();
@@ -21,6 +24,18 @@ export class AuthStore extends BaseStore {
       this.loggedHttpResponse = response;
       return response;
     } catch (error: any) {
+      this.handleApiError(error);
+      throw error;
+    }
+  };
+
+  @action
+  register = async (register: UserForRegisterDto) => {
+    try {
+      let response = await authService.register(register);
+      this.accessToken = response;
+      return response;
+    } catch (error) {
       this.handleApiError(error);
       throw error;
     }
@@ -48,7 +63,7 @@ export class AuthStore extends BaseStore {
   logOutLoginUserAutomatically = () => {
     localStorage.removeItem("token");
     this.isAuthenticated = false;
-  }
+  };
 }
 const authStore = new AuthStore();
 export default authStore;

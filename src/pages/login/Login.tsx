@@ -75,7 +75,7 @@ const LoginPage = observer(() => {
             <div className={styles.pass}>Şifremi Unuttum?</div>
             <input type="submit" value="Giriş Yap" />
             <div className={styles.signupLink}>
-              Üye değil misin? <Link to="#">Üye Ol</Link>
+              Üye değil misin? <Link to="/register">Üye Ol</Link>
             </div>
           </form>
         </div>

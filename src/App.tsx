@@ -17,6 +17,7 @@ import userStore from "./stores/user/userStore";
 import PrivateRoute from "./utils/PrivateRoute";
 import CategoryArticleList from "./pages/categoryArticleList/CategoryArticleList";
 import UserArticleList from "./pages/userArticleList/UserArticleList";
+import Register from "./pages/register/Register";
 
 function App({ children }: any) {
   useEffect(() => {
@@ -37,6 +38,7 @@ function App({ children }: any) {
                 <Route path="/" element={<Home />} />
                 <Route path="/detail/:id" element={<SinglePage />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
                 <Route
                   path="/write"
                   element={
