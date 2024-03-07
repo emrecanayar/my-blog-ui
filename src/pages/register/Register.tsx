@@ -3,18 +3,28 @@ import styles from "./register.module.css";
 import { GetProp, Row, Upload, UploadProps } from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { useState } from "react";
-import { UserForRegisterDto } from "../../services/auth/dtos/userForRegisterDto";
 import authStore from "../../stores/auth/authStore";
 import { handleApiError } from "../../helpers/errorHelpers";
+import useFileUpload from "../../hooks/useFileUpload";
+import uploadedFileStore from "../../stores/uploadedFile/uploadedFileStore";
+import { RegisterCommand } from "../../services/auth/dtos/registerCommand";
 
 const Register = () => {
   type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>();
-  const [register, setRegister] = useState<UserForRegisterDto>(
-    {} as UserForRegisterDto
-  );
+  const [register, setRegister] = useState<RegisterCommand>({
+    userForRegisterDto: {
+      email: "",
+      password: "",
+      firstName: "",
+      lastName: "",
+    },
+    tokens: [],
+  });
+
+  const { handleFiles } = useFileUpload();
 
   const handleChange: UploadProps["onChange"] = (info) => {
     if (info.file.status === "uploading") {
@@ -22,7 +32,6 @@ const Register = () => {
       return;
     }
     if (info.file.status === "done") {
-      // Get this url from response in real world.
       getBase64(info.file.originFileObj as FileType, (url) => {
         setLoading(false);
         setImageUrl(url);
@@ -54,17 +63,29 @@ const Register = () => {
     </button>
   );
 
-  const handleInputChange = (e: any) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setRegister({
-      ...register,
-      [name]: value,
-    });
+    setRegister((prevRegister) => ({
+      ...prevRegister,
+      userForRegisterDto: {
+        ...prevRegister.userForRegisterDto,
+        [name]: value,
+      },
+    }));
   };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
+      if (!uploadedFileStore.uploadFile) {
+        toast.error("Lütfen bir resim yükleyin.");
+        return;
+      }
+
+      if (!register.tokens) {
+        register.tokens = [];
+      }
+      register.tokens.push(uploadedFileStore.uploadedFile.token);
       let response = await authStore.register(register);
       if (response.token !== null) {
         toast.success("Kayıt Başarılı");
@@ -73,7 +94,7 @@ const Register = () => {
     } catch (error) {
       handleApiError(error);
     } finally {
-      setRegister({} as UserForRegisterDto);
+      setRegister({} as RegisterCommand);
     }
   };
 
@@ -93,6 +114,17 @@ const Register = () => {
                   action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
                   beforeUpload={beforeUpload}
                   onChange={handleChange}
+                  customRequest={({ file, onSuccess }) => {
+                    setTimeout(() => {
+                      const dataTransfer = new DataTransfer();
+                      dataTransfer.items.add(file as File);
+                      // Yeni handleFiles fonksiyonunu çağır
+                      handleFiles(dataTransfer.files);
+                      if (onSuccess) {
+                        onSuccess("ok");
+                      }
+                    }, 0);
+                  }}
                 >
                   {imageUrl ? (
                     <img

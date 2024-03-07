@@ -5,6 +5,17 @@ import { useState } from "react";
 const useFileUpload = () => {
   const [fileName, setFileName] = useState("");
 
+  const handleFiles = async (files: FileList) => {
+    const file = files[0]; // Sadece ilk dosyayı alıyoruz
+    if (!file) {
+      setFileName("Dosya Seçilmedi");
+      return;
+    }
+
+    setFileName(file.name);
+    await handleFileUpload(file);
+  };
+
   const handleFileSelect = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -21,14 +32,14 @@ const useFileUpload = () => {
   const handleFileUpload = async (file: File) => {
     try {
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append("file", file);
       await uploadedFileStore.uploadFile(formData);
     } catch (error: any) {
-      toast.error('Dosya yüklenirken bir hata oluştu.');
-      console.error('File upload error', error);
+      toast.error("Dosya yüklenirken bir hata oluştu.");
+      console.error("File upload error", error);
     }
   };
 
-  return { fileName, handleFileSelect };
+  return { fileName, handleFileSelect, handleFiles };
 };
 export default useFileUpload;

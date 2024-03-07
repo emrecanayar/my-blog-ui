@@ -3,8 +3,8 @@ import { UserForLoginDto } from "../../services/auth/dtos/userForLoginDto";
 import authService from "../../services/auth/authService";
 import { LoggedHttpResponse } from "../../services/auth/dtos/loggedHttpResponse";
 import { BaseStore } from "../base/baseStore";
-import { UserForRegisterDto } from "../../services/auth/dtos/userForRegisterDto";
 import { AccessToken } from "../../services/auth/dtos/accessToken";
+import { RegisterCommand } from "../../services/auth/dtos/registerCommand";
 
 export class AuthStore extends BaseStore {
   @observable loggedHttpResponse: LoggedHttpResponse = {} as LoggedHttpResponse;
@@ -30,7 +30,7 @@ export class AuthStore extends BaseStore {
   };
 
   @action
-  register = async (register: UserForRegisterDto) => {
+  register = async (register: RegisterCommand) => {
     try {
       let response = await authService.register(register);
       this.accessToken = response;

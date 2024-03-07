@@ -48,7 +48,6 @@ const WritePage = observer(() => {
         { filter: undefined }
       );
       setCategories(categoriesResult);
-      console.log(categoriesResult);
     } catch (error) {
       handleApiError(error);
     }
@@ -103,7 +102,6 @@ const WritePage = observer(() => {
         return;
       }
       createArticle.tokens.push(uploadedFileStore.uploadedFile.token);
-      console.log(createArticle);
       await articleStore.createArticle(createArticle);
       toast.success("Makale başarıyla oluşturuldu. Yönleniyorsunuz...");
       setTimeout(() => {
