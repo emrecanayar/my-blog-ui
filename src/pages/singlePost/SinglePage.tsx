@@ -67,7 +67,10 @@ const SinglePage = () => {
       console.log(response);
       if (response !== undefined) {
         toast.success("Değerlendirme başarılı bir şekilde yapıldı.");
-        fetchArticleData(id as string);
+        setTimeout(() => {
+          fetchArticleData(id as string);
+          fetchGetRatingInformation(id as string);
+        }, 2000);
       }
     } catch (error) {
       handleApiError(error);
