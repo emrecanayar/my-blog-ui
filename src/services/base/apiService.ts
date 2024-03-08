@@ -36,7 +36,7 @@ apiClient.interceptors.response.use(
         break;
       case 401: // Authorization Error
         customError.generalMessage = data.Detail || "Yetkilendirme hatası.";
-        // window.location.href = "/login";
+        window.location.href = "/login";
         break;
       case 404: // Not Found Error
         customError.generalMessage = data.Detail || "Kaynak bulunamadı.";
@@ -76,7 +76,7 @@ const apiService = {
   delete: (url: string) =>
     apiClient.delete(url).then((response) => response.data),
 
-    postFormData: (url: string, formData: FormData) =>
+  postFormData: (url: string, formData: FormData) =>
     apiClient
       .post(url, formData, {
         headers: {

@@ -1,119 +1,187 @@
 .infoContainer {
-    display: flex;
-    align-items: center;
-    gap: 50px;
-  }
-  
-  .textContainer {
-    flex: 1;
-  }
-  
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+
+.textContainer {
+  flex: 1;
+}
+
+.title {
+  font-size: 64px;
+  margin-bottom: 50px;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  /* Eğer ekran daralırsa alt alta sıralansın */
+}
+
+/* Ant Design'ın Rate bileşeni için ekstra stiller */
+.ant-rate {
+  font-size: 20px;
+  /* Yıldızların boyutunu artır */
+}
+
+.userImageContainer {
+  width: 50px;
+  height: 50px;
+  position: relative;
+}
+
+.avatar {
+  border-radius: 50%;
+  object-fit: cover;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  inset: 0px;
+  color: transparent;
+}
+
+.userTextContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: var(--softTextColor);
+}
+
+.username {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.imageContainer {
+  flex: 1;
+  height: 350px;
+  position: relative;
+}
+
+.image {
+  object-fit: cover;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  inset: 0px;
+  color: transparent;
+}
+
+.content {
+  display: flex;
+  gap: 50px;
+}
+
+.post {
+  flex: 5;
+  margin-top: 60px;
+}
+
+.description p {
+  font-size: 20px;
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+
+.tags {
+  margin-top: 20px;
+  /* Etiketler ve makale içeriği arasında boşluk */
+}
+
+.spinnerContainer {
+  display: flex;
+  justify-content: center;
+  /* Yatayda ortala */
+  align-items: center;
+  /* Dikeyde ortala */
+  /* height: 100vh; Bu satırı kaldırıyoruz. */
+  flex: 1;
+  /* Esnek bir şekilde içeriği doldur. */
+}
+
+.rateContainer {
+  padding: 8px 12px;
+  margin-left: 50px;
+  background-color: #f3f4f6;
+  /* Hafif gri bir arka plan rengi */
+  border-radius: 8px;
+  /* Kenarları yuvarlak yap */
+  display: inline-flex;
+  /* İç elemanları yanyana sırala */
+  align-items: center;
+  /* İçerikleri dikey olarak ortala */
+  gap: 10px;
+  /* Yıldızlar ve metin arasında boşluk bırak */
+}
+
+
+.ratingContainer {
+  margin-top: 20px;
+  /* Hafif gri bir arka plan rengi */
+  border-radius: 8px;
+  /* Kenarları yuvarlak yap */
+  display: inline-flex;
+  /* İç elemanları yanyana sırala */
+  align-items: center;
+  /* İçerikleri dikey olarak ortala */
+  gap: 10px;
+  /* Yıldızlar ve metin arasında boşluk bırak */
+}
+
+.rateText {
+  font-size: 16px;
+  font-weight: 600;
+  /* Biraz kalınlaştır */
+  color: #333;
+  /* Koyu gri bir renk */
+}
+
+
+
+@media screen and (max-width: 1536px) {
   .title {
-    font-size: 64px;
-    margin-bottom: 50px;
+    font-size: 54px;
   }
-  
-  .user {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+}
+
+@media screen and (max-width: 1280px) {
+  .title {
+    font-size: 48px;
   }
-  
-  .userImageContainer {
-    width: 50px;
-    height: 50px;
-    position: relative;
-  }
-  
-  .avatar {
-    border-radius: 50%;
-    object-fit: cover;
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    inset: 0px;
-    color: transparent;
-  }
-  
-  .userTextContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    color: var(--softTextColor);
-  }
-  
-  .username {
-    font-size: 20px;
-    font-weight: 500;
-  }
-  
+}
+
+@media screen and (max-width: 1024px) {
   .imageContainer {
-    flex: 1;
-    height: 350px;
-    position: relative;
+    display: none;
   }
-  
-  .image {
-    object-fit: cover;
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    inset: 0px;
-    color: transparent;
+}
+
+@media screen and (max-width: 640px) {
+  .title {
+    font-size: 36px;
   }
-  
-  .content {
-    display: flex;
-    gap: 50px;
-  }
-  
-  .post {
-    flex: 5;
-    margin-top: 60px;
-  }
-  
+
   .description p {
-    font-size: 20px;
-    font-weight: 300;
-    margin-bottom: 20px;
+    font-size: 18px;
   }
 
-  .tags {
-    margin-top: 20px; /* Etiketler ve makale içeriği arasında boşluk */
+  .rateContainer {
+    padding: 6px 10px;
+    /* Mobil için padding'i azalt */
   }
 
-  .spinnerContainer {
-    display: flex;
-    justify-content: center; /* Yatayda ortala */
-    align-items: center; /* Dikeyde ortala */
-    /* height: 100vh; Bu satırı kaldırıyoruz. */
-    flex: 1; /* Esnek bir şekilde içeriği doldur. */
+  .rateText {
+    font-size: 14px;
+    /* Mobil için metin boyutunu azalt */
   }
-  
-  
-  
-  @media screen and (max-width: 1536px) {
-    .title {
-      font-size: 54px;
-    }
+
+
+  .ant-rate {
+    font-size: 18px;
+    /* Mobil için yıldız boyutunu azalt */
   }
-  @media screen and (max-width: 1280px) {
-    .title {
-      font-size: 48px;
-    }
-  }
-  @media screen and (max-width: 1024px) {
-    .imageContainer {
-      display: none;
-    }
-  }
-  @media screen and (max-width: 640px) {
-    .title {
-      font-size: 36px;
-    }
-  
-    .description p{
-      font-size: 18px;
-    }
-  }
-  
+
+}

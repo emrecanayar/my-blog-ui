@@ -14,6 +14,7 @@ import { HeadArticleFeatureStore } from "./headArticleFeature/headArticleFeature
 import { TagStore } from "./tag/tagStore";
 import { FooterStore } from "./footer/footerStore";
 import { SubscriptionStore } from "./subscription/subscriptionStore";
+import { RatingStore } from "./rating/ratingStore";
 
 type RootStateContextValue = {
   aboutStore: AboutStore;
@@ -32,6 +33,7 @@ type RootStateContextValue = {
   tagStore: TagStore;
   footerStore: FooterStore;
   subscriptionStore: SubscriptionStore;
+  ratingStore: RatingStore;
 };
 
 const RootStateContext = React.createContext<RootStateContextValue>(
@@ -53,6 +55,7 @@ const headArticleFeature = new HeadArticleFeatureStore();
 const tagStore = new TagStore();
 const footerStore = new FooterStore();
 const subscriptionStore = new SubscriptionStore();
+const ratingStore = new RatingStore();
 
 export const RootStateProvider: React.FC<React.PropsWithChildren<{}>> = ({
   children,
@@ -76,6 +79,7 @@ export const RootStateProvider: React.FC<React.PropsWithChildren<{}>> = ({
         tagStore,
         footerStore,
         subscriptionStore,
+        ratingStore,
       }}
     >
       {children}
