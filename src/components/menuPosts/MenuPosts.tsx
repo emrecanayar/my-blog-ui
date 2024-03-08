@@ -103,7 +103,11 @@ const MenuPosts = ({ withImage, type }: MenuPostsProps) => {
             const categoryClass = `${styles.category} ${dynamicClass}`;
             return (
               <div key={index}>
-                <Link to="/" className={styles.item} key={index}>
+                <Link
+                  to={`/detail/${article.id}`}
+                  className={styles.item}
+                  key={index}
+                >
                   <div className={styles.imageContainer}>
                     <img
                       src={`${config.FILE_BASE_URL}${article.articleUploadedFiles?.[0]?.newPath}`}
@@ -143,7 +147,11 @@ const MenuPosts = ({ withImage, type }: MenuPostsProps) => {
             const categoryClass = `${styles.category} ${dynamicClass}`;
             return (
               <div key={index}>
-                <Link to="/" className={styles.item} key={index}>
+                <Link
+                  to={`/detail/${article.id}`}
+                  className={styles.item}
+                  key={index}
+                >
                   <div className={styles.imageContainer}>
                     <img
                       src={`${config.FILE_BASE_URL}${article.articleUploadedFiles?.[0]?.newPath}`}
@@ -183,7 +191,11 @@ const MenuPosts = ({ withImage, type }: MenuPostsProps) => {
             const categoryClass = `${styles.category} ${dynamicClass}`;
             return (
               <div key={index}>
-                <Link to="/" className={styles.item} key={index}>
+                <Link
+                  to={`/detail/${article.article.id}`}
+                  className={styles.item}
+                  key={index}
+                >
                   <div className={styles.imageContainer}>
                     <img
                       src={`${config.FILE_BASE_URL}${article.article.articleUploadedFiles?.[0]?.newPath}`}

@@ -50,6 +50,10 @@ a {
   padding-right: 80px;
 }
 
+.ant-spin-dot i {
+  background-color: orangered !important;
+}
+
 
 @media screen and (max-width: 1536px) {
   .wrapper {
