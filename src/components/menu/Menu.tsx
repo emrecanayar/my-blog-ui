@@ -15,6 +15,9 @@ const Menu = () => {
       <h2 className={styles.subtitle}>Editörün seçtiği</h2>
       <h1 className={styles.title}>Editörün Seçimi</h1>
       <MenuPosts withImage={true} type={2} />
+      <h2 className={styles.subtitle}>En çok değerlendirilenler</h2>
+      <h1 className={styles.title}>En Çok Değerlendirilenler</h1>
+      <MenuPosts withImage={true} type={3} />
       <h1 className={styles.title}>Abone Ol</h1>
       <Subscription />
     </div>

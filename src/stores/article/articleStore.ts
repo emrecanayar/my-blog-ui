@@ -7,6 +7,8 @@ import { CreateArticleCommand } from "../../services/article/dtos/createArticleC
 import { CreatedArticleResponse } from "../../services/article/dtos/createdArticleResponse";
 import { DynamicQuery } from "../../services/base/models/DynamicQuery";
 import { GetByIdArticleResponse } from "../../services/article/dtos/getByIdArticleResponse";
+import { GetListResponse } from "../../services/base/models/GetListResponse";
+import { GetListByRatingItemDto } from "../../services/article/dtos/getListByRatingItemDto";
 
 export class ArticleStore extends BaseStore {
   @observable addedArticle: CreatedArticleResponse =
@@ -14,6 +16,8 @@ export class ArticleStore extends BaseStore {
 
   @observable articleList: ArticleListModel = {} as ArticleListModel;
   @observable article: GetByIdArticleResponse = {} as GetByIdArticleResponse;
+  @observable articleListByRating: GetListResponse<GetListByRatingItemDto> =
+    {} as GetListResponse<GetListByRatingItemDto>;
 
   @action
   createArticle = async (data: CreateArticleCommand) => {
@@ -50,6 +54,17 @@ export class ArticleStore extends BaseStore {
     try {
       let result = await articleService.getArticleById(id);
       this.article = result.data;
+      return result.data;
+    } catch (error) {
+      this.handleApiError(error);
+      throw error;
+    }
+  };
+
+  @action
+  getListForRating = async (pageRequest: PageRequest) => {
+    try {
+      let result = await articleService.getListForRating(pageRequest);
       return result.data;
     } catch (error) {
       this.handleApiError(error);

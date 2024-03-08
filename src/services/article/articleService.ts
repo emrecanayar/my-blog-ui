@@ -1,11 +1,13 @@
 import apiService from "../base/apiService";
 import { CustomResponseDto } from "../base/models/CustomResponseDto";
 import { DynamicQuery } from "../base/models/DynamicQuery";
+import { GetListResponse } from "../base/models/GetListResponse";
 import { PageRequest } from "../base/models/PageRequest";
 import { ArticleListModel } from "./dtos/articleListModel";
 import { CreateArticleCommand } from "./dtos/createArticleCommand";
 import { CreatedArticleResponse } from "./dtos/createdArticleResponse";
 import { GetByIdArticleResponse } from "./dtos/getByIdArticleResponse";
+import { GetListByRatingItemDto } from "./dtos/getListByRatingItemDto";
 
 export class ArticleService {
   addArticle = async (
@@ -45,6 +47,20 @@ export class ArticleService {
       return response;
     } catch (error) {
       console.log("ArticleService -> getArticleById -> error", error);
+      throw error;
+    }
+  };
+
+  getListForRating = async (
+    pageRequest: PageRequest
+  ): Promise<CustomResponseDto<GetListResponse<GetListByRatingItemDto>>> => {
+    try {
+      const response = await apiService.get(
+        `/Articles/GetListForRating?PageIndex=${pageRequest.pageIndex}&PageSize=${pageRequest.pageSize}`
+      );
+      return response;
+    } catch (error) {
+      console.log("ArticleService -> getListForRating -> error", error);
       throw error;
     }
   };
