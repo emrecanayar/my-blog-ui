@@ -48,7 +48,11 @@ const MenuCategories = () => {
           const dynamicClass = styles[`a${index % 6}`];
           const categoryClass = `${styles.categoryItem} ${dynamicClass}`;
           return (
-            <Link key={category.id} to={`/`} className={categoryClass}>
+            <Link
+              key={category.id}
+              to={`/category/${category.id}`}
+              className={categoryClass}
+            >
               {category.name}
             </Link>
           );

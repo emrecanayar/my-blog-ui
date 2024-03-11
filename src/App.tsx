@@ -18,6 +18,8 @@ import PrivateRoute from "./utils/PrivateRoute";
 import CategoryArticleList from "./pages/categoryArticleList/CategoryArticleList";
 import UserArticleList from "./pages/userArticleList/UserArticleList";
 import Register from "./pages/register/Register";
+import Profile from "./pages/profile/Profile";
+import Account from "./components/account/Account";
 
 function App({ children }: any) {
   useEffect(() => {
@@ -51,6 +53,8 @@ function App({ children }: any) {
                 <Route path="/myarticles/:id" element={<UserArticleList />} />
                 <Route path="/contact" element={<ContactPage />} />
                 <Route path="/about" element={<About />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/profile/account" element={<Account />} />
               </Routes>
               <Footer />
             </Router>
