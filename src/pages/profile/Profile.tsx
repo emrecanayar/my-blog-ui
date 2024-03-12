@@ -5,6 +5,7 @@ import Sider from "antd/es/layout/Sider";
 import React, { useState } from "react";
 import { SettingOutlined, UserOutlined } from "@ant-design/icons";
 import Account from "../../components/account/Account";
+import ChangePassword from "../../components/changePassword/ChangePassword";
 const { Paragraph } = Typography;
 
 // Alt menü seçenekleri için bir dizi oluşturun
@@ -39,7 +40,7 @@ const Profile = () => {
       <div style={{ display: "flex", justifyContent: "center" }}>
         <Paragraph>
           Bu sayfada profil ayarlarınızı düzenleyebilirsiniz. Sol tarafta
-          bulunan menüden istediğiniz ayarı seçebilirsiniz. 
+          bulunan menüden istediğiniz ayarı seçebilirsiniz.
         </Paragraph>
 
         <div>
@@ -71,6 +72,7 @@ const Profile = () => {
         <Content>
           {<DefaultSelect />}
           {selectedMenuItem === "sub1-1" && <Account />}
+          {selectedMenuItem === "sub1-2" && <ChangePassword />}
         </Content>
       </Layout>
     </Card>
