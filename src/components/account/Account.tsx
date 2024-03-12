@@ -1,11 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Form, Input, Row, Image, Popover, Spin } from "antd";
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  Row,
+  Image,
+  Popover,
+  Spin,
+  Select,
+} from "antd";
 import { CultureType } from "../../complexTypes/enums";
 import userStore from "../../stores/user/userStore";
 import { GetByIdUserResponse } from "../../services/user/dtos/getByIdUserResponse";
 import { handleApiError } from "../../helpers/errorHelpers";
 import styles from "./account.module.css";
 import config from "../../config";
+import { cultureLabels } from "../../complexTypes/enumLabels";
+import { UpdateUserInformationCommand } from "../../services/user/dtos/updateUserInformationCommand";
+import { ToastContainer, toast } from "react-toastify";
 
 type FieldType = {
   firstName?: string;
@@ -23,6 +36,8 @@ const Account = () => {
   );
   const [userInformationLoading, setUserInformationLoading] =
     useState<boolean>(false);
+  const [updateUserInformation, setUpdateUserInformation] =
+    useState<UpdateUserInformationCommand>({} as UpdateUserInformationCommand);
 
   useEffect(() => {
     fetchUserInformationData();
@@ -34,11 +49,31 @@ const Account = () => {
       firstName: userInformation.firstName,
       lastName: userInformation.lastName,
       email: userInformation.email,
-      cultureType: userInformation.culture,
+      cultureType: cultureLabels[userInformation.cultureType],
     });
   }, [userInformation]); // userInformation değiştiğinde bu useEffect tetiklenir
 
   const onFinish = async (values: FieldType) => {
+    const updateCommand: UpdateUserInformationCommand = {
+      id: userInformation.id, // `userInformation` state'inden `id` alınıyor
+      firstName: values.firstName!,
+      lastName: values.lastName!,
+      email: values.email!,
+      cultureType: values.cultureType,
+    };
+
+    setUpdateUserInformation(updateCommand);
+    try {
+      let response = await userStore.updateUserInformation(updateCommand);
+      if (response.id !== undefined) {
+        toast.success("Kullanıcı bilgileri başarıyla güncellendi.");
+        fetchUserInformationData();
+        setComponentDisabled(true);
+      }
+    } catch (error) {
+      handleApiError(error);
+    }
+
     console.log("Received values of form: ", values);
   };
 
@@ -67,6 +102,16 @@ const Account = () => {
       setUserInformationLoading(false);
     }
   };
+
+  // Enum'dan seçenekler listesi oluşturma
+  const cultureOptions = Object.keys(CultureType)
+    .filter((key) => !isNaN(Number(key))) // Sayısal anahtarları filtrele
+    .map((key: any) => {
+      return {
+        label: CultureType[key],
+        value: Number.parseInt(key), // Burada CultureType enum'unun sayısal değerini kullanıyoruz
+      };
+    });
 
   const content = (
     <div>
@@ -162,7 +207,7 @@ const Account = () => {
               </Col>
               <Col xs={24} sm={12}>
                 <Form.Item<FieldType> label="Uyruk" name="cultureType">
-                  <Input placeholder="Uyruğunuz" />
+                  <Select options={cultureOptions} />
                 </Form.Item>
               </Col>
             </Row>
@@ -184,6 +229,18 @@ const Account = () => {
           </Popover>
         </>
       )}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 };

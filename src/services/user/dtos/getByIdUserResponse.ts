@@ -7,6 +7,6 @@ export interface GetByIdUserResponse {
   lastName: string;
   email: string;
   status: RecordStatu;
-  culture: CultureType;
+  cultureType: CultureType;
   userUploadedFiles:GetListUserUploadedFileListItemDto[];
 }

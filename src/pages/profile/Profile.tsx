@@ -1,10 +1,11 @@
-import { Card, Layout, Menu, MenuProps } from "antd";
+import { Card, Layout, Menu, Typography } from "antd";
 import "./profile.module.css";
 import { Content } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 import React, { useState } from "react";
-import { UserOutlined } from "@ant-design/icons";
+import { SettingOutlined, UserOutlined } from "@ant-design/icons";
 import Account from "../../components/account/Account";
+const { Paragraph } = Typography;
 
 // Alt menü seçenekleri için bir dizi oluşturun
 const subItems = [
@@ -33,6 +34,21 @@ const Profile = () => {
     setSelectedMenuItem(e.key);
   };
 
+  function DefaultSelect() {
+    return (
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <Paragraph>
+          Bu sayfada profil ayarlarınızı düzenleyebilirsiniz. Sol tarafta
+          bulunan menüden istediğiniz ayarı seçebilirsiniz. 
+        </Paragraph>
+
+        <div>
+          <SettingOutlined />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <Card title="Profil Ayarları">
       <Layout
@@ -52,7 +68,10 @@ const Profile = () => {
             onClick={onMenuClick}
           />
         </Sider>
-        <Content>{selectedMenuItem === "sub1-1" && <Account />}</Content>
+        <Content>
+          {<DefaultSelect />}
+          {selectedMenuItem === "sub1-1" && <Account />}
+        </Content>
       </Layout>
     </Card>
   );

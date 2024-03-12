@@ -1,14 +1,31 @@
 import apiService from "../base/apiService";
 import { CustomResponseDto } from "../base/models/CustomResponseDto";
 import { GetByIdUserResponse } from "./dtos/getByIdUserResponse";
+import { UpdateUserInformationCommand } from "./dtos/updateUserInformationCommand";
+import { UpdatedUserResponse } from "./dtos/updatedUserResponse";
 
 export class UserService {
-  getFromAuth = async ():Promise<CustomResponseDto<GetByIdUserResponse>> => {
+  getFromAuth = async (): Promise<CustomResponseDto<GetByIdUserResponse>> => {
     try {
       let response = apiService.get("/Users/GetFromAuth");
       return response;
     } catch (error) {
       console.log("Kullanıcı bilgilerini çekerken hata oluştu. Hata: ", error);
+      throw error;
+    }
+  };
+
+  updateUserInformation = async (
+    data: UpdateUserInformationCommand
+  ): Promise<CustomResponseDto<UpdatedUserResponse>> => {
+    try {
+      let response = apiService.put("/Users/UpdateUserInformation", data);
+      return response;
+    } catch (error) {
+      console.log(
+        "Kullanıcı bilgilerini güncellerken hata oluştu. Hata: ",
+        error
+      );
       throw error;
     }
   };
