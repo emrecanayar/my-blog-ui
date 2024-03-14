@@ -4,8 +4,9 @@ import { useState } from "react";
 import authStore from "../../stores/auth/authStore";
 import { observer } from "mobx-react";
 import { Avatar, Badge, Dropdown, Menu } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { BellOutlined, UserOutlined } from "@ant-design/icons";
 import userStore from "../../stores/user/userStore";
+import NotificationList from "../notifications/NotificationList";
 
 const AuthLinks = observer(() => {
   const [open, setOpen] = useState(false);
@@ -45,10 +46,13 @@ const AuthLinks = observer(() => {
           <Link to="/write" className={styles.writeLink}>
             Yaz
           </Link>
-          <Badge count={1}>
-            <Dropdown overlay={menu} trigger={["click"]}>
-              <Avatar shape="square" icon={<UserOutlined />} />
-            </Dropdown>
+
+          <Dropdown overlay={menu} trigger={["click"]}>
+            <Avatar shape="square" icon={<UserOutlined />} />
+          </Dropdown>
+
+          <Badge count={3}>
+            <NotificationList />
           </Badge>
         </>
       )}

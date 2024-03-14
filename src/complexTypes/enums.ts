@@ -19,6 +19,18 @@ enum CultureType {
   None = 0,
   Türk = 1,
   English = 2,
- 
 }
-export { FileType, RecordStatu, CultureType };
+
+enum NotificationType {
+  None = 0,
+  Comment = 1,
+  CommentLike = 2,
+  PostLike = 3,
+  Subscription = 4,
+  Achievement = 5,
+  Mention = 6,
+  PostAnnouncement = 7,
+  DailyTip = 8,
+  DraftReminder = 9,
+}
+export { FileType, RecordStatu, CultureType, NotificationType };
