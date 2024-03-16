@@ -118,24 +118,21 @@
 }
 
 
-.ratingContainer {
+.actionsContainer {
   margin-top: 20px;
-  /* Hafif gri bir arka plan rengi */
-  border-radius: 8px;
-  /* Kenarları yuvarlak yap */
-  display: inline-flex;
-  /* İç elemanları yanyana sırala */
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  /* İçerikleri dikey olarak ortala */
-  gap: 10px;
-  /* Yıldızlar ve metin arasında boşluk bırak */
+  width: 100%; /* Container'ın tam genişliği kaplamasını sağla */
 }
+
 
 .rateText {
   font-size: 16px;
   font-weight: 600;
   /* Biraz kalınlaştır */
   color: #333;
+  margin-right: 5px;
   /* Koyu gri bir renk */
 }
 
@@ -174,6 +171,13 @@
 @media screen and (max-width: 1024px) {
   .imageContainer {
     display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .actionsContainer {
+    flex-direction: column;
+    align-items: flex-start; /* veya `center` dikey hizalama için */
   }
 }
 

@@ -1,7 +1,7 @@
 import styles from "./singlePage.module.css";
 import p1 from "../../assets/p1.jpeg";
 import Comments from "../../components/comments/Comments";
-import { Button, Popover, Rate, Spin, Tag } from "antd";
+import { Button, Dropdown, Popover, Rate, Spin, Tag } from "antd";
 import { useParams } from "react-router-dom";
 import articleStore from "../../stores/article/articleStore";
 import { GetByIdArticleResponse } from "../../services/article/dtos/getByIdArticleResponse";
@@ -19,6 +19,8 @@ import authStore from "../../stores/auth/authStore";
 import { CreateFavoriteArticleCommand } from "../../services/favoriteArticle/dtos/createFavoriteArticleCommand";
 import favoriteArticleStore from "../../stores/favoriteArticle/favoriteArticleStore";
 import { GetByArticleIdFavoriteArticleResponse } from "../../services/favoriteArticle/dtos/getByArticleIdFavoriteArticleResponse";
+import ShareMenu from "../../components/shareMenu/ShareMenu";
+import { ShareAltOutlined } from "@ant-design/icons";
 
 const SinglePage = observer(() => {
   let { id } = useParams(); // URL'den alınan id
@@ -125,7 +127,7 @@ const SinglePage = observer(() => {
 
   const handleToggleFavorite = async () => {
     setLoading(true);
-    
+
     if (userHaveAFavorite.isThere) {
       // Makale zaten favorilerde, bu yüzden kaldırılacak
       await handleDeleteToFavorites();
@@ -133,7 +135,7 @@ const SinglePage = observer(() => {
       // Makale favorilerde değil, bu yüzden eklenecek
       await handleAddToFavorites();
     }
-  
+
     setLoading(false);
   };
 
@@ -264,23 +266,36 @@ const SinglePage = observer(() => {
                   ))}
               </div>
               <div>
-                <div className={styles.ratingContainer}>
-                  {isThere && isThere.id ? (
-                    <Popover
-                      content={updateRatingContent}
-                      title="Değerlendirme Güncelle"
-                      trigger="click"
+                <div className={styles.actionsContainer}>
+                  <div className={styles.rateAndUpdate}>
+                    {isThere && isThere.id ? (
+                      <Popover
+                        content={updateRatingContent}
+                        title="Değerlendirme Güncelle"
+                        trigger="click"
+                      >
+                        <Button>Değerlendirmenizi Güncelleyin</Button>
+                      </Popover>
+                    ) : (
+                      <>
+                        <span className={styles.rateText}>
+                          Yazıyı Değerlendir
+                        </span>
+                        <Rate onChange={handleRateChange} />
+                      </>
+                    )}
+                  </div>
+
+                  <div className={styles.shareButton}>
+                    <span className={styles.rateText}>Yazıyı Paylaş</span>
+                    <Dropdown
+                      overlay={<ShareMenu item={article} detailUrl={""} />}
+                      trigger={["click"]}
+                      placement="bottomRight"
                     >
-                      <Button>Değerlendirmenizi Güncelleyin</Button>
-                    </Popover>
-                  ) : (
-                    <>
-                      <span className={styles.rateText}>
-                        Yazıyı Değerlendir
-                      </span>
-                      <Rate onChange={handleRateChange} />
-                    </>
-                  )}
+                      <Button icon={<ShareAltOutlined />} shape="circle" />
+                    </Dropdown>
+                  </div>
                 </div>
               </div>
               <div className={styles.comment}>

@@ -3,14 +3,9 @@ import { Link } from "react-router-dom";
 import { GetListArticleListItemDto } from "../../services/article/dtos/getListArticleListItemDto";
 import config from "../../config";
 import { formatDate } from "../../helpers/dateHelper";
-import  {
-  FacebookOutlined,
-  LinkOutlined,
-  LinkedinOutlined,
-  ShareAltOutlined,
-  TwitterOutlined,
-} from "@ant-design/icons";
-import { Button, Dropdown, Menu, message } from "antd";
+import { ShareAltOutlined } from "@ant-design/icons";
+import { Button, Dropdown } from "antd";
+import ShareMenu from "../shareMenu/ShareMenu";
 
 // Ortak prop türlerini tanımlayın
 interface ArticleCardProps {
@@ -29,55 +24,6 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
   } else if (variant === "category") {
     containerStyle = `${styles.container} ${styles.categoryVariant}`;
   }
-
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText("test").then(() => {
-      message.success("Link panoya kopyalandı!");
-    });
-  };
-
-  const shareMenu = (
-    <Menu>
-      <Menu.Item key="0">
-        <a
-          href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
-            window.location.href
-          )}&text=${encodeURIComponent(item.title)}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <TwitterOutlined /> Twitter'da Paylaş
-        </a>
-      </Menu.Item>
-      <Menu.Item key="1">
-        <a
-          href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-            window.location.href
-          )}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <FacebookOutlined /> Facebook'ta Paylaş
-        </a>
-      </Menu.Item>
-      <Menu.Item key="2">
-        <a
-          href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(
-            window.location.href
-          )}&title=${encodeURIComponent(item.title)}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <LinkedinOutlined /> LinkedIn'de Paylaş
-        </a>
-      </Menu.Item>
-      <Menu.Item key="3">
-        <a onClick={handleCopyLink}>
-          <LinkOutlined /> Link'i Kopyala
-        </a>
-      </Menu.Item>
-    </Menu>
-  );
 
   // Ortak TSX yapısını render et
   return (
@@ -111,7 +57,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
             Devamını Oku
           </Link>
           <Dropdown
-            overlay={shareMenu}
+            overlay={<ShareMenu item={item} detailUrl={`detail/${item.id}`} />}
             trigger={["click"]}
             placement="bottomRight"
           >
