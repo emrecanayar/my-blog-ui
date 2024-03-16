@@ -20,6 +20,7 @@ import UserArticleList from "./pages/userArticleList/UserArticleList";
 import Register from "./pages/register/Register";
 import Profile from "./pages/profile/Profile";
 import Account from "./components/account/Account";
+import UserFavoriteList from "./pages/userFavoriteList/UserFavoriteList";
 
 function App({ children }: any) {
   useEffect(() => {
@@ -51,6 +52,7 @@ function App({ children }: any) {
                 />
                 <Route path="/category/:id" element={<CategoryArticleList />} />
                 <Route path="/myarticles/:id" element={<UserArticleList />} />
+                <Route path="/myfavoritearticles" element={<UserFavoriteList />} />
                 <Route path="/contact" element={<ContactPage />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/profile" element={<Profile />} />

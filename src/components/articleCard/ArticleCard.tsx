@@ -22,7 +22,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
     containerStyle = `${styles.container} ${styles.categoryVariant}`;
   }
 
-  // Ortak JSX yapısını render et
+  // Ortak TSX yapısını render et
   return (
     <div className={containerStyle}>
       <div className={styles.imageContainer}>

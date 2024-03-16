@@ -139,6 +139,24 @@
   /* Koyu gri bir renk */
 }
 
+.favoriteButton {
+  position: absolute; /* Butonun pozisyonunu göreli yapın */
+  top: 20px; /* Üstten 20px boşluk */
+  right: 20px; /* Sağdan 20px boşluk */
+  background-color: #ff4500; /* Butonun arka plan rengi */
+  color: white; /* Butonun yazı rengi */
+  border: none; /* Kenarlık kaldır */
+  padding: 10px 20px; /* İç boşluk */
+  border-radius: 5px; /* Kenar yuvarlaklığı */
+  cursor: pointer; /* Fare imlecini düğme üzerine getirdiğinde el simgesi */
+  z-index: 10; /* Z-index ile diğer içeriklerin üzerinde görünmesini sağlayın */
+  
+  /* Butonun diğer olası stilleri... */
+}
+
+.favoriteButton:hover {
+  background-color: #ff6b81; /* Butona hover olduğunda rengini hafifçe değiştir */
+}
 
 
 @media screen and (max-width: 1536px) {

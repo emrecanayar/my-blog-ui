@@ -14,10 +14,17 @@ import ratingStore from "../../stores/rating/ratingStore";
 import { ToastContainer, toast } from "react-toastify";
 import { GetRatingInformationResponse } from "../../services/rating/dtos/getRatingInformationResponse";
 import { UpdateRatingCommand } from "../../services/rating/dtos/updateRatingCommand";
+import { observer } from "mobx-react";
+import authStore from "../../stores/auth/authStore";
+import { CreateFavoriteArticleCommand } from "../../services/favoriteArticle/dtos/createFavoriteArticleCommand";
+import favoriteArticleStore from "../../stores/favoriteArticle/favoriteArticleStore";
+import { GetByArticleIdFavoriteArticleResponse } from "../../services/favoriteArticle/dtos/getByArticleIdFavoriteArticleResponse";
 
-const SinglePage = () => {
+const SinglePage = observer(() => {
   let { id } = useParams(); // URL'den alınan id
   const [loading, setLoading] = useState(false);
+  const [favoriteButtonLoading, setFavoriteButtonLoading] = useState(false);
+  const [toggleFavoriteButton, setToggleFavoriteButton] = useState(false);
   const [article, setArticle] = useState<GetByIdArticleResponse>(
     {} as GetByIdArticleResponse
   );
@@ -33,9 +40,19 @@ const SinglePage = () => {
     {} as UpdateRatingCommand
   );
 
+  const [addFavorite, setAddFavorite] = useState<CreateFavoriteArticleCommand>(
+    {} as CreateFavoriteArticleCommand
+  );
+
+  const [userHaveAFavorite, setUserHaveAFavorite] =
+    useState<GetByArticleIdFavoriteArticleResponse>(
+      {} as GetByArticleIdFavoriteArticleResponse
+    );
+
   useEffect(() => {
     fetchArticleData(id as string);
     fetchGetRatingInformation(id as string);
+    handleUserHaveAFavorite();
   }, []);
 
   const fetchArticleData = async (id: string) => {
@@ -77,6 +94,15 @@ const SinglePage = () => {
     }
   };
 
+  const handleUserHaveAFavorite = async () => {
+    try {
+      let response = await favoriteArticleStore.getByArticleId(id as string);
+      setUserHaveAFavorite(response);
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
+
   const handleUpdateRateChange = async (value: number) => {
     try {
       updateRating.id = isThere.id;
@@ -98,6 +124,62 @@ const SinglePage = () => {
     }
   };
 
+  const handleToggleFavorite = async () => {
+    setLoading(true);
+    
+    if (userHaveAFavorite.isThere) {
+      // Makale zaten favorilerde, bu yüzden kaldırılacak
+      await handleDeleteToFavorites();
+    } else {
+      // Makale favorilerde değil, bu yüzden eklenecek
+      await handleAddToFavorites();
+    }
+  
+    setLoading(false);
+  };
+
+  const handleAddToFavorites = async () => {
+    setFavoriteButtonLoading(true);
+    addFavorite.articleId = id as string;
+    setAddFavorite(addFavorite);
+    try {
+      let response = await favoriteArticleStore.addFavoriteArticle(addFavorite);
+      if (response.data.id !== undefined) {
+        toast.success("Yazı favorilere eklendi.");
+        setUserHaveAFavorite({
+          ...userHaveAFavorite,
+          isThere: true,
+          id: response.data.id,
+        });
+      }
+    } catch (error) {
+      handleApiError(error);
+    } finally {
+      setFavoriteButtonLoading(false);
+    }
+  };
+
+  const handleDeleteToFavorites = async () => {
+    setFavoriteButtonLoading(true);
+    try {
+      let response = await favoriteArticleStore.deleteFavoriteArticle(
+        userHaveAFavorite.id
+      );
+      if (response.data.id !== undefined) {
+        toast.success("Yazı favorilerden kaldırıldı.");
+        setUserHaveAFavorite({
+          ...userHaveAFavorite,
+          isThere: false,
+          id: "",
+        });
+      }
+    } catch (error) {
+      handleApiError(error);
+    } finally {
+      setFavoriteButtonLoading(false);
+    }
+  };
+
   const updateRatingContent = (
     <div>
       <p>Bu yazı hakkında değerlendirmede bulunmuşsunuz.</p>
@@ -108,6 +190,22 @@ const SinglePage = () => {
     </div>
   );
 
+  const FavoriteButton = () => {
+    return (
+      <>
+        {favoriteButtonLoading ? (
+          <Spin />
+        ) : (
+          <button
+            className={styles.favoriteButton}
+            onClick={handleToggleFavorite} // Toggle fonksiyonunu kullan
+          >
+            {userHaveAFavorite.isThere ? "Favoriyi Kaldır" : "Favoriye Ekle"}
+          </button>
+        )}
+      </>
+    );
+  };
   return (
     <div className={styles.container}>
       {loading ? (
@@ -138,6 +236,7 @@ const SinglePage = () => {
               </div>
             </div>
             <div className={styles.imageContainer}>
+              {authStore.isAuthenticated ? <FavoriteButton /> : ""}
               <img
                 src={`${config.FILE_BASE_URL}${
                   article.articleUploadedFiles &&
@@ -206,6 +305,6 @@ const SinglePage = () => {
       />
     </div>
   );
-};
+});
 
 export default SinglePage;

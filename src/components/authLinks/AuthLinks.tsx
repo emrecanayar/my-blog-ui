@@ -4,7 +4,7 @@ import { useState } from "react";
 import authStore from "../../stores/auth/authStore";
 import { observer } from "mobx-react";
 import { Avatar, Badge, Dropdown, Menu } from "antd";
-import { BellOutlined, UserOutlined } from "@ant-design/icons";
+import { UserOutlined } from "@ant-design/icons";
 import userStore from "../../stores/user/userStore";
 import NotificationList from "../notifications/NotificationList";
 
@@ -29,6 +29,9 @@ const AuthLinks = observer(() => {
         <Link to={`/myarticles/${userStore.userInformation.id}`}>
           Yazılarım
         </Link>
+      </Menu.Item>
+      <Menu.Item key="2">
+        <Link to={`/myfavoritearticles`}>Favorilerim</Link>
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="3" onClick={() => authStore.logOutUser()}>
