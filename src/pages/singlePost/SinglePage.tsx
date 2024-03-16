@@ -24,7 +24,6 @@ const SinglePage = observer(() => {
   let { id } = useParams(); // URL'den alınan id
   const [loading, setLoading] = useState(false);
   const [favoriteButtonLoading, setFavoriteButtonLoading] = useState(false);
-  const [toggleFavoriteButton, setToggleFavoriteButton] = useState(false);
   const [article, setArticle] = useState<GetByIdArticleResponse>(
     {} as GetByIdArticleResponse
   );

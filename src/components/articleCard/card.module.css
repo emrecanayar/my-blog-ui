@@ -1,16 +1,20 @@
 .container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  grid-gap: 20px; /* Sütunlar arası boşluk */
-  align-items: start; /* Öğeleri üst kenara hizala */
-  margin-bottom: 30px; /* Alt kısımda boşluk */
+  grid-gap: 20px;
+  /* Sütunlar arası boşluk */
+  align-items: start;
+  /* Öğeleri üst kenara hizala */
+  margin-bottom: 30px;
+  /* Alt kısımda boşluk */
 }
 
 .imageContainer {
   flex: 1;
   height: 350px;
   position: relative;
-  padding: 0 15px; /* Sağ ve sol boşluk ekle */
+  padding: 0 15px;
+  /* Sağ ve sol boşluk ekle */
 
 }
 
@@ -28,8 +32,10 @@
   display: flex;
   flex-direction: column;
   gap: 30px;
-  overflow: hidden; /* İçerik taşarsa gizle */
-  padding: 0 15px; /* Sağ ve sol boşluk ekle */
+  overflow: hidden;
+  /* İçerik taşarsa gizle */
+  padding: 0 15px;
+  /* Sağ ve sol boşluk ekle */
 
 }
 
@@ -48,17 +54,23 @@
   color: var(--softTextColor);
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 7; /* İki satıra sınırla */
-  overflow: hidden; /* Fazla metni kes */
-  text-overflow: ellipsis; /* Kesilen yerde üç nokta göster */
-  font-size: calc(16px + 0.5vw); /* Genişlik arttıkça font boyutu da artar */
-  font-size: clamp(1rem, 2.5vw, 1.2rem); /* Ekran genişliğine bağlı olarak boyutlandır */
+  -webkit-line-clamp: 7;
+  /* İki satıra sınırla */
+  overflow: hidden;
+  /* Fazla metni kes */
+  text-overflow: ellipsis;
+  /* Kesilen yerde üç nokta göster */
+  font-size: calc(16px + 0.5vw);
+  /* Genişlik arttıkça font boyutu da artar */
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  /* Ekran genişliğine bağlı olarak boyutlandır */
 }
 
 @keyframes expandUnderline {
   from {
     width: 0;
   }
+
   to {
     width: 100%;
   }
@@ -67,9 +79,14 @@
 .link {
   border-bottom: 1px solid crimson;
   width: max-content;
-  overflow: hidden; /* Sağa doğru taşma olmasını engeller */
-  display: block; /* Çizginin genişliğini kontrol etmek için */
-  position: relative; /* before pseudo-element için konum referansı */
+  overflow: hidden;
+  /* Sağa doğru taşma olmasını engeller */
+  display: block;
+  /* Çizginin genişliğini kontrol etmek için */
+  position: relative;
+  /* before pseudo-element için konum referansı */
+  margin-right: auto;
+  /* Diğer öğeleri sağa itmek için */
 }
 
 .link::after {
@@ -88,6 +105,14 @@
 .link:hover::after {
   transform: scaleX(1);
 }
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
 
 @media screen and (max-width: 1280px) {
   .imageContainer {
