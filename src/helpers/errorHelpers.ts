@@ -10,7 +10,11 @@ export const handleApiError = (error: any) => {
   } else if (error.generalMessage && error.validationErrors === null) {
     toast.error(error.generalMessage);
   } else {
-    console.error("An unexpected error occurred", error);
-    toast.error("Beklenmedik bir hata oluştu.");
+    console.log("An unexpected error occurred", error);
+    if (error.generalMessage === "") {
+      console.log("An unexpected error occurred", error);
+    } else {
+      toast.error("Beklenmedik bir hata oluştu.");
+    }
   }
 };

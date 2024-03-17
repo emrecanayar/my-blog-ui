@@ -100,7 +100,7 @@ const SinglePage = observer(() => {
       let response = await favoriteArticleStore.getByArticleId(id as string);
       setUserHaveAFavorite(response);
     } catch (error) {
-      console.log("Error:", error);
+      handleApiError(error);
     }
   };
 

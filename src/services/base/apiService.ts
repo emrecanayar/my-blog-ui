@@ -23,23 +23,26 @@ apiClient.interceptors.response.use(
       status: data.Status,
     };
 
-    switch (data.Status) {
+    switch (data.status) {
       case 400: // Validation veya Business Logic Error
-        if (data.Errors) {
+        if (data.errors) {
           // Validation Error
           customError.generalMessage = "Doğrulama hataları mevcut.";
           customError.validationErrors = data.Errors;
-        } else if (data.Title === "Rule violation") {
+        } else if (data.title === "Rule violation") {
           // Business Logic Error
-          customError.generalMessage = data.Detail || "İş kuralları ihlali.";
+          customError.generalMessage = data.detail || "İş kuralları ihlali.";
+          if (data.detail.includes("exists")) {
+            customError.generalMessage = "";
+          }
         }
         break;
       case 401: // Authorization Error
-        customError.generalMessage = data.Detail || "Yetkilendirme hatası.";
+        customError.generalMessage = data.detail || "Yetkilendirme hatası.";
         window.location.href = "/login";
         break;
       case 404: // Not Found Error
-        customError.generalMessage = data.Detail || "Kaynak bulunamadı.";
+        customError.generalMessage = data.detail || "Kaynak bulunamadı.";
         break;
       case 500: // Internal Server Error
         customError.generalMessage = "Sunucu hatası.";

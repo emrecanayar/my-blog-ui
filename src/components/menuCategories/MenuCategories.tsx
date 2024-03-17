@@ -19,7 +19,7 @@ const MenuCategories = () => {
   }, []);
 
   const fetchCategoriesData = async () => {
-    setLoading(false);
+    setLoading(true);
     try {
       let categoryList = await categoryStore.getCategoriesListByDynamic(
         {
