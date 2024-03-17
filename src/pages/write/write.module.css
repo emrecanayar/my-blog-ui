@@ -133,3 +133,12 @@
   cursor: not-allowed;
   /* Üzerine gelindiğinde cursor'u yasak işareti yap */
 }
+
+
+.fixedToolbar {
+  position: fixed;
+  top: 0;
+  width: 100%; /* Araç çubuğunun tam genişlikte olmasını sağlar */
+  z-index: 1000; /* Diğer içeriklerin üzerinde kalır */
+  background-color: white; /* Arka plan rengi */
+}

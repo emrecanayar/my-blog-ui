@@ -155,6 +155,10 @@
   background-color: #ff6b81; /* Butona hover olduğunda rengini hafifçe değiştir */
 }
 
+.postContent p {
+  text-align: center;
+}
+
 
 @media screen and (max-width: 1536px) {
   .title {

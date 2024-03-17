@@ -252,6 +252,7 @@ const SinglePage = observer(() => {
             <div className={styles.post}>
               <p className={styles.description}>
                 <div
+                  className={styles.postContent}
                   dangerouslySetInnerHTML={{
                     __html: article.content,
                   }}

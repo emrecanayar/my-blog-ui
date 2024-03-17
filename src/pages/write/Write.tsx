@@ -41,6 +41,26 @@ const WritePage = observer(() => {
     fetchCategoriesData();
   }, []);
 
+  useEffect(() => {
+    const toolbar = document.querySelector('.ql-toolbar') as HTMLElement | null;
+    
+    const handleScroll = () => {
+      if (toolbar) {
+        if (window.scrollY > toolbar.offsetTop) {
+          toolbar.classList.add(`${styles.fixedToolbar}`);
+        } else {
+          toolbar.classList.remove(`${styles.fixedToolbar}`);
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []); // Boş bağımlılık listesi, bu efektin bileşen yüklendiğinde bir kez çalıştırılmasını sağlar.
+
   const fetchCategoriesData = async () => {
     try {
       let categoriesResult = await categoryStore.getCategoriesListByDynamic(
