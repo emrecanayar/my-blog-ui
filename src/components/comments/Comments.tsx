@@ -8,8 +8,11 @@ import {
   AppstoreOutlined,
   CheckOutlined,
   CloseOutlined,
+  DislikeOutlined,
+  LikeOutlined,
   MailOutlined,
   UserOutlined,
+  WarningOutlined,
 } from "@ant-design/icons";
 import userStore from "../../stores/user/userStore";
 import authStore from "../../stores/auth/authStore";
@@ -39,6 +42,8 @@ const Comments = ({ articleId }: CommentsProps) => {
   );
   const [currentPage, setCurrentPage] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [replyingTo, setReplyingTo] = useState<string>("");
+
   const quillRef = useRef<ReactQuill>(null);
 
   useEffect(() => {
@@ -156,6 +161,21 @@ const Comments = ({ articleId }: CommentsProps) => {
     if (comments.hasNext) {
       setCurrentPage(currentPage + 1);
     }
+  };
+
+  const handleLike = async (commentId: string) => {
+    // API çağrısı yaparak yorumu beğen
+    // Beğeni sayısını güncelle
+  };
+
+  const handleDislike = async (commentId: string) => {
+    // API çağrısı yaparak yorumu beğenme
+    // Beğenmeme sayısını güncelle
+  };
+
+  const handleReport = async (commentId: string) => {
+    // API çağrısı yaparak yorumu rapor et
+    // Rapor işlemini göster
   };
 
   return (
@@ -291,6 +311,40 @@ const Comments = ({ articleId }: CommentsProps) => {
                   }}
                 ></div>
               </p>
+              <button
+                className={styles.replyButton}
+                onClick={() => setReplyingTo(comment.id)}
+              >
+                Cevapla
+              </button>
+              {replyingTo === comment.id && (
+                <div className={styles.replyForm}>
+                  <ReactQuill theme="snow" placeholder="Cevabınız..." />
+                  <button>Gönder</button>
+                </div>
+              )}
+              <div className={styles.actionIcons}>
+                <button
+                  className={styles.iconButton}
+                  onClick={() => handleLike(comment.id)}
+                >
+                 <LikeOutlined />
+                </button>
+                <span className={styles.iconCount}>{3}</span>
+                <button
+                  className={styles.iconButton}
+                  onClick={() => handleDislike(comment.id)}
+                >
+                  <DislikeOutlined />
+                </button>
+                <span className={styles.iconCount}>{1}</span>
+                <button
+                  className={styles.iconButton}
+                  onClick={() => handleReport(comment.id)}
+                >
+                  <WarningOutlined />
+                </button>
+              </div>
             </div>
           ))
         ) : (

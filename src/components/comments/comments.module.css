@@ -30,9 +30,12 @@
 }
 
 .button:disabled {
-  background-color: #ccc; /* Gri tonu, pasif olduğunu belirtir */
-  color: #666; /* Yazı rengini koyu gri yap */
-  cursor: not-allowed; /* Üzerine gelindiğinde cursor'u yasak işareti yap */
+  background-color: #ccc;
+  /* Gri tonu, pasif olduğunu belirtir */
+  color: #666;
+  /* Yazı rengini koyu gri yap */
+  cursor: not-allowed;
+  /* Üzerine gelindiğinde cursor'u yasak işareti yap */
 }
 
 .comments {
@@ -78,14 +81,17 @@
 
 /* Özelleştirilmiş Card stiliniz */
 .customCard {
-  margin-top: 20px; /* İhtiyaca göre ayarlayın */
-  border-radius: 5px; /* Kartın köşe yuvarlaklığı */
+  margin-top: 20px;
+  /* İhtiyaca göre ayarlayın */
+  border-radius: 5px;
+  /* Kartın köşe yuvarlaklığı */
   /* Diğer gerekli stil ayarlamalarınız */
 }
 
 /* Özelleştirilmiş Input stiliniz */
 .customInput {
-  margin-bottom: 20px; /* Input altındaki boşluk */
+  margin-bottom: 20px;
+  /* Input altındaki boşluk */
   /* Diğer gerekli stil ayarlamalarınız */
 }
 
@@ -93,8 +99,10 @@
 .customSwitch {
   display: flex;
   align-items: center;
-  gap: 8px; /* İkon ve metin arasındaki boşluk */
-  margin-bottom: 20px; /* Switch altındaki boşluk */
+  gap: 8px;
+  /* İkon ve metin arasındaki boşluk */
+  margin-bottom: 20px;
+  /* Switch altındaki boşluk */
   /* Diğer gerekli stil ayarlamalarınız */
 }
 
@@ -113,19 +121,61 @@
 }
 
 .memberTag {
-  background-color: #87d068; /* Mavi arka plan rengi */
-  color: white; /* Beyaz yazı rengi */
-  padding: 3px 6px; /* İç boşluk */
-  border-radius: 4px; /* Kenar yuvarlaklığı */
-  font-size: 0.75rem; /* Font boyutu */
-  margin-left: 8px; /* Sol taraftan boşluk */
-  vertical-align: middle; /* Dikey hizalama */
+  background-color: #87d068;
+  /* Mavi arka plan rengi */
+  color: white;
+  /* Beyaz yazı rengi */
+  padding: 3px 6px;
+  /* İç boşluk */
+  border-radius: 4px;
+  /* Kenar yuvarlaklığı */
+  font-size: 0.75rem;
+  /* Font boyutu */
+  margin-left: 8px;
+  /* Sol taraftan boşluk */
+  vertical-align: middle;
+  /* Dikey hizalama */
+}
+
+.replyButton {
+  background: none;
+  border: none;
+  color: teal;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.replyForm {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.actionIcons {
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.iconButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.iconCount {
+  font-size: 0.75rem;
 }
 
 .spinnerContainer {
   display: flex;
-  justify-content: center; /* Yatayda ortala */
-  align-items: center; /* Dikeyde ortala */
+  justify-content: center;
+  /* Yatayda ortala */
+  align-items: center;
+  /* Dikeyde ortala */
   /* height: 100vh; Bu satırı kaldırıyoruz. */
-  flex: 1; /* Esnek bir şekilde içeriği doldur. */
+  flex: 1;
+  /* Esnek bir şekilde içeriği doldur. */
 }
