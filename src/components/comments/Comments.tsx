@@ -24,6 +24,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { CommentListModel } from "../../services/comment/dtos/commentListModel";
 import Pagination from "../pagination/Pagination";
 import { formatDateForDate } from "../../helpers/dateHelper";
+import { CreateReplyCommentCommand } from "../../services/comment/dtos/createReplyCommentCommand";
 
 export interface CommentsProps {
   articleId: string;
@@ -36,6 +37,9 @@ const Comments = ({ articleId }: CommentsProps) => {
   const [sendButtonStatu, setSendButtonStatu] = useState(true);
   const [createComment, setCreateComment] = useState<CreateCommentCommand>(
     {} as CreateCommentCommand
+  );
+  const [replyComment, setReplyComment] = useState<CreateReplyCommentCommand>(
+    {} as CreateReplyCommentCommand
   );
   const [comments, setComments] = useState<CommentListModel>(
     {} as CommentListModel
@@ -104,6 +108,37 @@ const Comments = ({ articleId }: CommentsProps) => {
     }
   };
 
+  const handleSumbitCreateReplyComment = async () => {
+    try {
+      if (
+        replyComment.authorName === undefined ||
+        replyComment.authorEmail === undefined
+      ) {
+        replyComment.authorName =
+          isUserLoggedInInfo.firstName + " " + isUserLoggedInInfo.lastName;
+        replyComment.authorEmail = isUserLoggedInInfo.email;
+        replyComment.userId = isUserLoggedInInfo.id;
+      }
+      replyComment.articleId = articleId;
+      replyComment.parentCommentId = replyingTo;
+      console.log("ReplyComment", replyComment);
+
+      let response = await commentStore.createReplyComment(replyComment);
+      if (response.id !== undefined) {
+        await fetchCommentsData();
+        toast.success("Yorumunuz başarıyla gönderildi.");
+      }
+    } catch (error) {
+      handleApiError(error);
+      toast.error("Yorumunuz gönderilemedi.");
+    } finally {
+      setReplyComment({} as CreateReplyCommentCommand);
+      if (quillRef.current) {
+        quillRef.current.getEditor().clipboard.dangerouslyPasteHTML("");
+      }
+    }
+  };
+
   const isUserLoggedIn = async () => {
     try {
       await authStore.initializeAuthState();
@@ -123,6 +158,14 @@ const Comments = ({ articleId }: CommentsProps) => {
       setShowDetails(false);
     }
     setCreateComment((prevState) => ({
+      ...prevState,
+      content: value,
+    }));
+  };
+
+  const handleReplyQuillChange = (value: any) => {
+    console.log("Cevap için girdi", value);
+    setReplyComment((prevState) => ({
       ...prevState,
       content: value,
     }));
@@ -176,6 +219,88 @@ const Comments = ({ articleId }: CommentsProps) => {
   const handleReport = async (commentId: string) => {
     // API çağrısı yaparak yorumu rapor et
     // Rapor işlemini göster
+  };
+
+  const renderComments = (comments: any, indentLevel = 0) => {
+    return (
+      comments &&
+      comments.map((comment: any, index: any) => (
+        <div
+          key={index}
+          className={indentLevel > 0 ? `${styles.reply}` : `${styles.comment}`}
+        >
+          <div className={styles.user}>
+            <img
+              src={p1} // Varsayılan bir resim olarak p1 kullanıldı
+              alt={comment.authorName}
+              width={50}
+              height={50}
+              className={styles.image}
+            />
+            <div className={styles.userInfo}>
+              <span className={styles.username}>
+                {comment.authorName}{" "}
+                {comment.user && <span className={styles.memberTag}>Üye</span>}
+              </span>
+              <span className={styles.date}>
+                {formatDateForDate(comment.datePosted)}
+              </span>
+            </div>
+          </div>
+          <p className={styles.desc}>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: comment.content,
+              }}
+            ></div>
+          </p>
+          <button
+            className={styles.replyButton}
+            onClick={() => setReplyingTo(comment.id)}
+          >
+            Cevapla
+          </button>
+          {replyingTo === comment.id && (
+            <div className={styles.replyForm}>
+              <ReactQuill
+                theme="snow"
+                placeholder="Cevabınız..."
+                onChange={handleReplyQuillChange}
+              />
+              <button
+                className={`${styles.replySendButton}`}
+                onClick={handleSumbitCreateReplyComment}
+              >
+                Gönder
+              </button>
+            </div>
+          )}
+          <div className={styles.actionIcons}>
+            <button
+              className={styles.iconButton}
+              onClick={() => handleLike(comment.id)}
+            >
+              <LikeOutlined />
+            </button>
+            <span className={styles.iconCount}>{3}</span>
+            <button
+              className={styles.iconButton}
+              onClick={() => handleDislike(comment.id)}
+            >
+              <DislikeOutlined />
+            </button>
+            <span className={styles.iconCount}>{1}</span>
+            <button
+              className={styles.iconButton}
+              onClick={() => handleReport(comment.id)}
+            >
+              <WarningOutlined />
+            </button>
+          </div>
+          {comment.replies && renderComments(comment.replies, indentLevel + 1)}
+        </div>
+      ))
+    );
   };
 
   return (
@@ -279,76 +404,10 @@ const Comments = ({ articleId }: CommentsProps) => {
       <div className={styles.comments}>
         {loading ? (
           <div className={styles.spinnerContainer}>
-            <Spin style={{ textAlign: "center" }} size="large" />
+            <Spin size="large" />
           </div>
-        ) : comments && comments.items && comments.items.length > 0 ? (
-          comments.items.map((comment, index) => (
-            <div key={index} className={styles.comment}>
-              <div className={styles.user}>
-                <img
-                  src={p1} // Varsayılan bir resim olarak p1 kullanıldı
-                  alt={comment.authorName}
-                  width={50}
-                  height={50}
-                  className={styles.image}
-                />
-                <div className={styles.userInfo}>
-                  <span className={styles.username}>
-                    {comment.authorName}{" "}
-                    {comment.user && (
-                      <span className={styles.memberTag}>Üye</span>
-                    )}
-                  </span>
-                  <span className={styles.date}>
-                    {formatDateForDate(comment.datePosted)}
-                  </span>
-                </div>
-              </div>
-              <p className={styles.desc}>
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: comment.content,
-                  }}
-                ></div>
-              </p>
-              <button
-                className={styles.replyButton}
-                onClick={() => setReplyingTo(comment.id)}
-              >
-                Cevapla
-              </button>
-              {replyingTo === comment.id && (
-                <div className={styles.replyForm}>
-                  <ReactQuill theme="snow" placeholder="Cevabınız..." />
-                  <button>Gönder</button>
-                </div>
-              )}
-              <div className={styles.actionIcons}>
-                <button
-                  className={styles.iconButton}
-                  onClick={() => handleLike(comment.id)}
-                >
-                 <LikeOutlined />
-                </button>
-                <span className={styles.iconCount}>{3}</span>
-                <button
-                  className={styles.iconButton}
-                  onClick={() => handleDislike(comment.id)}
-                >
-                  <DislikeOutlined />
-                </button>
-                <span className={styles.iconCount}>{1}</span>
-                <button
-                  className={styles.iconButton}
-                  onClick={() => handleReport(comment.id)}
-                >
-                  <WarningOutlined />
-                </button>
-              </div>
-            </div>
-          ))
         ) : (
-          <p style={{ marginBottom: "20px" }}>Yorum bulunamadı.</p>
+          renderComments(comments.items)
         )}
       </div>
       <div>

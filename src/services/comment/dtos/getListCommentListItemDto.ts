@@ -9,4 +9,5 @@ export interface GetListCommentListItemDto {
   datePosted: Date;
   userId: string;
   user: GetByIdUserResponse;
+  replies: GetListCommentListItemDto[];
 }

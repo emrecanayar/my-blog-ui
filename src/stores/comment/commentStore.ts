@@ -6,6 +6,7 @@ import { CreatedCommentResponse } from "../../services/comment/dtos/createdComme
 import { PageRequest } from "../../services/base/models/PageRequest";
 import { DynamicQuery } from "../../services/base/models/DynamicQuery";
 import { CommentListModel } from "../../services/comment/dtos/commentListModel";
+import { CreateReplyCommentCommand } from "../../services/comment/dtos/createReplyCommentCommand";
 
 export class CommentStore extends BaseStore {
   @observable createdComment: CreatedCommentResponse =
@@ -17,6 +18,21 @@ export class CommentStore extends BaseStore {
   createComment = async (createCommentCommand: CreateCommentCommand) => {
     try {
       let response = await commentService.createComment(createCommentCommand);
+      return response.data;
+    } catch (error) {
+      this.handleApiError(error);
+      throw error;
+    }
+  };
+
+  @action
+  createReplyComment = async (
+    createReplyCommentCommand: CreateReplyCommentCommand
+  ) => {
+    try {
+      let response = await commentService.createReplyComment(
+        createReplyCommentCommand
+      );
       return response.data;
     } catch (error) {
       this.handleApiError(error);

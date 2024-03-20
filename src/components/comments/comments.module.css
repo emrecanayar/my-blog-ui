@@ -43,7 +43,10 @@
 }
 
 .comment {
-  margin-bottom: 50px;
+  padding-left: 0;
+  border-left: 3px solid #e0e0e0; /* Yorumların sol tarafında belirgin bir çizgi */
+  margin-bottom: 20px;
+  margin-left: 0px;
 }
 
 .user {
@@ -138,6 +141,7 @@
 }
 
 .replyButton {
+  margin-top: 10px;
   background: none;
   border: none;
   color: teal;
@@ -146,14 +150,33 @@
 }
 
 .replyForm {
-  margin-top: 10px;
+  margin-top: 5px;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  align-items: flex-start; /* ReactQuill ve butonun üst kenarlarını hizalar */
+  gap: 10px; /* Elementler arası boşluk */
 }
 
+.replyInput {
+  flex: 1; /* Yorum yapma alanını genişletir */
+}
+
+.replySendButton {
+  display: flex;
+  padding: 10px 20px; /* Butonun padding değerlerini ayarlayın */
+  background-color: teal;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  height: fit-content; /* Butonun içeriğine göre yüksekliğini ayarlar */
+  align-items: center;
+  justify-content: center;
+  margin-top: 25px;
+
+}
 .actionIcons {
-  margin-top: 5px;
+  margin-top: 10px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -167,6 +190,24 @@
 
 .iconCount {
   font-size: 0.75rem;
+}
+
+
+.reply {
+  margin-top: 10px;
+  margin-left: 25px; /* İç içe yorumların sol tarafından boşluk */
+  padding-left: 15px;
+  border-left: 2px dotted #ccc; /* İç içe yorumların sol tarafında noktalı çizgi */
+}
+
+.reply:last-child {
+  margin-bottom: 0;
+}
+
+.indent {
+  margin-left: 20px;
+  border-left: 2px dotted #bbb;
+  padding-left: 10px;
 }
 
 .spinnerContainer {
