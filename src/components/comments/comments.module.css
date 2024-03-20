@@ -43,7 +43,7 @@
 }
 
 .comment {
-  padding-left: 0;
+  padding-left: 15px;
   border-left: 3px solid #e0e0e0; /* Yorumların sol tarafında belirgin bir çizgi */
   margin-bottom: 20px;
   margin-left: 0px;
