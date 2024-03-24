@@ -2,7 +2,7 @@ import styles from "./comments.module.css";
 import p1 from "../../assets/p1.jpeg";
 import ReactQuill from "react-quill";
 import { modules, formats } from "../../options/reactQuillOptions";
-import { Card, Input, Spin, Switch } from "antd";
+import { Button, Card, Input, Popover, Spin, Switch } from "antd";
 import { useEffect, useRef, useState } from "react";
 import {
   AppstoreOutlined,
@@ -27,6 +27,9 @@ import { formatDateForDate } from "../../helpers/dateHelper";
 import { CreateReplyCommentCommand } from "../../services/comment/dtos/createReplyCommentCommand";
 import { CreateLikeCommand } from "../../services/like/dtos/createLikeCommand";
 import likeStore from "../../stores/like/likeStore";
+import TextArea from "antd/es/input/TextArea";
+import { CreateReportCommand } from "../../services/report/dtos/createReportCommand";
+import reportStore from "../../stores/report/reportStore";
 
 export interface CommentsProps {
   articleId: string;
@@ -51,6 +54,9 @@ const Comments = ({ articleId }: CommentsProps) => {
   const [replyingTo, setReplyingTo] = useState<string>("");
   const [createLike, setCreateLike] = useState<CreateLikeCommand>(
     {} as CreateLikeCommand
+  );
+  const [createReport, setCreateReport] = useState<CreateReportCommand>(
+    {} as CreateReportCommand
   );
 
   const quillRef = useRef<ReactQuill>(null);
@@ -261,9 +267,30 @@ const Comments = ({ articleId }: CommentsProps) => {
     }
   };
 
+  const handleChangeReportReason = async (reason: string) => {
+    setCreateReport((prevState) => ({
+      ...prevState,
+      reason: reason,
+    }));
+  };
+
   const handleReport = async (commentId: string) => {
-    // API çağrısı yaparak yorumu rapor et
-    // Rapor işlemini göster
+    const updatedReport = {
+      ...createReport,
+      commentId: commentId,
+    };
+
+    try {
+      let response = await reportStore.createReport(updatedReport);
+      console.log("Report Response", response);
+      if (response.id !== undefined) {
+        toast.success("Yorum başarıyla raporlandı.");
+      }
+    } catch (error) {
+      handleApiError(error);
+    } finally {
+      setCreateReport({} as CreateReportCommand);
+    }
   };
 
   const renderComments = (comments: any, indentLevel = 0) => {
@@ -337,11 +364,38 @@ const Comments = ({ articleId }: CommentsProps) => {
             <span className={styles.dislikeIconCount}>
               {comment.dislikeCount}
             </span>
-            <button
-              className={styles.iconButton}
-              onClick={() => handleReport(comment.id)}
-            >
-              <WarningOutlined />
+            <button className={styles.iconButton}>
+              <Popover
+                content={
+                  <div className={styles.reportPopoverContainer}>
+                    <TextArea
+                      placeholder="Raporlama nedenini yazın"
+                      className={styles.reportInput}
+                      value={createReport.reason}
+                      onChange={(e) => handleChangeReportReason(e.target.value)}
+                      rows={4}
+                    />
+                    <Button
+                      className={styles.reportSubmitButton}
+                      type="primary"
+                      onClick={() => handleReport(comment.id)}
+                    >
+                      Rapor Et
+                    </Button>
+                  </div>
+                }
+                title="Yorumu Rapor Et"
+                trigger="click"
+                onVisibleChange={(visible) => {
+                  if (!visible) {
+                    handleChangeReportReason(""); // Popover kapanırken input'u sıfırla
+                  }
+                }}
+              >
+                <button className={styles.iconButton}>
+                  <WarningOutlined />
+                </button>
+              </Popover>
             </button>
           </div>
           {comment.replies && renderComments(comment.replies, indentLevel + 1)}

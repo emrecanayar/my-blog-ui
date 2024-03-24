@@ -246,3 +246,17 @@
 .animatePop {
   animation: popEffect 0.5s ease; /* Animasyon süresi ve geçişi */
 }
+
+.reportPopoverContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.reportInput {
+  width: 100%;
+}
+
+.reportSubmitButton {
+  justify-self: flex-end;
+}
