@@ -1,3 +1,4 @@
+import { GetListLikeListItemDto } from "../../like/dtos/getListLikeListItemDto";
 import { GetByIdUserResponse } from "../../user/dtos/getByIdUserResponse";
 
 export interface GetListCommentListItemDto {
@@ -9,5 +10,8 @@ export interface GetListCommentListItemDto {
   datePosted: Date;
   userId: string;
   user: GetByIdUserResponse;
+  likes: GetListLikeListItemDto[];
+  likeCount: number;
+  dislikeCount: number;
   replies: GetListCommentListItemDto[];
 }

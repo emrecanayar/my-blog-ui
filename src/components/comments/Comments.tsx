@@ -25,6 +25,8 @@ import { CommentListModel } from "../../services/comment/dtos/commentListModel";
 import Pagination from "../pagination/Pagination";
 import { formatDateForDate } from "../../helpers/dateHelper";
 import { CreateReplyCommentCommand } from "../../services/comment/dtos/createReplyCommentCommand";
+import { CreateLikeCommand } from "../../services/like/dtos/createLikeCommand";
+import likeStore from "../../stores/like/likeStore";
 
 export interface CommentsProps {
   articleId: string;
@@ -47,6 +49,9 @@ const Comments = ({ articleId }: CommentsProps) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [loading, setLoading] = useState(false);
   const [replyingTo, setReplyingTo] = useState<string>("");
+  const [createLike, setCreateLike] = useState<CreateLikeCommand>(
+    {} as CreateLikeCommand
+  );
 
   const quillRef = useRef<ReactQuill>(null);
 
@@ -54,6 +59,21 @@ const Comments = ({ articleId }: CommentsProps) => {
     isUserLoggedIn();
     fetchCommentsData();
   }, [currentPage]);
+
+  const addLikeDislikeCountsToComments = (comments: any) => {
+    return comments.map((comment: any) => {
+      const likeCount = comment.likes.filter(
+        (like: any) => like.isLiked
+      ).length;
+      const dislikeCount = comment.likes.filter(
+        (like: any) => !like.isLiked
+      ).length;
+      const replies = comment.replies
+        ? addLikeDislikeCountsToComments(comment.replies)
+        : [];
+      return { ...comment, likeCount, dislikeCount, replies };
+    });
+  };
 
   const fetchCommentsData = async () => {
     setLoading(true);
@@ -68,7 +88,12 @@ const Comments = ({ articleId }: CommentsProps) => {
           filter: { field: "articleId", operator: "eq", value: `${articleId}` },
         }
       );
-      setComments(response);
+
+      const commentsWithCounts = addLikeDislikeCountsToComments(response.items);
+      setComments({
+        ...response,
+        items: commentsWithCounts,
+      });
     } catch (error) {
       handleApiError(error);
     } finally {
@@ -208,12 +233,32 @@ const Comments = ({ articleId }: CommentsProps) => {
 
   const handleLike = async (commentId: string) => {
     // API çağrısı yaparak yorumu beğen
-    // Beğeni sayısını güncelle
+    createLike.commentId = commentId;
+    createLike.isLiked = true;
+    setCreateLike(createLike);
+    try {
+      let response = await likeStore.createLike(createLike);
+      if (response.id !== undefined) {
+        fetchCommentsData();
+      }
+    } catch (error) {
+      handleApiError(error);
+    }
   };
 
   const handleDislike = async (commentId: string) => {
     // API çağrısı yaparak yorumu beğenme
-    // Beğenmeme sayısını güncelle
+    createLike.commentId = commentId;
+    createLike.isLiked = false;
+    setCreateLike(createLike);
+    try {
+      let response = await likeStore.createLike(createLike);
+      if (response.id !== undefined) {
+        fetchCommentsData();
+      }
+    } catch (error) {
+      handleApiError(error);
+    }
   };
 
   const handleReport = async (commentId: string) => {
@@ -282,14 +327,16 @@ const Comments = ({ articleId }: CommentsProps) => {
             >
               <LikeOutlined />
             </button>
-            <span className={styles.iconCount}>{3}</span>
+            <span className={styles.likeIconCount}>{comment.likeCount}</span>
             <button
               className={styles.iconButton}
               onClick={() => handleDislike(comment.id)}
             >
               <DislikeOutlined />
             </button>
-            <span className={styles.iconCount}>{1}</span>
+            <span className={styles.dislikeIconCount}>
+              {comment.dislikeCount}
+            </span>
             <button
               className={styles.iconButton}
               onClick={() => handleReport(comment.id)}
