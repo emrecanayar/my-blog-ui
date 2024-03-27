@@ -1,0 +1,111 @@
+.ant-card {
+  border-radius: 8px;
+  /* Kartın köşelerini yuvarlak yapar */
+  overflow: hidden;
+  /* Yuvarlak köşeler dışında kalanları keser */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  /* Kartın etrafında gölge efekti */
+}
+
+.ant-card-actions {
+  background-color: #fff;
+  /* Kartın altındaki aksiyonlar bölümünün arka plan rengi */
+  border-top: 1px solid #f0f0f0;
+  /* Aksiyonlar bölümünün üst tarafında bir çizgi */
+}
+
+.ant-card-head-wrapper .ant-card-head-title {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  /* Başlık metnini blok elemanı yapar, bu da yanındaki avatarın boyutuna göre genişliğini ayarlar */
+  max-width: calc(100% - 40px);
+  /* Avatar ve padding/margin dikkate alınarak genişlik ayarlanır */
+}
+
+.ant-card-meta-description {
+  color: #a0a0a0;
+  /* Açıklama metni rengi */
+}
+
+/* İkonlar için genel stiller */
+.ant-card-actions>li {
+  margin: 0 12px;
+  /* Sağ ve sol boşluk */
+}
+
+/* İkonların rengi ve etkileşim durumları */
+.ant-card-actions>li>span {
+  color: #000;
+  /* İkon rengi */
+  font-size: 18px;
+  /* İkon boyutu */
+}
+
+.ant-card-actions>li>span:hover {
+  color: #1890ff;
+  /* İkonun üzerine gelindiğinde rengi */
+}
+
+.articleImageWrapper {
+  height: 150px;
+  /* Bu değer resminizin dikdörtgen oranını belirleyecek */
+  margin-top: 16px;
+  overflow: hidden;
+  /* Taşan resim kısımlarını keser */
+  border-radius: 8px;
+  /* Dış div'in köşelerini yuvarlak yapar */
+}
+
+.articleImageWrapper img {
+  width: 100%;
+  /* Resmi genişliğine göre ayarlar */
+  height: auto;
+  /* Resmin yüksekliğini orijinal oranına göre ayarlar */
+  min-height: 100%;
+  /* Resmi daima div'in yüksekliğine en azından eşit yapar */
+  object-fit: cover;
+  /* Resmi div boyutuna sığdırır */
+}
+
+/* Devamını Oku butonu varsayılan olarak gizli */
+.readMoreButton {
+  display: none; /* Başlangıçta buton görünmez */
+  position: absolute; /* Pozisyonunu Card'a göre ayarlar */
+  top: 0; /* Üst kenardan sıfır pixel */
+  right: 0; /* Sağ kenardan sıfır pixel */
+  background-color: rgba(0, 0, 0, 0.5); /* Buton için yarı saydam bir arka plan */
+  color: white; /* Yazı rengi */
+  padding: 8px; /* İçerik ile buton kenarı arasında boşluk */
+  border-bottom-left-radius: 8px; /* Sadece sol alt köşe yuvarlak */
+  cursor: pointer; /* Mouse üzerine geldiğinde el işaretini gösterir */
+  transition: all 0.3s ease; /* Görünürlük için yumuşak geçiş */
+  font-size: 12px; /* Yazı boyutu */
+}
+
+/* Card'ın üzerine gelindiğinde Devamını Oku butonunu göster */
+.cardHover:hover .readMoreButton {
+  display: block;
+}
+
+.ant-card-body:hover .readMoreButton {
+  display: block;
+  /* Kartın üzerine gelindiğinde buton görünür olur */
+}
+
+.customTitle {
+  white-space: normal;
+  overflow-wrap: break-word;
+  /* Uzun kelimeleri satır sonunda kırar */
+  line-height: 1.5em;
+  /* satır yüksekliği */
+  display: block;
+  overflow: hidden;
+  /* Eğer yükseklik sınırlıysa ve metin sığmıyorsa */
+  max-height: 4.5em;
+  /* 3 satır için yeterli yükseklik varsayılan font-size ve line-height ile */
+  line-height: 1.5em;
+  /* Satır yüksekliği */
+}

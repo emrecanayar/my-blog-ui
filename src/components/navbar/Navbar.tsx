@@ -26,10 +26,6 @@ const Navbar = () => {
         />
       </div>
       <div className={styles.logo}>
-        <Avatar
-          size={85}
-          src="https://api.dicebear.com/7.x/bottts-neutral/svg?seed=Baby"
-        />
       </div>
       <div className={styles.links}>
         <ThemeToggle />
@@ -41,6 +37,9 @@ const Navbar = () => {
         </Link>
         <Link to="/about" className={styles.link}>
           Hakkımda
+        </Link>
+        <Link to="/trending" className={styles.link}>
+          Trendler
         </Link>
         <AuthLinks />
       </div>
