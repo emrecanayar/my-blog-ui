@@ -8,6 +8,7 @@ import { DeletedFavoriteArticleResponse } from "../../services/favoriteArticle/d
 import { GetListFavoriteArticleListItemDto } from "../../services/favoriteArticle/dtos/getListFavoriteArticleListItemDto";
 import { GetListResponse } from "../../services/base/models/GetListResponse";
 import { GetByArticleIdFavoriteArticleResponse } from "../../services/favoriteArticle/dtos/getByArticleIdFavoriteArticleResponse";
+import { DeleteFavoriteArticleByArticleIdResponse } from "../../services/favoriteArticle/dtos/deleteFavoriteArticleByArticleIdResponse";
 
 export class FavoriteArticleStore extends BaseStore {
   @observable addedFavoriteArticle: CreatedFavoriteArticleResponse =
@@ -15,6 +16,10 @@ export class FavoriteArticleStore extends BaseStore {
 
   @observable deletedFavoriteArticle: DeletedFavoriteArticleResponse =
     {} as DeletedFavoriteArticleResponse;
+
+  @observable
+  deletedFavoriteArticleByArticleId: DeleteFavoriteArticleByArticleIdResponse =
+    {} as DeleteFavoriteArticleByArticleIdResponse;
 
   @observable
   listFavoriteArticle: GetListResponse<GetListFavoriteArticleListItemDto> =
@@ -67,6 +72,21 @@ export class FavoriteArticleStore extends BaseStore {
     try {
       let response = await favoriteArticleService.getByArticleId(articleId);
       this.getByArticleIdFavoriteArticleResponse = response.data;
+      return response.data;
+    } catch (error) {
+      this.handleApiError(error);
+      throw error;
+    }
+  };
+
+  @action
+  deleteFavoriteArticleByArticleId = async (articleId: string) => {
+    try {
+      let response =
+        await favoriteArticleService.deleteFavoriteArticleByArticleId(
+          articleId
+        );
+      this.deletedFavoriteArticleByArticleId = response.data;
       return response.data;
     } catch (error) {
       this.handleApiError(error);

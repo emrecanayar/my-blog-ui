@@ -1,6 +1,7 @@
 import {
   CommentOutlined,
-  HeartOutlined,
+  HeartFilled,
+  HeartTwoTone,
   LinkOutlined,
 } from "@ant-design/icons";
 import { Avatar, Card } from "antd";
@@ -9,6 +10,9 @@ import styles from "./trendingArticleCard.module.css";
 import { GetListArticleListItemDto } from "../../services/article/dtos/getListArticleListItemDto";
 import config from "../../config";
 import { Link } from "react-router-dom";
+import favoriteArticleStore from "../../stores/favoriteArticle/favoriteArticleStore";
+import { useState } from "react";
+import { handleApiError } from "../../helpers/errorHelpers";
 
 interface TrendingArticleCardProps {
   article: GetListArticleListItemDto;
@@ -19,6 +23,33 @@ const TrendingArticleCard = ({
   article,
   loading,
 }: TrendingArticleCardProps) => {
+  const [liked, setLiked] = useState(false);
+
+  const addFavorite = async (articleId: string) => {
+    try {
+      let response = await favoriteArticleStore.addFavoriteArticle({
+        articleId: articleId,
+      });
+      if (response.data.id !== undefined) {
+        setLiked(true);
+      }
+    } catch (error) {
+      handleApiError(error);
+    }
+  };
+
+  const deleteFavorite = async (articleId: string) => {
+    try {
+      let response =
+        await favoriteArticleStore.deleteFavoriteArticleByArticleId(articleId);
+      if (response.id !== undefined) {
+        setLiked(false);
+      }
+    } catch (error) {
+      handleApiError(error);
+    }
+  };
+
   return (
     <Card
       loading={loading} // Kartın yüklenme durumu
@@ -31,7 +62,17 @@ const TrendingArticleCard = ({
       className={styles.cardHover}
       actions={[
         // Kartın altında yer alacak ikonlar
-        <HeartOutlined key="like" />,
+        liked ? (
+          <HeartFilled
+            style={{ color: "#eb2f96" }}
+            onClick={() => deleteFavorite(article.id)}
+          />
+        ) : (
+          <HeartTwoTone
+            onClick={() => addFavorite(article.id)}
+            twoToneColor="#eb2f96"
+          />
+        ),
         <CommentOutlined key="comment" />,
         <LinkOutlined key="share" />,
       ]}

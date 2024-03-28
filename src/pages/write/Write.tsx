@@ -158,7 +158,7 @@ const WritePage = observer(() => {
               ""
             )}
           </Card>
-          <Card title="Thumbnail Ekle">
+          <Card title="Thumbnail Ekle" style={{marginTop:"10px"}}>
             <UploadFile
               uploadText="Thumbnail görseli yüklemek için bu alana tıklayın veya görseli sürükleyin"
               uploadHint="Tek ve toplu dosya yükleme desteği"

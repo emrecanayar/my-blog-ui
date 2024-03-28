@@ -7,6 +7,7 @@ import { DeletedFavoriteArticleResponse } from "./dtos/deletedFavoriteArticleRes
 import { GetListFavoriteArticleListItemDto } from "./dtos/getListFavoriteArticleListItemDto";
 import { GetListResponse } from "../base/models/GetListResponse";
 import { GetByArticleIdFavoriteArticleResponse } from "./dtos/getByArticleIdFavoriteArticleResponse";
+import { DeleteFavoriteArticleByArticleIdResponse } from "./dtos/deleteFavoriteArticleByArticleIdResponse";
 
 export class FavoriteArticleService {
   addFavoriteArticle = async (
@@ -58,6 +59,18 @@ export class FavoriteArticleService {
       throw error;
     }
   };
+
+  deleteFavoriteArticleByArticleId = async (
+    articleId: string
+  ): Promise<CustomResponseDto<DeleteFavoriteArticleByArticleIdResponse>> => {
+    try {
+      let response = await apiService.delete(`/FavoriteArticles/DeleteByArticleId/${articleId}`);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  };
+
 }
 const favoriteArticleService = new FavoriteArticleService();
 export default favoriteArticleService;
