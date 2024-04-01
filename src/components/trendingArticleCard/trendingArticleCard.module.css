@@ -92,5 +92,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%; /* Her bir action öğesini genişlet */
+  width: 100%;
+  /* Her bir action öğesini genişlet */
+}
+
+.radioStyle {
+  display: block;
+  height: 30px;
+  line-height: 30px;
 }

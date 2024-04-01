@@ -8,7 +8,7 @@ import {
   LinkOutlined,
   UpCircleTwoTone,
 } from "@ant-design/icons";
-import { Avatar, Card, Dropdown, Menu } from "antd";
+import { Avatar, Card, Dropdown, Form, Input, Menu, Modal, Radio } from "antd";
 import Meta from "antd/es/card/Meta";
 import styles from "./trendingArticleCard.module.css";
 import { GetListArticleListItemDto } from "../../services/article/dtos/getListArticleListItemDto";
@@ -34,6 +34,17 @@ const TrendingArticleCard = ({
   const [liked, setLiked] = useState(false);
   const [isVisible, setIsVisible] = useState(true); // Kartın görünürlüğü için yeni durum
   const [upvoteCount, setUpvoteCount] = useState<number>(0); // upvote sayısını saklamak için yeni durum
+  const [isReportModalVisible, setIsReportModalVisible] = useState(false); // Rapor modalı durumu için state
+
+  // Rapor modalını gösterme fonksiyonu
+  const showReportModal = () => {
+    setIsReportModalVisible(true);
+  };
+
+  // Rapor modalını gizleme fonksiyonu
+  const hideReportModal = () => {
+    setIsReportModalVisible(false);
+  };
 
   const addFavorite = async (articleId: string) => {
     try {
@@ -108,6 +119,12 @@ const TrendingArticleCard = ({
     }
   };
 
+  const handleArticleReport = async () => {};
+
+  useEffect(() => {
+    fetchUpvoteCount();
+  }, [article.id]);
+
   const UpvoteComponent = ({ upvoteCount, handleUpVote }: any) => {
     return (
       <div
@@ -120,9 +137,51 @@ const TrendingArticleCard = ({
     );
   };
 
-  useEffect(() => {
-    fetchUpvoteCount();
-  }, [article.id]);
+  const ReportModal = ({ isModalVisible, handleOk, handleCancel }: any) => {
+    return (
+      <>
+        <Modal
+          title={`Makaleyi Rapor Et`}
+          visible={isModalVisible}
+          onOk={handleOk}
+          okText="Rapor Et"
+          onCancel={handleCancel}
+          cancelText="İptal"
+        >
+          <Form>
+            <Form.Item>
+              <Radio.Group>
+                <Radio className={styles.radioStyle} value="notAbout">
+                  Yazı bununla ilgili değil...
+                </Radio>
+                <Radio className={styles.radioStyle} value="brokenLink">
+                  Kırık bağlantı
+                </Radio>
+                <Radio className={styles.radioStyle} value="clickbait">
+                  Clickbait (Tıklama tuzağı)
+                </Radio>
+                <Radio className={styles.radioStyle} value="lowQuality">
+                  Düşük kaliteli içerik
+                </Radio>
+                <Radio className={styles.radioStyle} value="nsfw">
+                  NSFW İçerik Koruması
+                </Radio>
+                <Radio className={styles.radioStyle} value="other">
+                  Diğer
+                </Radio>
+              </Radio.Group>
+            </Form.Item>
+            <Form.Item>
+              <Input.TextArea
+                rows={4}
+                placeholder="Eklemek istediğiniz başka bir şey var mı?"
+              />
+            </Form.Item>
+          </Form>
+        </Modal>
+      </>
+    );
+  };
 
   function ArticleHeartIcon({
     article,
@@ -162,7 +221,11 @@ const TrendingArticleCard = ({
       >
         Downvote
       </Menu.Item>
-      <Menu.Item key="3" icon={<ExclamationCircleOutlined />}>
+      <Menu.Item
+        key="3"
+        icon={<ExclamationCircleOutlined />}
+        onClick={showReportModal}
+      >
         Rapor Et
       </Menu.Item>
     </Menu>
@@ -180,69 +243,80 @@ const TrendingArticleCard = ({
     </Dropdown>
   );
 
-  return isVisible ? (
-    <Card
-      loading={loading} // Kartın yüklenme durumu
-      hoverable // Kartın üzerine gelindiğinde bir gölge efekti ekler
-      style={{
-        width: 300,
-        marginTop: 16,
-        borderRadius: 12,
-      }} // Örnek kart genişliği
-      className={`${styles.cardHover} ${styles.trendingArticleCard}`}
-      actions={[
-        <div className={styles.actionItem}>
-          <ArticleHeartIcon
-            article={article}
-            liked={liked}
-            addFavorite={addFavorite}
-            deleteFavorite={deleteFavorite}
+  return (
+    <>
+      {isVisible ? (
+        <Card
+          loading={loading} // Kartın yüklenme durumu
+          hoverable // Kartın üzerine gelindiğinde bir gölge efekti ekler
+          style={{
+            width: 300,
+            marginTop: 16,
+            borderRadius: 12,
+          }} // Örnek kart genişliği
+          className={`${styles.cardHover} ${styles.trendingArticleCard}`}
+          actions={[
+            <div className={styles.actionItem}>
+              <ArticleHeartIcon
+                article={article}
+                liked={liked}
+                addFavorite={addFavorite}
+                deleteFavorite={deleteFavorite}
+              />
+            </div>,
+            <div className={styles.actionItem}>
+              <UpvoteComponent
+                upvoteCount={upvoteCount}
+                handleUpVote={handleUpVote}
+              />
+            </div>,
+            <div className={styles.actionItem}>
+              <LinkOutlined
+                key="share"
+                onClick={() => handleCopyLink(article.id)}
+              />
+            </div>,
+          ]}
+        >
+          <Meta
+            avatar={
+              // Avatar resmi
+              <Avatar
+                src={`${config.FILE_BASE_URL}${article.user?.userUploadedFiles?.[0]?.newPath}`}
+              />
+            }
+            title={
+              <div className={styles.customTitle}>
+                {article.title} {/* Başlık */}
+              </div>
+            }
+            description={
+              <span>
+                {`${formatDateAsDayMonthWeekday(article.date)} - `}
+                <span style={{ color: "#DC143C" }}>
+                  {article.category.name}
+                </span>
+              </span>
+            } // Açıklama metni // Açıklama metni
           />
-        </div>,
-        <div className={styles.actionItem}>
-          <UpvoteComponent
-            upvoteCount={upvoteCount}
-            handleUpVote={handleUpVote}
-          />
-        </div>,
-        <div className={styles.actionItem}>
-          <LinkOutlined
-            key="share"
-            onClick={() => handleCopyLink(article.id)}
-          />
-        </div>,
-      ]}
-    >
-      <Meta
-        avatar={
-          // Avatar resmi
-          <Avatar
-            src={`${config.FILE_BASE_URL}${article.user?.userUploadedFiles?.[0]?.newPath}`}
-          />
-        }
-        title={
-          <div className={styles.customTitle}>
-            {article.title} {/* Başlık */}
+          <div className={styles.articleImageWrapper}>
+            <img
+              alt={article.category.name}
+              src={`${config.FILE_BASE_URL}${article.articleUploadedFiles?.[0]?.newPath}`} // Gerçek resim linkinizi buraya ekleyin.
+            />
           </div>
-        }
-        description={
-          <span>
-            {`${formatDateAsDayMonthWeekday(article.date)} - `}
-            <span style={{ color: "#DC143C" }}>{article.category.name}</span>
-          </span>
-        } // Açıklama metni // Açıklama metni
+          <div className={styles.readMoreButton}>
+            <Link to={`/detail/${article.id}`}>Devamını Oku</Link>
+            <DropdownMenu />
+          </div>
+        </Card>
+      ) : null}
+      <ReportModal
+        isModalVisible={isReportModalVisible}
+        handleOk={handleArticleReport}
+        handleCancel={hideReportModal} // Modalı gizleme fonksiyonu
       />
-      <div className={styles.articleImageWrapper}>
-        <img
-          alt={article.category.name}
-          src={`${config.FILE_BASE_URL}${article.articleUploadedFiles?.[0]?.newPath}`} // Gerçek resim linkinizi buraya ekleyin.
-        />
-      </div>
-      <div className={styles.readMoreButton}>
-        <Link to={`/detail/${article.id}`}>Devamını Oku</Link>
-        <DropdownMenu />
-      </div>
-    </Card>
-  ) : null;
+    </>
+  );
 };
 export default TrendingArticleCard;
