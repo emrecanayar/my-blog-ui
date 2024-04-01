@@ -27,4 +27,27 @@ function formatDateForDate(dateString: any) {
   return `${paddedDay}.${paddedMonth}.${year}`;
 }
 
-export { formatDate, formatDateForDate };
+function formatDateAsDayMonthWeekday(dateInput: Date | string): string {
+  // Date nesnesi olup olmadığını kontrol et, değilse dönüştür
+  let date = dateInput;
+  if (!(dateInput instanceof Date)) {
+    date = new Date(dateInput);
+  }
+
+  // Dönüştürülen veya orijinal Date objesinin geçerli olup olmadığını kontrol et
+  if (isNaN((date as Date).getTime())) {
+    console.error("Invalid date object");
+    return ""; // veya hata durumuna göre bir değer döndür
+  }
+
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'short', // Kısa hafta günü adı
+    month: 'short', // Kısa ay adı
+    day: 'numeric', // Gün numarası
+  };
+
+  // Türkçe locale kullanarak tarihi formatla
+  return (date as Date).toLocaleDateString("tr-TR", options);
+}
+
+export { formatDate, formatDateForDate, formatDateAsDayMonthWeekday };

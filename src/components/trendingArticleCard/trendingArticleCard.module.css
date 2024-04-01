@@ -1,5 +1,3 @@
-
-
 .articleImageWrapper {
   height: 150px;
   /* Bu değer resminizin dikdörtgen oranını belirleyecek */
@@ -23,17 +21,28 @@
 
 /* Devamını Oku butonu varsayılan olarak gizli */
 .readMoreButton {
-  display: none; /* Başlangıçta buton görünmez */
-  position: absolute; /* Pozisyonunu Card'a göre ayarlar */
-  top: 0; /* Üst kenardan sıfır pixel */
-  right: 0; /* Sağ kenardan sıfır pixel */
-  background-color: rgba(0, 0, 0, 0.5); /* Buton için yarı saydam bir arka plan */
-  color: white; /* Yazı rengi */
-  padding: 8px; /* İçerik ile buton kenarı arasında boşluk */
-  border-bottom-left-radius: 8px; /* Sadece sol alt köşe yuvarlak */
-  cursor: pointer; /* Mouse üzerine geldiğinde el işaretini gösterir */
-  transition: all 0.3s ease; /* Görünürlük için yumuşak geçiş */
-  font-size: 12px; /* Yazı boyutu */
+  display: none;
+  /* Başlangıçta buton görünmez */
+  position: absolute;
+  /* Pozisyonunu Card'a göre ayarlar */
+  top: 0;
+  /* Üst kenardan sıfır pixel */
+  right: 0;
+  /* Sağ kenardan sıfır pixel */
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Buton için yarı saydam bir arka plan */
+  color: white;
+  /* Yazı rengi */
+  padding: 8px;
+  /* İçerik ile buton kenarı arasında boşluk */
+  border-bottom-left-radius: 8px;
+  /* Sadece sol alt köşe yuvarlak */
+  cursor: pointer;
+  /* Mouse üzerine geldiğinde el işaretini gösterir */
+  transition: all 0.3s ease;
+  /* Görünürlük için yumuşak geçiş */
+  font-size: 12px;
+  /* Yazı boyutu */
 }
 
 /* Card'ın üzerine gelindiğinde Devamını Oku butonunu göster */
@@ -59,4 +68,29 @@
   /* 3 satır için yeterli yükseklik varsayılan font-size ve line-height ile */
   line-height: 1.5em;
   /* Satır yüksekliği */
+}
+
+.trendingArticleCard .cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  /* İçerik ve kenarlar arasında boşluk */
+}
+
+/* Menüyü varsayılan olarak gizle */
+.trendingArticleCard .ant-dropdown-link {
+  display: none;
+}
+
+/* Kartın üzerine gelindiğinde menüyü göster */
+.trendingArticleCard:hover .ant-dropdown-link {
+  display: block;
+}
+
+.actionItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%; /* Her bir action öğesini genişlet */
 }

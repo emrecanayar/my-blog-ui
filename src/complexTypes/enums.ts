@@ -33,4 +33,10 @@ enum NotificationType {
   DailyTip = 8,
   DraftReminder = 9,
 }
-export { FileType, RecordStatu, CultureType, NotificationType };
+
+enum VoteType {
+  None = 0,
+  Upvote = 1,
+  Downvote = -1,
+}
+export { FileType, RecordStatu, CultureType, NotificationType, VoteType };

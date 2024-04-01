@@ -16,4 +16,5 @@ export interface GetListArticleListItemDto {
   user: GetByIdUserResponse;
   articleUploadedFiles: GetByIdArticleUploadedFileResponse[];
   tags: GetListTagListItemDto[];
+  isUserFavoriteArticle?: boolean;
 }

@@ -19,6 +19,7 @@ import { NotificationStore } from "./notification/notificationStore";
 import { FavoriteArticleStore } from "./favoriteArticle/favoriteArticleStore";
 import { LikeStore } from "./like/likeStore";
 import { ReportStore } from "./report/reportStore";
+import { ArticleVoteStore } from "./articleVote/articleVoteStore";
 
 type RootStateContextValue = {
   aboutStore: AboutStore;
@@ -42,6 +43,7 @@ type RootStateContextValue = {
   favoriteArticleStore: FavoriteArticleStore;
   likeStore: LikeStore;
   reportStore: ReportStore;
+  articleVoteStore: ArticleVoteStore;
 };
 
 const RootStateContext = React.createContext<RootStateContextValue>(
@@ -68,6 +70,7 @@ const notificationStore = new NotificationStore();
 const favoriteArticleStore = new FavoriteArticleStore();
 const likeStore = new LikeStore();
 const reportStore = new ReportStore();
+const articleVoteStore = new ArticleVoteStore();
 
 export const RootStateProvider: React.FC<React.PropsWithChildren<{}>> = ({
   children,
@@ -96,6 +99,7 @@ export const RootStateProvider: React.FC<React.PropsWithChildren<{}>> = ({
         favoriteArticleStore,
         likeStore,
         reportStore,
+        articleVoteStore
       }}
     >
       {children}

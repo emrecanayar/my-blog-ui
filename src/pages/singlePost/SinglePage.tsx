@@ -112,7 +112,6 @@ const SinglePage = observer(() => {
       let response = await ratingStore.updateRating(updateRating);
       console.log(response);
       if (response !== undefined) {
-        console.log("Inside if block");
         toast.success("Değerlendirme başarılı bir şekilde güncellendi.");
         setTimeout(() => {
           fetchArticleData(id as string);
