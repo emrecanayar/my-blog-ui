@@ -8,7 +8,17 @@ import {
   LinkOutlined,
   UpCircleTwoTone,
 } from "@ant-design/icons";
-import { Avatar, Card, Dropdown, Form, Input, Menu, Modal, Radio } from "antd";
+import {
+  Avatar,
+  Button,
+  Card,
+  Dropdown,
+  Form,
+  Input,
+  Menu,
+  Modal,
+  Radio,
+} from "antd";
 import Meta from "antd/es/card/Meta";
 import styles from "./trendingArticleCard.module.css";
 import { GetListArticleListItemDto } from "../../services/article/dtos/getListArticleListItemDto";
@@ -20,7 +30,10 @@ import { handleApiError } from "../../helpers/errorHelpers";
 import { message } from "antd";
 import { formatDateAsDayMonthWeekday } from "../../helpers/dateHelper";
 import articleVoteStore from "../../stores/articleVote/articleVoteStore";
-import { VoteType } from "../../complexTypes/enums";
+import { ArticleReportType, VoteType } from "../../complexTypes/enums";
+import articleReportStore from "../../stores/articleReport/articleReportStore";
+import { CreateArticleReportCommand } from "../../services/articleReport/dtos/createArticleReportCommand";
+import { ToastContainer, toast } from "react-toastify";
 
 interface TrendingArticleCardProps {
   article: GetListArticleListItemDto;
@@ -35,9 +48,14 @@ const TrendingArticleCard = ({
   const [isVisible, setIsVisible] = useState(true); // Kartın görünürlüğü için yeni durum
   const [upvoteCount, setUpvoteCount] = useState<number>(0); // upvote sayısını saklamak için yeni durum
   const [isReportModalVisible, setIsReportModalVisible] = useState(false); // Rapor modalı durumu için state
-
+  const [createArticleReport, setCreateArticleReport] =
+    useState<CreateArticleReportCommand>({} as CreateArticleReportCommand);
   // Rapor modalını gösterme fonksiyonu
   const showReportModal = () => {
+    setCreateArticleReport((prevState) => ({
+      ...prevState,
+      articleId: article.id, // Burada article.id'yi ekleyin
+    }));
     setIsReportModalVisible(true);
   };
 
@@ -119,7 +137,19 @@ const TrendingArticleCard = ({
     }
   };
 
-  const handleArticleReport = async () => {};
+  const handleArticleReport = async (values: CreateArticleReportCommand) => {
+    try {
+      values.articleId = createArticleReport.articleId;
+      let response = await articleReportStore.add(values);
+      if (response.id !== undefined) {
+        message.success("İlgili makale başarıyla rapor edilmiştir.");
+      }
+    } catch (error) {
+      handleApiError(error);
+    } finally {
+      setIsReportModalVisible(false);
+    }
+  };
 
   useEffect(() => {
     fetchUpvoteCount();
@@ -147,35 +177,59 @@ const TrendingArticleCard = ({
           okText="Rapor Et"
           onCancel={handleCancel}
           cancelText="İptal"
+          footer={null}
         >
-          <Form>
-            <Form.Item>
+          <Form onFinish={handleArticleReport}>
+            <Form.Item name="reportType" rules={[{ required: true }]}>
               <Radio.Group>
-                <Radio className={styles.radioStyle} value="notAbout">
+                <Radio
+                  className={styles.radioStyle}
+                  value={ArticleReportType.NotAbout}
+                >
                   Yazı bununla ilgili değil...
                 </Radio>
-                <Radio className={styles.radioStyle} value="brokenLink">
+                <Radio
+                  className={styles.radioStyle}
+                  value={ArticleReportType.BrokenLink}
+                >
                   Kırık bağlantı
                 </Radio>
-                <Radio className={styles.radioStyle} value="clickbait">
+                <Radio
+                  className={styles.radioStyle}
+                  value={ArticleReportType.Clickbait}
+                >
                   Clickbait (Tıklama tuzağı)
                 </Radio>
-                <Radio className={styles.radioStyle} value="lowQuality">
+                <Radio
+                  className={styles.radioStyle}
+                  value={ArticleReportType.LowQuality}
+                >
                   Düşük kaliteli içerik
                 </Radio>
-                <Radio className={styles.radioStyle} value="nsfw">
+                <Radio
+                  className={styles.radioStyle}
+                  value={ArticleReportType.NSFW}
+                >
                   NSFW İçerik Koruması
                 </Radio>
-                <Radio className={styles.radioStyle} value="other">
+                <Radio
+                  className={styles.radioStyle}
+                  value={ArticleReportType.Other}
+                >
                   Diğer
                 </Radio>
               </Radio.Group>
             </Form.Item>
-            <Form.Item>
+            <Form.Item name="description" label="Açıklama">
               <Input.TextArea
                 rows={4}
                 placeholder="Eklemek istediğiniz başka bir şey var mı?"
               />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit" block>
+                Gönder
+              </Button>
             </Form.Item>
           </Form>
         </Modal>

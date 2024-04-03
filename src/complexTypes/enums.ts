@@ -39,4 +39,21 @@ enum VoteType {
   Upvote = 1,
   Downvote = -1,
 }
-export { FileType, RecordStatu, CultureType, NotificationType, VoteType };
+
+enum ArticleReportType {
+  None = 0,
+  NotAbout = 1,
+  BrokenLink = 2,
+  Clickbait = 3,
+  LowQuality = 4,
+  NSFW = 5,
+  Other = 6,
+}
+export {
+  FileType,
+  RecordStatu,
+  CultureType,
+  NotificationType,
+  VoteType,
+  ArticleReportType,
+};
