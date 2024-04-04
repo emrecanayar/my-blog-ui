@@ -9,6 +9,8 @@ import { DynamicQuery } from "../../services/base/models/DynamicQuery";
 import { GetByIdArticleResponse } from "../../services/article/dtos/getByIdArticleResponse";
 import { GetListResponse } from "../../services/base/models/GetListResponse";
 import { GetListByRatingItemDto } from "../../services/article/dtos/getListByRatingItemDto";
+import { ArticleSearchListModel } from "../../services/article/dtos/articleSearchListModel";
+import { GetByIdForSearchArticleResponse } from "../../services/article/dtos/getByIdForSearchArticleResponse";
 
 export class ArticleStore extends BaseStore {
   @observable addedArticle: CreatedArticleResponse =
@@ -18,6 +20,10 @@ export class ArticleStore extends BaseStore {
   @observable article: GetByIdArticleResponse = {} as GetByIdArticleResponse;
   @observable articleListByRating: GetListResponse<GetListByRatingItemDto> =
     {} as GetListResponse<GetListByRatingItemDto>;
+  @observable articleListForSearch: ArticleSearchListModel =
+    {} as ArticleSearchListModel;
+  @observable articleForSearch: GetByIdForSearchArticleResponse =
+    {} as GetByIdForSearchArticleResponse;
 
   @action
   createArticle = async (data: CreateArticleCommand) => {
@@ -50,10 +56,40 @@ export class ArticleStore extends BaseStore {
   };
 
   @action
+  getListByDynamicForSearchArticle = async (
+    pageRequest: PageRequest,
+    dynamicQuery: DynamicQuery
+  ) => {
+    try {
+      let result = await articleService.getListByDynamicForSearchArticle(
+        pageRequest,
+        dynamicQuery
+      );
+      this.articleListForSearch = result.data;
+      return result.data;
+    } catch (error) {
+      this.handleApiError(error);
+      throw error;
+    }
+  };
+
+  @action
   getArticleById = async (id: string) => {
     try {
       let result = await articleService.getArticleById(id);
       this.article = result.data;
+      return result.data;
+    } catch (error) {
+      this.handleApiError(error);
+      throw error;
+    }
+  };
+
+  @action
+  getArticleByIdForSearch = async (id: string) => {
+    try {
+      let result = await articleService.getArticleByIdForSearch(id);
+      this.articleForSearch = result.data;
       return result.data;
     } catch (error) {
       this.handleApiError(error);

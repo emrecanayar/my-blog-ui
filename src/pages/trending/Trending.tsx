@@ -6,9 +6,9 @@ import articleStore from "../../stores/article/articleStore";
 import { handleApiError } from "../../helpers/errorHelpers";
 import _ from "lodash";
 import styles from "./trending.module.css";
-import { UserOutlined } from "@ant-design/icons";
 import { CategoryListModel } from "../../services/category/dtos/categoryListModel";
 import categoryStore from "../../stores/category/categoryStore";
+import { ArticleSearchListModel } from "../../services/article/dtos/articleSearchListModel";
 
 const Trending = () => {
   const [trendArticles, setTrendArticles] = useState<ArticleListModel>(
@@ -21,6 +21,10 @@ const Trending = () => {
     useState<CategoryListModel>();
   const [popularArticles, setPopularArticles] = useState<ArticleListModel>(
     {} as ArticleListModel
+  );
+
+  const [searchData, setSearchData] = useState<ArticleSearchListModel>(
+    {} as ArticleSearchListModel
   );
 
   useEffect(() => {
@@ -90,24 +94,54 @@ const Trending = () => {
     setOptionsWithCategoriesAndArticles();
   }, [popularCategories, popularArticles]); // Bağımlılıklar eklendi
 
+  useEffect(() => {
+    if (searchData && searchData.items && searchData.items.length > 0) {
+      const newOptions = processSearchData(searchData);
+      setOptions(newOptions);
+    } else {
+      setOptionsWithCategoriesAndArticles();
+    }
+  }, [searchData, popularCategories, popularArticles]); // Bağımlılıkları güncelledim.
+
+  const processSearchData = (data: ArticleSearchListModel) => {
+    return (
+      data.items &&
+      data.items.map((article: any) => ({
+        value: article.id, // value olarak makalenin benzersiz ID'si kullanılır
+        label: (
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <strong>{article.title}</strong> {/* Makale başlığı */}
+            <span>Kategori - {`${article.categoryName}`}</span>{" "}
+            {/* Kategori ve yazar */}
+          </div>
+        ),
+      }))
+    );
+  };
+
   const fetchTrendingArticles = async () => {
     if (loading) return;
     setLoading(true);
+    let filter = undefined;
     try {
       const result = await articleStore.getArticlesListByDynamic(
         { pageIndex: 0, pageSize: 8 },
         {
           sort: [{ field: "date", dir: "desc" }],
-          filter: undefined,
+          filter: filter, // Filtre uygula
         }
       );
       setTrendArticles(result);
-      setPageIndex(1); // Başlangıçta pageIndex'i 1 olarak ayarla
+      setPageIndex(1);
     } catch (error) {
       handleApiError(error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSelect = async (value: any, option: any) => {
+    await fetchArticleDetailsById(value);
   };
 
   const fetchMoreArticles = async () => {
@@ -148,6 +182,35 @@ const Trending = () => {
       }
     } catch (error: any) {
       console.log("Kategoriler yüklenirken bir hata oluştu : ", error);
+      handleApiError(error);
+    }
+  };
+
+  const fetchGetListByDynamicForSearchArticle = async (value: string) => {
+    try {
+      const data = await articleStore.getListByDynamicForSearchArticle(
+        { pageIndex: 0, pageSize: 20 },
+        {
+          sort: [{ field: "date", dir: "desc" }],
+          filter: {
+            field: "category.name",
+            operator: "contains",
+            value: value,
+            logic: "or",
+            filters: [
+              {
+                field: "title",
+                operator: "contains",
+                value: value,
+                logic: "or",
+              },
+            ],
+          },
+        }
+      );
+
+      setSearchData(data);
+    } catch (error) {
       handleApiError(error);
     }
   };
@@ -222,50 +285,38 @@ const Trending = () => {
     },
   ]);
 
-  const getRandomInt = (max: number, min = 0) =>
-    Math.floor(Math.random() * (max - min + 1)) + min;
-
-  const searchResult = (query: string) =>
-    new Array(getRandomInt(5))
-      .join(".")
-      .split(".")
-      .map((_, idx) => {
-        const category = `${query}${idx}`;
-        return {
-          value: category,
-          label: (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            >
-              <span>
-                Found {query} on{" "}
-                <a
-                  href={`https://s.taobao.com/search?q=${query}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {category}
-                </a>
-              </span>
-              <span>{getRandomInt(200, 100)} results</span>
-            </div>
-          ),
-        };
+  const fetchArticleDetailsById = async (articleId: string) => {
+    try {
+      const response = await articleStore.getArticleByIdForSearch(articleId); // await ekleyin.
+      // Tek bir makale döndüğü için, items dizisini tek elemanlı bir dizi ile güncelle
+      console.log("Response", response);
+      setTrendArticles({
+        items: [response], // response'un bir diziye konulduğuna emin olun
+        index: 0, // Varsayılan veya mevcut değerler
+        size: 1,
+        count: 1,
+        pages: 1,
+        hasPrevious: false, // Sayfalama için önceki sayfa yok
+        hasNext: false, // Sayfalama için sonraki sayfa yok
       });
-
-  // Kullanıcı arama yapınca çağrılacak
-  const handleSearch = (value: string) => {
-    if (value) {
-      // Kullanıcı bir şeyler yazdıysa, dinamik sonuçları göster
-      setOptions(searchResult(value));
-    } else {
-      // Kullanıcı arama kutusunu boşaltırsa, varsayılan seçenekleri geri yükle
-      setOptionsWithCategoriesAndArticles();
+    } catch (error) {
+      console.error("Makale detayları yüklenirken bir hata oluştu:", error);
     }
   };
+
+  const handleSearch = useCallback(
+    _.debounce(async (value) => {
+      if (value) {
+        await fetchGetListByDynamicForSearchArticle(value);
+      } else {
+        // Arama kutusu boşaldığında popüler kategorileri ve makaleleri yeniden yükle
+        setOptionsWithCategoriesAndArticles();
+      }
+    }, 300),
+    // useCallback hook'unun bağımlılıklar listesini güncelleyin
+    [fetchGetListByDynamicForSearchArticle, setOptionsWithCategoriesAndArticles]
+  );
+
   return (
     <>
       <div
@@ -279,6 +330,7 @@ const Trending = () => {
           size="large"
           placeholder="Ara..."
           onSearch={handleSearch}
+          onSelect={handleSelect}
         >
           <Input.Search size="large" placeholder="Ara..." enterButton />
         </AutoComplete>

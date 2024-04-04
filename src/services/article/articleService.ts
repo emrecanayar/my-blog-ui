@@ -4,9 +4,11 @@ import { DynamicQuery } from "../base/models/DynamicQuery";
 import { GetListResponse } from "../base/models/GetListResponse";
 import { PageRequest } from "../base/models/PageRequest";
 import { ArticleListModel } from "./dtos/articleListModel";
+import { ArticleSearchListModel } from "./dtos/articleSearchListModel";
 import { CreateArticleCommand } from "./dtos/createArticleCommand";
 import { CreatedArticleResponse } from "./dtos/createdArticleResponse";
 import { GetByIdArticleResponse } from "./dtos/getByIdArticleResponse";
+import { GetByIdForSearchArticleResponse } from "./dtos/getByIdForSearchArticleResponse";
 import { GetListByRatingItemDto } from "./dtos/getListByRatingItemDto";
 
 export class ArticleService {
@@ -39,6 +41,23 @@ export class ArticleService {
     }
   };
 
+  getListByDynamicForSearchArticle = async (
+    pageRequest: PageRequest,
+    dynamicQuery: DynamicQuery
+  ): Promise<CustomResponseDto<ArticleSearchListModel>> => {
+    try {
+      const response = await apiService.postWithQuery(
+        "/Articles/GetListByDynamicForSearch",
+        pageRequest,
+        dynamicQuery
+      );
+      console.log("Response", response);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  };
+
   getArticleById = async (
     id: string
   ): Promise<CustomResponseDto<GetByIdArticleResponse>> => {
@@ -47,6 +66,18 @@ export class ArticleService {
       return response;
     } catch (error) {
       console.log("ArticleService -> getArticleById -> error", error);
+      throw error;
+    }
+  };
+
+  getArticleByIdForSearch = async (
+    id: string
+  ): Promise<CustomResponseDto<GetByIdForSearchArticleResponse>> => {
+    try {
+      const response = await apiService.get(`/Articles/GetByIdForSearch/${id}`);
+      return response;
+    } catch (error) {
+      console.log("ArticleService -> GetByIdForSearch -> error", error);
       throw error;
     }
   };
