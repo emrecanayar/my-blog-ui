@@ -1,14 +1,30 @@
 @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  
-  .fadeIn {
-    animation: fadeIn 0.5s ease-out;
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
+}
+
+.fadeIn {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.loadingContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  /* Arka planı koyulaştır */
+  z-index: 1000;
+  /* Diğer içeriklerin üstünde olması için */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

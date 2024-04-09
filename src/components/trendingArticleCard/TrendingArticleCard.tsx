@@ -33,7 +33,6 @@ import articleVoteStore from "../../stores/articleVote/articleVoteStore";
 import { ArticleReportType, VoteType } from "../../complexTypes/enums";
 import articleReportStore from "../../stores/articleReport/articleReportStore";
 import { CreateArticleReportCommand } from "../../services/articleReport/dtos/createArticleReportCommand";
-import { ToastContainer, toast } from "react-toastify";
 
 interface TrendingArticleCardProps {
   article: GetListArticleListItemDto;
@@ -50,6 +49,8 @@ const TrendingArticleCard = ({
   const [isReportModalVisible, setIsReportModalVisible] = useState(false); // Rapor modalı durumu için state
   const [createArticleReport, setCreateArticleReport] =
     useState<CreateArticleReportCommand>({} as CreateArticleReportCommand);
+
+  const [isHovered, setIsHovered] = useState(false);
   // Rapor modalını gösterme fonksiyonu
   const showReportModal = () => {
     setCreateArticleReport((prevState) => ({
@@ -149,6 +150,17 @@ const TrendingArticleCard = ({
     } finally {
       setIsReportModalVisible(false);
     }
+  };
+
+  const isArticleDateToday = (articleDate: Date) => {
+    const today = new Date();
+    const articleDateObj = new Date(articleDate);
+
+    return (
+      articleDateObj.getDate() === today.getDate() &&
+      articleDateObj.getMonth() === today.getMonth() &&
+      articleDateObj.getFullYear() === today.getFullYear()
+    );
   };
 
   useEffect(() => {
@@ -307,8 +319,12 @@ const TrendingArticleCard = ({
             width: 300,
             marginTop: 16,
             borderRadius: 12,
+            position: "relative", // Required for absolute positioning of children
+            overflow: "visible", // Ensure that children can render outside the card
           }} // Örnek kart genişliği
           className={`${styles.cardHover} ${styles.trendingArticleCard}`}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
           actions={[
             <div className={styles.actionItem}>
               <ArticleHeartIcon
@@ -332,6 +348,13 @@ const TrendingArticleCard = ({
             </div>,
           ]}
         >
+          <div
+             className={`${styles.hotLabelPlaceholder} ${
+              isArticleDateToday(article.date) ? styles.potentialHotLabel : ''
+            }`}
+          >
+            SICAK
+          </div>
           <Meta
             avatar={
               // Avatar resmi

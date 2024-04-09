@@ -9,6 +9,7 @@ import styles from "./trending.module.css";
 import { CategoryListModel } from "../../services/category/dtos/categoryListModel";
 import categoryStore from "../../stores/category/categoryStore";
 import { ArticleSearchListModel } from "../../services/article/dtos/articleSearchListModel";
+import { Filter } from "../../services/base/models/Filter";
 
 const Trending = () => {
   const [trendArticles, setTrendArticles] = useState<ArticleListModel>(
@@ -25,6 +26,15 @@ const Trending = () => {
 
   const [searchData, setSearchData] = useState<ArticleSearchListModel>(
     {} as ArticleSearchListModel
+  );
+  const [isSearching, setIsSearching] = useState(false); // Arama yapılıp yapılmadığının durumunu tutacak state
+
+  const [autoCompleteKey, setAutoCompleteKey] = useState(
+    Math.random().toString()
+  );
+
+  const [filter, setFilter] = useState<Filter | undefined>(
+    ({} as Filter) || undefined
   );
 
   useEffect(() => {
@@ -119,10 +129,45 @@ const Trending = () => {
     );
   };
 
-  const fetchTrendingArticles = async () => {
+  const fetchTrendingArticles = async (name?: string) => {
     if (loading) return;
     setLoading(true);
     let filter = undefined;
+
+    if (name !== undefined) {
+      filter = {
+        field: "category.name",
+        operator: "contains",
+        value: name,
+        logic: "or",
+        filters: [
+          {
+            field: "title",
+            operator: "contains",
+            value: name,
+            logic: "or",
+          },
+        ],
+      };
+
+      setFilter({
+        field: "category.name",
+        operator: "contains",
+        value: name,
+        logic: "or",
+        filters: [
+          {
+            field: "title",
+            operator: "contains",
+            value: name,
+            logic: "or",
+          },
+        ],
+      });
+    } else {
+      setFilter(undefined);
+    }
+
     try {
       const result = await articleStore.getArticlesListByDynamic(
         { pageIndex: 0, pageSize: 8 },
@@ -140,8 +185,21 @@ const Trending = () => {
     }
   };
 
-  const handleSelect = async (value: any, option: any) => {
+  const handleSearchSelect = async (value: any, option: any) => {
+    setIsSearching(true);
+    // Arama sonuçlarından bir seçim yapıldığında yapılacak işlem
     await fetchArticleDetailsById(value);
+    setAutoCompleteKey(Math.random().toString());
+    setSearchData({} as ArticleSearchListModel); // Arama sonuçlarını temizle
+    setFilter(undefined); // Kullanıcı bir makale seçtiğinde filtreyi temizleyin
+    setIsSearching(false);
+  };
+
+  const handleInitialSelect = async (value: any, option: any) => {
+    setIsSearching(true);
+    await fetchTrendingArticles(value);
+    setIsSearching(false);
+    // Kullanıcıya kategorilere veya makalelere göre filtrelenmiş sonuçlar göstermek gibi.
   };
 
   const fetchMoreArticles = async () => {
@@ -151,7 +209,7 @@ const Trending = () => {
         { pageIndex, pageSize: 8 },
         {
           sort: [{ field: "date", dir: "desc" }],
-          filter: undefined,
+          filter: filter,
         }
       );
 
@@ -289,7 +347,6 @@ const Trending = () => {
     try {
       const response = await articleStore.getArticleByIdForSearch(articleId); // await ekleyin.
       // Tek bir makale döndüğü için, items dizisini tek elemanlı bir dizi ile güncelle
-      console.log("Response", response);
       setTrendArticles({
         items: [response], // response'un bir diziye konulduğuna emin olun
         index: 0, // Varsayılan veya mevcut değerler
@@ -319,10 +376,16 @@ const Trending = () => {
 
   return (
     <>
+      {isSearching && (
+        <div className={styles.loadingContainer}>
+          <Spin size="large" />
+        </div>
+      )}
       <div
         style={{ display: "flex", justifyContent: "center", margin: "20px 0" }}
       >
         <AutoComplete
+          key={autoCompleteKey} // Yeni key prop'u eklendi
           popupClassName="certain-category-search-dropdown"
           popupMatchSelectWidth={500}
           style={{ maxWidth: 500, width: "100%" }}
@@ -330,7 +393,15 @@ const Trending = () => {
           size="large"
           placeholder="Ara..."
           onSearch={handleSearch}
-          onSelect={handleSelect}
+          onSelect={(value, option) => {
+            // Eğer arama sonuçları varsa ve kullanıcı bir arama yaptıysa, arama sonuçlarından birini seçtiğini varsayalım.
+            if (searchData && searchData.items && searchData.items.length > 0) {
+              handleSearchSelect(value, option);
+            } else {
+              handleInitialSelect(value, option);
+            }
+          }}
+          value={isSearching ? "" : undefined} // Eğer arama yapılıyorsa input değeri boş olacak
         >
           <Input.Search size="large" placeholder="Ara..." enterButton />
         </AutoComplete>
