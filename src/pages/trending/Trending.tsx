@@ -10,6 +10,7 @@ import { CategoryListModel } from "../../services/category/dtos/categoryListMode
 import categoryStore from "../../stores/category/categoryStore";
 import { ArticleSearchListModel } from "../../services/article/dtos/articleSearchListModel";
 import { Filter } from "../../services/base/models/Filter";
+import noResultImage from "../../assets/noResult.png";
 
 const Trending = () => {
   const [trendArticles, setTrendArticles] = useState<ArticleListModel>(
@@ -36,6 +37,10 @@ const Trending = () => {
   const [filter, setFilter] = useState<Filter | undefined>(
     ({} as Filter) || undefined
   );
+
+  const [open, setOpen] = useState(false);
+  const [initialClick, setInitialClick] = useState(true);
+  const [isFocused, setIsFocused] = useState(false);
 
   useEffect(() => {
     fetchTrendingArticles();
@@ -113,6 +118,14 @@ const Trending = () => {
     }
   }, [searchData, popularCategories, popularArticles]); // Bağımlılıkları güncelledim.
 
+  useEffect(() => {
+    if (searchData.items && searchData.items.length > 0) {
+      setOpen(true); // Sonuçlar varsa açılır menüyü aç
+    } else {
+      setOpen(false); // Sonuç yoksa açılır menüyü kapat
+    }
+  }, [searchData]);
+
   const processSearchData = (data: ArticleSearchListModel) => {
     return (
       data.items &&
@@ -134,7 +147,7 @@ const Trending = () => {
     setLoading(true);
     let filter = undefined;
 
-    if (name !== undefined) {
+    if (name !== undefined && name !== "") {
       filter = {
         field: "category.name",
         operator: "contains",
@@ -178,6 +191,7 @@ const Trending = () => {
       );
       setTrendArticles(result);
       setPageIndex(1);
+      setHasMore(result.hasNext); // Burada da `hasNext`'i ayarlayın
     } catch (error) {
       handleApiError(error);
     } finally {
@@ -203,6 +217,7 @@ const Trending = () => {
   };
 
   const fetchMoreArticles = async () => {
+    if (!hasMore || loading) return;
     setLoading(true);
     try {
       const result = await articleStore.getArticlesListByDynamic(
@@ -219,6 +234,7 @@ const Trending = () => {
           items: [...prevArticles.items, ...result.items],
         }));
         setPageIndex((prevPageIndex) => prevPageIndex + 1);
+        setHasMore(result.hasNext);
       } else {
         setHasMore(false);
       }
@@ -365,13 +381,48 @@ const Trending = () => {
     _.debounce(async (value) => {
       if (value) {
         await fetchGetListByDynamicForSearchArticle(value);
+        setOpen(true); // Kullanıcı arama yaptığında açılır menüyü aç
+      } else if (isFocused && !value) {
+        // Eğer kullanıcı tüm metni silerse ve bileşen hala odaklanmışsa, başlangıç seçeneklerini göster
+        setOpen(true);
       } else {
         // Arama kutusu boşaldığında popüler kategorileri ve makaleleri yeniden yükle
+
         setOptionsWithCategoriesAndArticles();
+        setOpen(false); // Kullanıcı arama yaptığında açılır menüyü aç
       }
     }, 300),
     // useCallback hook'unun bağımlılıklar listesini güncelleyin
     [fetchGetListByDynamicForSearchArticle, setOptionsWithCategoriesAndArticles]
+  );
+
+
+  const handleFocus = () => {
+    if (initialClick) {
+      setOpen(true); // Kullanıcı ilk odaklandığında açılır menüyü aç
+      setInitialClick(false); // İlk tıklama yapıldı olarak işaretle
+    }
+  };
+
+  const handleClickSearch = (value: string) => {
+    console.log("Veri girilen değer: ", value);
+    fetchTrendingArticles(value);
+  };
+
+  const NoResultsFound = () => (
+    <div className={styles.noResultsContainer}>
+      <img
+        src={noResultImage}
+        alt="No Results"
+        className={styles.noResultsImage}
+      />
+      <div className={styles.noResultsText}>
+        Aramanızla eşleşen bir sonuç bulunamadı.
+      </div>
+      <div className={styles.noResultsSubtext}>
+        Farklı anahtar kelimelerle arama yapmayı deneyin.
+      </div>
+    </div>
   );
 
   return (
@@ -388,9 +439,11 @@ const Trending = () => {
           key={autoCompleteKey} // Yeni key prop'u eklendi
           popupClassName="certain-category-search-dropdown"
           popupMatchSelectWidth={500}
+          open={open}
           style={{ maxWidth: 500, width: "100%" }}
           options={options}
           size="large"
+          onFocus={handleFocus}
           placeholder="Ara..."
           onSearch={handleSearch}
           onSelect={(value, option) => {
@@ -403,12 +456,19 @@ const Trending = () => {
           }}
           value={isSearching ? "" : undefined} // Eğer arama yapılıyorsa input değeri boş olacak
         >
-          <Input.Search size="large" placeholder="Ara..." enterButton />
+          <Input.Search
+            size="large"
+            placeholder="Ara..."
+            enterButton
+            onSearch={(value) => {
+              handleClickSearch(value);
+            }}
+          />
         </AutoComplete>
       </div>
-      <Row gutter={[16, 16]} justify="start">
-        {trendArticles.items &&
-          trendArticles.items.map((article, index) => (
+      {trendArticles.items && trendArticles.items.length > 0 ? (
+        <Row gutter={[16, 16]} justify="start">
+          {trendArticles.items.map((article, index) => (
             <Col
               key={index}
               xs={24}
@@ -420,7 +480,13 @@ const Trending = () => {
               <TrendingArticleCard article={article} loading={loading} />
             </Col>
           ))}
-      </Row>
+        </Row>
+      ) : (
+        !isSearching && (
+          // Arama yapıldı ancak sonuç bulunamadıysa NoResultsFound bileşeni gösterilir
+          <NoResultsFound />
+        )
+      )}
       {renderLoadingIndicator()}
     </>
   );
