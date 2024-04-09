@@ -42,8 +42,8 @@ const WritePage = observer(() => {
   }, []);
 
   useEffect(() => {
-    const toolbar = document.querySelector('.ql-toolbar') as HTMLElement | null;
-    
+    const toolbar = document.querySelector(".ql-toolbar") as HTMLElement | null;
+
     const handleScroll = () => {
       if (toolbar) {
         if (window.scrollY > toolbar.offsetTop) {
@@ -54,10 +54,10 @@ const WritePage = observer(() => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []); // Boş bağımlılık listesi, bu efektin bileşen yüklendiğinde bir kez çalıştırılmasını sağlar.
 
@@ -158,7 +158,7 @@ const WritePage = observer(() => {
               ""
             )}
           </Card>
-          <Card title="Thumbnail Ekle" style={{marginTop:"10px"}}>
+          <Card title="Thumbnail Ekle" style={{ marginTop: "10px" }}>
             <UploadFile
               uploadText="Thumbnail görseli yüklemek için bu alana tıklayın veya görseli sürükleyin"
               uploadHint="Tek ve toplu dosya yükleme desteği"
@@ -174,6 +174,7 @@ const WritePage = observer(() => {
             value={options.find(
               (option) => option.value === createArticle.categoryId
             )}
+            menuPosition="fixed" // Seçeneklerin ekranın üst kısmında görünmesini sağlar
           />
         </Card>
         <Card title="Etkiketler">

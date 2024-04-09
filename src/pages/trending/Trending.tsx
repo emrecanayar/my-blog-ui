@@ -41,6 +41,7 @@ const Trending = () => {
   const [open, setOpen] = useState(false);
   const [initialClick, setInitialClick] = useState(true);
   const [isFocused, setIsFocused] = useState(false);
+  const [searchPerformed, setSearchPerformed] = useState(false);
 
   useEffect(() => {
     fetchTrendingArticles();
@@ -144,9 +145,8 @@ const Trending = () => {
 
   const fetchTrendingArticles = async (name?: string) => {
     if (loading) return;
-    setLoading(true);
-    let filter = undefined;
 
+    let filter = undefined;
     if (name !== undefined && name !== "") {
       filter = {
         field: "category.name",
@@ -182,6 +182,7 @@ const Trending = () => {
     }
 
     try {
+      setLoading(true);
       const result = await articleStore.getArticlesListByDynamic(
         { pageIndex: 0, pageSize: 8 },
         {
@@ -213,6 +214,7 @@ const Trending = () => {
     setIsSearching(true);
     await fetchTrendingArticles(value);
     setIsSearching(false);
+    setOpen(false); // Kullanıcı bir seçim yaptığında açılır menüyü kapat
     // Kullanıcıya kategorilere veya makalelere göre filtrelenmiş sonuçlar göstermek gibi.
   };
 
@@ -380,6 +382,7 @@ const Trending = () => {
   const handleSearch = useCallback(
     _.debounce(async (value) => {
       if (value) {
+        setSearchPerformed(true);
         await fetchGetListByDynamicForSearchArticle(value);
         setOpen(true); // Kullanıcı arama yaptığında açılır menüyü aç
       } else if (isFocused && !value) {
@@ -396,7 +399,6 @@ const Trending = () => {
     [fetchGetListByDynamicForSearchArticle, setOptionsWithCategoriesAndArticles]
   );
 
-
   const handleFocus = () => {
     if (initialClick) {
       setOpen(true); // Kullanıcı ilk odaklandığında açılır menüyü aç
@@ -405,7 +407,7 @@ const Trending = () => {
   };
 
   const handleClickSearch = (value: string) => {
-    console.log("Veri girilen değer: ", value);
+    setSearchPerformed(true); // Arama yapıldığını belirten state'i güncelle
     fetchTrendingArticles(value);
   };
 
@@ -481,12 +483,10 @@ const Trending = () => {
             </Col>
           ))}
         </Row>
-      ) : (
-        !isSearching && (
-          // Arama yapıldı ancak sonuç bulunamadıysa NoResultsFound bileşeni gösterilir
-          <NoResultsFound />
-        )
-      )}
+      ) : !isSearching && searchPerformed ? (
+        // Arama yapıldı ancak sonuç bulunamadıysa NoResultsFound bileşeni gösterilir
+        <NoResultsFound />
+      ) : null}
       {renderLoadingIndicator()}
     </>
   );
