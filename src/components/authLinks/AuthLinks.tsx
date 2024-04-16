@@ -51,7 +51,11 @@ const AuthLinks = observer(() => {
           </Link>
 
           <Dropdown overlay={menu} trigger={["click"]}>
-            <Avatar shape="square" icon={<UserOutlined />} />
+            <Avatar
+              style={{ cursor: "pointer" }}
+              shape="square"
+              icon={<UserOutlined />}
+            />
           </Dropdown>
 
           <Badge count={3}>

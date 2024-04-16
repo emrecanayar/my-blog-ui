@@ -3,6 +3,7 @@ import { List, Badge, Menu, Tabs, Dropdown } from "antd";
 import { MailOutlined, LikeOutlined, BellOutlined } from "@ant-design/icons";
 import TabPane from "antd/es/tabs/TabPane";
 import { Link } from "react-router-dom";
+import NotificationCommentListContent from "./components/NotificationCommentListContent";
 
 const data = [
   {
@@ -54,7 +55,7 @@ const menu = (
           İçerik 2
         </TabPane>
         <TabPane tab="Yorumlar" key="3">
-          İçerik 3
+          <NotificationCommentListContent />
         </TabPane>
         <TabPane tab="Abonelikler" key="4">
           İçerik 4
@@ -74,7 +75,7 @@ const NotificationList = () => (
       className="ant-dropdown-link"
       onClick={(e) => e.preventDefault()}
     >
-      <BellOutlined style={{ fontSize: '24px' }} />
+      <BellOutlined style={{ fontSize: "24px" }} />
     </Link>
   </Dropdown>
 );

@@ -409,6 +409,9 @@ const Trending = () => {
   const handleClickSearch = (value: string) => {
     setSearchPerformed(true); // Arama yapıldığını belirten state'i güncelle
     fetchTrendingArticles(value);
+    setSearchData({} as ArticleSearchListModel); // Arama sonuçlarını temizle
+    setFilter(undefined); // Kullanıcı bir makale seçtiğinde filtreyi temizleyin
+    setIsSearching(false);
   };
 
   const NoResultsFound = () => (

@@ -11,7 +11,7 @@
   display: flex;
   flex-direction: column;
   gap: 50px;
-  border-radius: 10px;
+
 }
 
 .center{
@@ -20,10 +20,11 @@
   left: 50%;
   transform: translate(-50%, -50%);
   width: 400px;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 10px 10px 15px rgba(0,0,0,0.05);
   margin-bottom: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 4px 8px 16px 4px rgba(0, 0, 0, 0.2);
+  background-color: #f8f9fa;
 }
 .center h1{
   text-align: center;

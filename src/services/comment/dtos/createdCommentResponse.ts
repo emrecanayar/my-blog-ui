@@ -10,4 +10,5 @@ export interface CreatedCommentResponse {
   rememberMe: boolean;
   articleId: string;
   userId: string;
+  articleUserId: string;
 }

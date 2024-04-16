@@ -7,7 +7,6 @@ import homeIcon from "../../assets/icons-home.png";
 import { Link } from "react-router-dom";
 import AuthLinks from "../authLinks/AuthLinks";
 import ThemeToggle from "../themeToggle/ThemeToggle";
-import { Avatar } from "antd";
 import WhatsAppButton from "../whatsAppButton/WhatsAppButton";
 
 const Navbar = () => {
@@ -25,21 +24,20 @@ const Navbar = () => {
           height={24}
         />
       </div>
-      <div className={styles.logo}>
-      </div>
+      <div className={styles.logo}></div>
       <div className={styles.links}>
         <ThemeToggle />
         <Link to="/" className={styles.link}>
           <img src={homeIcon} alt="Ana Sayfa" />
+        </Link>
+        <Link to="/trending" className={styles.link}>
+          Trendler
         </Link>
         <Link to="/contact" className={styles.link}>
           İletişim
         </Link>
         <Link to="/about" className={styles.link}>
           Hakkımda
-        </Link>
-        <Link to="/trending" className={styles.link}>
-          Trendler
         </Link>
         <AuthLinks />
       </div>

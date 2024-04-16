@@ -8,4 +8,5 @@ export interface CreateCommentCommand {
   rememberMe: boolean;
   articleId: string;
   userId: string;
+  userIdForArticle: string;
 }

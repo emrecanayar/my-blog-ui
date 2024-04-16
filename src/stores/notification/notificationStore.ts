@@ -1,3 +1,4 @@
+import { NotificationListModel } from "./../../services/notification/dtos/notificationListModel";
 import { action, observable } from "mobx";
 import notificationService from "../../services/notification/notificationService";
 import { CreateNotificationCommand } from "../../services/notification/dtos/createNotificationCommand";
@@ -6,6 +7,8 @@ import { BaseStore } from "../base/baseStore";
 import { GetByUserIdNotificationResponse } from "../../services/notification/dtos/getByUserIdNotificationResponse";
 import { MarkAsReadNotificationCommand } from "../../services/notification/dtos/markAsReadNotificationCommand";
 import { MarkAsReadNotificationResponse } from "../../services/notification/dtos/markAsReadNotificationResponse";
+import { PageRequest } from "../../services/base/models/PageRequest";
+import { DynamicQuery } from "../../services/base/models/DynamicQuery";
 
 export class NotificationStore extends BaseStore {
   @observable addedNotification: CreatedNotificationResponse =
@@ -16,6 +19,9 @@ export class NotificationStore extends BaseStore {
 
   @observable readedNotification: MarkAsReadNotificationResponse =
     {} as MarkAsReadNotificationResponse;
+
+  @observable notificationListModel: NotificationListModel =
+    {} as NotificationListModel;
 
   @action
   createNotification = async (data: CreateNotificationCommand) => {
@@ -46,6 +52,24 @@ export class NotificationStore extends BaseStore {
     try {
       let response = await notificationService.markAsReadNotification(data);
       this.readedNotification = response.data;
+      return response;
+    } catch (error) {
+      this.handleApiError(error);
+      throw error;
+    }
+  };
+
+  @action
+  getListByDynamic = async (
+    pageRequest: PageRequest,
+    dynamicQuery: DynamicQuery
+  ) => {
+    try {
+      let response = await notificationService.getListByDynamic(
+        pageRequest,
+        dynamicQuery
+      );
+      this.notificationListModel = response.data;
       return response;
     } catch (error) {
       this.handleApiError(error);

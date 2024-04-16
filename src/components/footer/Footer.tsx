@@ -116,11 +116,19 @@ const Footer = () => {
       </div>
       <div className={styles.links}>
         <div className={styles.list}>
-          <span className={styles.listTitle}>Links</span>
-          <Link to="/">Anasayfa</Link>
-          <Link to="/contact">İletişim</Link>
-          <Link to="/about">Hakkımda</Link>
-          <Link to="/write">Yaz</Link>
+          <span className={styles.listTitle}>Linkler</span>
+          <Link to="/" className={styles.link}>
+            Anasayfa
+          </Link>
+          <Link to="/contact" className={styles.link}>
+            İletişim
+          </Link>
+          <Link to="/about" className={styles.link}>
+            Hakkımda
+          </Link>
+          <Link to="/write" className={styles.link}>
+            Yaz
+          </Link>
         </div>
         <div className={styles.list}>
           <span className={styles.listTitle}>Kategoriler</span>
@@ -131,7 +139,11 @@ const Footer = () => {
           ) : (
             <>
               {categories.items?.map((category, index) => (
-                <Link to={`/category/${category.id}`} key={index}>
+                <Link
+                  to={`/category/${category.id}`}
+                  className={styles.link}
+                  key={index}
+                >
                   {category.name}
                 </Link>
               ))}
@@ -139,7 +151,7 @@ const Footer = () => {
           )}
         </div>
         <div className={styles.list}>
-          <span className={styles.listTitle}>Tags</span>
+          <span className={styles.listTitle}>Etiketler</span>
           {tagLoading ? (
             <div className={styles.spinnerContainer}>
               <Spin style={{ alignContent: "center" }} size="large" />
@@ -147,7 +159,7 @@ const Footer = () => {
           ) : (
             <>
               {tags.items?.map((tag, index) => (
-                <Link to="" key={index}>
+                <Link to="" key={index} className={styles.link}>
                   {tag.name}
                 </Link>
               ))}
