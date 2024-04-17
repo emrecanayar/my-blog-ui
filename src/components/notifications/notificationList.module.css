@@ -1,0 +1,15 @@
+.notificationWrapper {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.ant-drawer-right {
+    position: absolute;
+    /* Pozisyonu mutlak yaparak, belirli bir konuma yerleştirebileceğiz */
+    right: 100%;
+    /* Drawer'ı notification-wrapper'ın tam soluna yaslamak için */
+    top: 0;
+    /* Üstten itibaren yerleşecek */
+    height: 100%;
+    /* Yüksekliği container'ın boyuna göre ayarlayacak */
+}

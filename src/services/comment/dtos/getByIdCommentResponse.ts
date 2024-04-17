@@ -1,13 +1,13 @@
-export interface CreateCommentCommand {
+export interface GetByIdCommentResponse {
+  id: string;
   authorName: string;
   authorEmail: string;
   authorWebsite: string;
   content: string;
+  datePosted: Date;
   sendNewPosts: boolean;
   sendNewComments: boolean;
   rememberMe: boolean;
   articleId: string;
   userId: string;
-  userIdForArticle: string;
-  articleTitleForComment: string;
 }

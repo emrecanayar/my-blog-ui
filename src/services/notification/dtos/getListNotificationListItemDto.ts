@@ -1,3 +1,5 @@
+import { GetByIdCommentResponse } from "../../comment/dtos/getByIdCommentResponse";
+
 export interface GetListNotificationListItemDto {
   id: string;
   userId: string;
@@ -5,4 +7,5 @@ export interface GetListNotificationListItemDto {
   content: string;
   isRead: boolean;
   articleId: string;
+  comment: GetByIdCommentResponse;
 }

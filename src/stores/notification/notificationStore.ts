@@ -9,6 +9,7 @@ import { MarkAsReadNotificationCommand } from "../../services/notification/dtos/
 import { MarkAsReadNotificationResponse } from "../../services/notification/dtos/markAsReadNotificationResponse";
 import { PageRequest } from "../../services/base/models/PageRequest";
 import { DynamicQuery } from "../../services/base/models/DynamicQuery";
+import { GetByIdNotificationResponse } from "../../services/notification/dtos/getByIdNotificationResponse";
 
 export class NotificationStore extends BaseStore {
   @observable addedNotification: CreatedNotificationResponse =
@@ -22,6 +23,9 @@ export class NotificationStore extends BaseStore {
 
   @observable notificationListModel: NotificationListModel =
     {} as NotificationListModel;
+
+  @observable notificationDetail: GetByIdNotificationResponse =
+    {} as GetByIdNotificationResponse;
 
   @action
   createNotification = async (data: CreateNotificationCommand) => {
@@ -71,6 +75,18 @@ export class NotificationStore extends BaseStore {
       );
       this.notificationListModel = response.data;
       return response;
+    } catch (error) {
+      this.handleApiError(error);
+      throw error;
+    }
+  };
+
+  @action
+  getById = async (id: string) => {
+    try {
+      let response = await notificationService.getById(id);
+      this.notificationDetail = response.data;
+      return response.data;
     } catch (error) {
       this.handleApiError(error);
       throw error;

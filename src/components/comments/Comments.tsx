@@ -34,9 +34,14 @@ import reportStore from "../../stores/report/reportStore";
 export interface CommentsProps {
   articleId: string;
   articleUserId: string;
+  articleTitle: string;
 }
 
-const Comments = ({ articleId, articleUserId }: CommentsProps) => {
+const Comments = ({
+  articleId,
+  articleUserId,
+  articleTitle,
+}: CommentsProps) => {
   const [showDetails, setShowDetails] = useState(false);
   const [isUserLoggedInInfo, setIsUserLoggedInInfo] =
     useState<GetByIdUserResponse>({} as GetByIdUserResponse);
@@ -122,6 +127,7 @@ const Comments = ({ articleId, articleUserId }: CommentsProps) => {
         createComment.sendNewPosts = false;
         createComment.rememberMe = false;
         createComment.userIdForArticle = articleUserId;
+        createComment.articleTitleForComment = articleTitle;
       }
       createComment.articleId = articleId;
 

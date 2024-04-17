@@ -301,7 +301,8 @@ const SinglePage = observer(() => {
               <div className={styles.comment}>
                 <Comments
                   articleId={id as string}
-                  articleUserId={article && article.user &&  article.user.id}
+                  articleUserId={article && article.user && article.user.id}
+                  articleTitle={article && article.title}
                 />
               </div>
             </div>

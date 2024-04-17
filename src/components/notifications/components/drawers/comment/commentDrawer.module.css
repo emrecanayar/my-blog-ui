@@ -1,0 +1,8 @@
+.buttonsContainer {
+    display: flex;
+    justify-content: center;
+    /* Butonları sola yaslar */
+    gap: 16px;
+    /* Butonlar arasında 8px boşluk */
+    margin-top: 10px;
+}
