@@ -1,0 +1,22 @@
+.reportPopoverContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.reportInput {
+  width: 100%;
+}
+
+.reportSubmitButton {
+  justify-self: flex-end;
+}
+
+.iconButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -30,6 +30,7 @@ import likeStore from "../../stores/like/likeStore";
 import TextArea from "antd/es/input/TextArea";
 import { CreateReportCommand } from "../../services/report/dtos/createReportCommand";
 import reportStore from "../../stores/report/reportStore";
+import ReportPopover from "./components/ReportPopover";
 
 export interface CommentsProps {
   articleId: string;
@@ -372,39 +373,12 @@ const Comments = ({
             <span className={styles.dislikeIconCount}>
               {comment.dislikeCount}
             </span>
-            <button className={styles.iconButton}>
-              <Popover
-                content={
-                  <div className={styles.reportPopoverContainer}>
-                    <TextArea
-                      placeholder="Raporlama nedenini yazın"
-                      className={styles.reportInput}
-                      value={createReport.reason}
-                      onChange={(e) => handleChangeReportReason(e.target.value)}
-                      rows={4}
-                    />
-                    <Button
-                      className={styles.reportSubmitButton}
-                      type="primary"
-                      onClick={() => handleReport(comment.id)}
-                    >
-                      Rapor Et
-                    </Button>
-                  </div>
-                }
-                title="Yorumu Rapor Et"
-                trigger="click"
-                onVisibleChange={(visible) => {
-                  if (!visible) {
-                    handleChangeReportReason(""); // Popover kapanırken input'u sıfırla
-                  }
-                }}
-              >
-                <button className={styles.iconButton}>
-                  <WarningOutlined />
-                </button>
-              </Popover>
-            </button>
+            <ReportPopover
+              commentId={comment.id}
+              reason={createReport.reason}
+              onReasonChange={(e) => handleChangeReportReason(e.target.value)}
+              onSubmitReport={handleReport}
+            />
           </div>
           {comment.replies && renderComments(comment.replies, indentLevel + 1)}
         </div>

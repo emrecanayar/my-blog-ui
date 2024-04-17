@@ -1,3 +1,40 @@
+.commentSection {
+    background: #f0f2f5;
+    /* Arkaplan rengini ayarla */
+    border-radius: 8px;
+    /* Köşeleri yuvarlak yap */
+    padding: 16px;
+    /* İç boşluğu ayarla */
+    margin-bottom: 24px;
+    /* Alt elemanlardan boşluk bırak */
+}
+
+.commentTitle {
+    color: #32325d;
+    /* Başlık rengini ayarla */
+    margin-bottom: 16px;
+    /* Başlık ve yorum kartı arasında boşluk bırak */
+    font-weight: 600;
+    /* Başlığın kalınlığını ayarla */
+    text-align: left;
+    /* Başlığı sola hizala */
+}
+
+.cardStyle {
+    border-radius: 8px;
+    /* Kart köşelerini yuvarlak yap */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Kart için gölge ekle */
+    margin-bottom: 16px;
+    /* Kartlar arasında boşluk bırak */
+}
+
+.cardMetaStyle {
+    align-items: center;
+    /* İçerikleri dikey olarak ortala */
+}
+
+
 .buttonsContainer {
     display: flex;
     justify-content: center;
@@ -6,3 +43,43 @@
     /* Butonlar arasında 8px boşluk */
     margin-top: 10px;
 }
+
+.replyComment {
+    margin-top: 20px;
+}
+
+.replyComment .textareaContainer {
+    width: 100%;
+    /* TextArea için genişlik ayarı */
+}
+
+.replyComment .sendButton {
+    text-align: right;
+    /* Butonu sağa hizala */
+    margin-top: 8px;
+    /* TextArea ile buton arasında boşluk */
+}
+
+.button {
+    padding: 12px 16px;
+    background-color: teal;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.3s ease;
+    /* Renk değişimine animasyon ekle */
+}
+
+.button:disabled {
+    background-color: #ccc;
+    /* Gri tonu, pasif olduğunu belirtir */
+    color: #666;
+    /* Yazı rengini koyu gri yap */
+    cursor: not-allowed;
+    /* Üzerine gelindiğinde cursor'u yasak işareti yap */
+}
+
+.postContent p {}

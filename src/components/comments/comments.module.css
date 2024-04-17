@@ -44,7 +44,8 @@
 
 .comment {
   padding-left: 15px;
-  border-left: 3px solid #e0e0e0; /* Yorumların sol tarafında belirgin bir çizgi */
+  border-left: 3px solid #e0e0e0;
+  /* Yorumların sol tarafında belirgin bir çizgi */
   margin-bottom: 20px;
   margin-left: 0px;
 }
@@ -152,29 +153,35 @@
 .replyForm {
   margin-top: 5px;
   display: flex;
-  align-items: flex-start; /* ReactQuill ve butonun üst kenarlarını hizalar */
-  gap: 10px; /* Elementler arası boşluk */
+  align-items: flex-start;
+  /* ReactQuill ve butonun üst kenarlarını hizalar */
+  gap: 10px;
+  /* Elementler arası boşluk */
 }
 
 .replyInput {
-  flex: 1; /* Yorum yapma alanını genişletir */
+  flex: 1;
+  /* Yorum yapma alanını genişletir */
 }
 
 .replySendButton {
   display: flex;
-  padding: 10px 20px; /* Butonun padding değerlerini ayarlayın */
+  padding: 10px 20px;
+  /* Butonun padding değerlerini ayarlayın */
   background-color: teal;
   color: white;
   font-weight: bold;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  height: fit-content; /* Butonun içeriğine göre yüksekliğini ayarlar */
+  height: fit-content;
+  /* Butonun içeriğine göre yüksekliğini ayarlar */
   align-items: center;
   justify-content: center;
   margin-top: 25px;
 
 }
+
 .actionIcons {
   margin-top: 10px;
   display: flex;
@@ -203,9 +210,11 @@
 
 .reply {
   margin-top: 10px;
-  margin-left: 25px; /* İç içe yorumların sol tarafından boşluk */
+  margin-left: 25px;
+  /* İç içe yorumların sol tarafından boşluk */
   padding-left: 15px;
-  border-left: 2px dotted #ccc; /* İç içe yorumların sol tarafında noktalı çizgi */
+  border-left: 2px dotted #ccc;
+  /* İç içe yorumların sol tarafında noktalı çizgi */
 }
 
 .reply:last-child {
@@ -234,29 +243,20 @@
   0% {
     transform: scale(1);
   }
+
   50% {
-    transform: scale(1.5); /* Animasyonun ortasında boyutu %50 artır */
+    transform: scale(1.5);
+    /* Animasyonun ortasında boyutu %50 artır */
   }
+
   100% {
-    transform: scale(1); /* Animasyonun sonunda orijinal boyutuna dön */
+    transform: scale(1);
+    /* Animasyonun sonunda orijinal boyutuna dön */
   }
 }
 
 /* Animasyonu uygulayacak sınıf */
 .animatePop {
-  animation: popEffect 0.5s ease; /* Animasyon süresi ve geçişi */
-}
-
-.reportPopoverContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.reportInput {
-  width: 100%;
-}
-
-.reportSubmitButton {
-  justify-self: flex-end;
+  animation: popEffect 0.5s ease;
+  /* Animasyon süresi ve geçişi */
 }
