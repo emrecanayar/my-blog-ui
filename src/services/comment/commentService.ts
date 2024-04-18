@@ -7,6 +7,10 @@ import { CommentListModel } from "./dtos/commentListModel";
 import { CreateCommentCommand } from "./dtos/createCommentCommand";
 import { CreatedCommentResponse } from "./dtos/createdCommentResponse";
 import { CreatedReplyCommentResponse } from "./dtos/createdReplyCommentResponse";
+import { UpdateCommentCommand } from "./dtos/updateCommentCommand";
+import { UpdatedCommentResponse } from "./dtos/updatedCommentResponse";
+import { EditCommentCommand } from "./dtos/editCommentCommand";
+import { EditCommentResponse } from "./dtos/editCommentResponse";
 
 export class CommentService {
   createComment = async (
@@ -45,6 +49,31 @@ export class CommentService {
         dynamicQuery
       );
 
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  updateComment = async (
+    updateCommentCommand: UpdateCommentCommand
+  ): Promise<CustomResponseDto<UpdatedCommentResponse>> => {
+    try {
+      let response = await apiService.put("/Comments", updateCommentCommand);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  editComment = async (
+    editCommentCommand: EditCommentCommand
+  ): Promise<CustomResponseDto<EditCommentResponse>> => {
+    try {
+      let response = await apiService.put(
+        "/Comments/EditComment",
+        editCommentCommand
+      );
       return response;
     } catch (error) {
       throw error;

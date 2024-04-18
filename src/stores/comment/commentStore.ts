@@ -7,12 +7,21 @@ import { PageRequest } from "../../services/base/models/PageRequest";
 import { DynamicQuery } from "../../services/base/models/DynamicQuery";
 import { CommentListModel } from "../../services/comment/dtos/commentListModel";
 import { CreateReplyCommentCommand } from "../../services/comment/dtos/createReplyCommentCommand";
+import { UpdateCommentCommand } from "../../services/comment/dtos/updateCommentCommand";
+import { UpdatedCommentResponse } from "../../services/comment/dtos/updatedCommentResponse";
+import { EditCommentCommand } from "../../services/comment/dtos/editCommentCommand";
+import { EditCommentResponse } from "../../services/comment/dtos/editCommentResponse";
 
 export class CommentStore extends BaseStore {
   @observable createdComment: CreatedCommentResponse =
     {} as CreatedCommentResponse;
 
   @observable commentList: CommentListModel = {} as CommentListModel;
+
+  @observable updatedComment: UpdatedCommentResponse =
+    {} as UpdatedCommentResponse;
+
+  @observable editedComment: EditCommentResponse = {} as EditCommentResponse;
 
   @action
   createComment = async (createCommentCommand: CreateCommentCommand) => {
@@ -51,6 +60,30 @@ export class CommentStore extends BaseStore {
         dynamicQuery
       );
       this.commentList = response.data;
+      return response.data;
+    } catch (error) {
+      this.handleApiError(error);
+      throw error;
+    }
+  };
+
+  @action
+  updateComment = async (updateCommentCommand: UpdateCommentCommand) => {
+    try {
+      let response = await commentService.updateComment(updateCommentCommand);
+      this.updatedComment = response.data;
+      return response.data;
+    } catch (error) {
+      this.handleApiError(error);
+      throw error;
+    }
+  };
+
+  @action
+  editComment = async (editCommentCommand: EditCommentCommand) => {
+    try {
+      let response = await commentService.editComment(editCommentCommand);
+      this.editedComment = response.data;
       return response.data;
     } catch (error) {
       this.handleApiError(error);

@@ -1,6 +1,5 @@
 import {
   CheckOutlined,
-  CloseOutlined,
   DeleteOutlined,
   EditOutlined,
   HeartOutlined,
@@ -18,6 +17,8 @@ import { CreateReportCommand } from "../../../../../services/report/dtos/createR
 import reportStore from "../../../../../stores/report/reportStore";
 import { handleApiError } from "../../../../../helpers/errorHelpers";
 import { ToastContainer, toast } from "react-toastify";
+import { CreateLikeCommand } from "../../../../../services/like/dtos/createLikeCommand";
+import likeStore from "../../../../../stores/like/likeStore";
 
 const { Title } = Typography;
 // Drawer içinde yorum kartını gösterecek bir bileşen
@@ -56,24 +57,21 @@ const CommentDrawer: React.FC<{
   comment: GetByIdNotificationResponse;
 }> = ({ visible, onClose, comment }) => {
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
-  const [editingContent, setEditingContent] = useState(
-    comment?.comment?.content || ""
-  );
   const [createReport, setCreateReport] = useState<CreateReportCommand>(
     {} as CreateReportCommand
+  );
+
+  const [createLike, setCreateLike] = useState<CreateLikeCommand>(
+    {} as CreateLikeCommand
   );
 
   const showEditModal = () => {
     setIsEditModalVisible(true);
   };
 
-  const handleEdit = (newContent: any) => {
-    // Burada yorumun düzenlenmiş içeriğini kaydetme işlemlerinizi yapın
-    // Örnek: setEditingContent(newContent);
-    // API çağrısı veya state güncelleme işlemleri...
-    setIsEditModalVisible(false);
+  const closeDrawerOnUpdate = () => {
+    onClose(); // Drawer'ı kapat
   };
-
   const handleChangeReportReason = async (reason: string) => {
     setCreateReport((prevState) => ({
       ...prevState,
@@ -100,6 +98,21 @@ const CommentDrawer: React.FC<{
     }
   };
 
+  const handleLike = async (commentId: string) => {
+    // API çağrısı yaparak yorumu beğen
+    createLike.commentId = commentId;
+    createLike.isLiked = true;
+    setCreateLike(createLike);
+    try {
+      let response = await likeStore.createLike(createLike);
+      if (response.id !== undefined) {
+        toast.success("Yorum beğenildi.");
+      }
+    } catch (error) {
+      handleApiError(error);
+    }
+  };
+
   return (
     <Drawer
       title="Yorum Detayları"
@@ -121,7 +134,10 @@ const CommentDrawer: React.FC<{
           onSubmitReport={handleReport}
         />
         <Tooltip title="Beğen" color="red" key="red" placement="bottom">
-          <Button icon={<HeartOutlined />}></Button>
+          <Button
+            icon={<HeartOutlined />}
+            onClick={() => handleLike(comment?.comment?.id)}
+          ></Button>
         </Tooltip>
         <Tooltip title="Düzenle" color="orange" key="orange" placement="bottom">
           <Button icon={<EditOutlined />} onClick={showEditModal}></Button>
@@ -144,9 +160,9 @@ const CommentDrawer: React.FC<{
       </div>
       <EditCommentModal
         isModalVisible={isEditModalVisible}
-        handleOk={handleEdit}
         handleCancel={() => setIsEditModalVisible(false)}
-        content={comment?.comment?.content || ""}
+        commentDetail={comment?.comment}
+        onUpdateSuccess={closeDrawerOnUpdate}
       />
 
       <ToastContainer
