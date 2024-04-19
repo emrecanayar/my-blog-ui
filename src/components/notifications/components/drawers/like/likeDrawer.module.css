@@ -1,0 +1,40 @@
+.commentSection {
+    background: #f0f2f5;
+    /* Arkaplan rengini ayarla */
+    border-radius: 8px;
+    /* Köşeleri yuvarlak yap */
+    padding: 16px;
+    /* İç boşluğu ayarla */
+    margin-bottom: 24px;
+    /* Alt elemanlardan boşluk bırak */
+}
+
+.commentTitle {
+    color: #32325d;
+    /* Başlık rengini ayarla */
+    margin-bottom: 16px;
+    /* Başlık ve yorum kartı arasında boşluk bırak */
+    font-weight: 600;
+    /* Başlığın kalınlığını ayarla */
+    text-align: left;
+    /* Başlığı sola hizala */
+}
+
+.cardStyle {
+    border-radius: 8px;
+    /* Kart köşelerini yuvarlak yap */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Kart için gölge ekle */
+    margin-bottom: 16px;
+    /* Kartlar arasında boşluk bırak */
+}
+
+.cardMetaStyle {
+    align-items: center;
+    /* İçerikleri dikey olarak ortala */
+}
+
+
+
+
+.postContent p {}

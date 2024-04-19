@@ -68,7 +68,6 @@ const NotificationCommentListContent = forwardRef(
     const fetchNotificationCommentDetail = async (notificationId: string) => {
       try {
         let response = await notificationStore.getById(notificationId);
-        console.log("Response =>", response);
         setCommentDetail(response);
       } catch (error) {
         handleApiError(error);
@@ -144,7 +143,15 @@ const NotificationCommentListContent = forwardRef(
                   </Badge>
                 }
                 title={<Link to={item.articleId}>{item.content}</Link>}
-                description={item.comment && item.comment.content}
+                description={
+                  <div
+                    style={{ marginTop: "1em" }}
+                    className={styles.postContent}
+                    dangerouslySetInnerHTML={{
+                      __html: item.comment && item.comment.content,
+                    }}
+                  ></div>
+                }
               />
             </List.Item>
           )}

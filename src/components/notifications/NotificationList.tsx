@@ -6,13 +6,17 @@ import { Link } from "react-router-dom";
 import NotificationCommentListContent from "./components/comment/NotificationCommentListContent";
 import styles from "./notificationList.module.css";
 import NotificationListContent from "./components/allNotifications/NotificationListContent";
+import NotiticationsLikeListContent from "./components/like/NotificationLikeListContent";
 
 const NotificationList: React.FC = () => {
   const commentListRef = useRef<any>(null);
+  const likeListRef = useRef<any>(null);
 
   const handleTabChange = (activeKey: string) => {
     if (activeKey === "3") {
       commentListRef.current?.reloadData();
+    } else if (activeKey === "5") {
+      likeListRef.current?.reloadData();
     }
   };
 
@@ -33,7 +37,7 @@ const NotificationList: React.FC = () => {
             İçerik 4
           </TabPane>
           <TabPane tab="Beğenmeler" key="5">
-            İçerik 5
+            <NotiticationsLikeListContent ref={likeListRef} />
           </TabPane>
         </Tabs>
       </Menu.Item>
@@ -51,7 +55,11 @@ const NotificationList: React.FC = () => {
           >
             <BellOutlined
               style={{ fontSize: "24px" }}
-              onClick={() => handleTabChange("3")}
+              onClick={(e) => {
+                e.preventDefault(); // Prevent default if necessary
+                handleTabChange("3");
+                handleTabChange("5");
+              }}
             />
           </Link>
         </Dropdown>

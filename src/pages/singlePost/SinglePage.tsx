@@ -21,6 +21,7 @@ import favoriteArticleStore from "../../stores/favoriteArticle/favoriteArticleSt
 import { GetByArticleIdFavoriteArticleResponse } from "../../services/favoriteArticle/dtos/getByArticleIdFavoriteArticleResponse";
 import ShareMenu from "../../components/shareMenu/ShareMenu";
 import { ShareAltOutlined } from "@ant-design/icons";
+import userStore from "../../stores/user/userStore";
 
 const SinglePage = observer(() => {
   let { id } = useParams(); // URL'den alınan id
@@ -81,6 +82,8 @@ const SinglePage = observer(() => {
     try {
       createRating.score = value;
       createRating.articleId = id as string;
+      createRating.articleTitleForRating = article.title;
+      createRating.userFullName = `${userStore.userInformation?.firstName} ${userStore.userInformation?.lastName}`;
       let response = await ratingStore.createRating(createRating);
       console.log(response);
       if (response !== undefined) {

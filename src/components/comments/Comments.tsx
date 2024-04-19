@@ -248,6 +248,9 @@ const Comments = ({
     // API çağrısı yaparak yorumu beğen
     createLike.commentId = commentId;
     createLike.isLiked = true;
+    createLike.userFullName =
+      isUserLoggedInInfo.firstName + " " + isUserLoggedInInfo.lastName;
+    createLike.articleId = articleId;
     setCreateLike(createLike);
     try {
       let response = await likeStore.createLike(createLike);
