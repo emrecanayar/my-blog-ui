@@ -11,6 +11,7 @@ import { UpdateCommentCommand } from "./dtos/updateCommentCommand";
 import { UpdatedCommentResponse } from "./dtos/updatedCommentResponse";
 import { EditCommentCommand } from "./dtos/editCommentCommand";
 import { EditCommentResponse } from "./dtos/editCommentResponse";
+import { DeletedCommentResponse } from "./dtos/deletedCommentResponse";
 
 export class CommentService {
   createComment = async (
@@ -74,6 +75,17 @@ export class CommentService {
         "/Comments/EditComment",
         editCommentCommand
       );
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  deleteComment = async (
+    id: string
+  ): Promise<CustomResponseDto<DeletedCommentResponse>> => {
+    try {
+      let response = await apiService.delete(`/Comments/${id}`);
       return response;
     } catch (error) {
       throw error;

@@ -2,7 +2,7 @@ import styles from "./comments.module.css";
 import p1 from "../../assets/p1.jpeg";
 import ReactQuill from "react-quill";
 import { modules, formats } from "../../options/reactQuillOptions";
-import { Button, Card, Input, Popover, Spin, Switch } from "antd";
+import { Card, Input, Spin, Switch } from "antd";
 import { useEffect, useRef, useState } from "react";
 import {
   AppstoreOutlined,
@@ -12,7 +12,6 @@ import {
   LikeOutlined,
   MailOutlined,
   UserOutlined,
-  WarningOutlined,
 } from "@ant-design/icons";
 import userStore from "../../stores/user/userStore";
 import authStore from "../../stores/auth/authStore";
@@ -27,7 +26,6 @@ import { formatDateForDate } from "../../helpers/dateHelper";
 import { CreateReplyCommentCommand } from "../../services/comment/dtos/createReplyCommentCommand";
 import { CreateLikeCommand } from "../../services/like/dtos/createLikeCommand";
 import likeStore from "../../stores/like/likeStore";
-import TextArea from "antd/es/input/TextArea";
 import { CreateReportCommand } from "../../services/report/dtos/createReportCommand";
 import reportStore from "../../stores/report/reportStore";
 import ReportPopover from "./components/ReportPopover";

@@ -11,6 +11,7 @@ import { UpdateCommentCommand } from "../../services/comment/dtos/updateCommentC
 import { UpdatedCommentResponse } from "../../services/comment/dtos/updatedCommentResponse";
 import { EditCommentCommand } from "../../services/comment/dtos/editCommentCommand";
 import { EditCommentResponse } from "../../services/comment/dtos/editCommentResponse";
+import { DeletedCommentResponse } from "../../services/comment/dtos/deletedCommentResponse";
 
 export class CommentStore extends BaseStore {
   @observable createdComment: CreatedCommentResponse =
@@ -22,6 +23,9 @@ export class CommentStore extends BaseStore {
     {} as UpdatedCommentResponse;
 
   @observable editedComment: EditCommentResponse = {} as EditCommentResponse;
+
+  @observable deletedComment: DeletedCommentResponse =
+    {} as DeletedCommentResponse;
 
   @action
   createComment = async (createCommentCommand: CreateCommentCommand) => {
@@ -84,6 +88,17 @@ export class CommentStore extends BaseStore {
     try {
       let response = await commentService.editComment(editCommentCommand);
       this.editedComment = response.data;
+      return response.data;
+    } catch (error) {
+      this.handleApiError(error);
+      throw error;
+    }
+  };
+
+  @action
+  deleteComment = async (id: string) => {
+    try {
+      let response = await commentService.deleteComment(id);
       return response.data;
     } catch (error) {
       this.handleApiError(error);

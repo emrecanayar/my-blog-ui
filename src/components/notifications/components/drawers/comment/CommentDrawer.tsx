@@ -5,13 +5,21 @@ import {
   HeartOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Avatar, Button, Card, Drawer, Typography, Tooltip } from "antd";
+import {
+  Avatar,
+  Button,
+  Card,
+  Drawer,
+  Typography,
+  Tooltip,
+  message,
+} from "antd";
 import { GetByIdNotificationResponse } from "../../../../../services/notification/dtos/getByIdNotificationResponse";
 import styles from "./commentDrawer.module.css";
 import TextArea from "antd/es/input/TextArea";
 import { formatDateForDate } from "../../../../../helpers/dateHelper";
 import EditCommentModal from "./components/EditCommentModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReportPopover from "../../../../comments/components/ReportPopover";
 import { CreateReportCommand } from "../../../../../services/report/dtos/createReportCommand";
 import reportStore from "../../../../../stores/report/reportStore";
@@ -19,6 +27,11 @@ import { handleApiError } from "../../../../../helpers/errorHelpers";
 import { ToastContainer, toast } from "react-toastify";
 import { CreateLikeCommand } from "../../../../../services/like/dtos/createLikeCommand";
 import likeStore from "../../../../../stores/like/likeStore";
+import { CreateReplyCommentCommand } from "../../../../../services/comment/dtos/createReplyCommentCommand";
+import { GetByIdUserResponse } from "../../../../../services/user/dtos/getByIdUserResponse";
+import authStore from "../../../../../stores/auth/authStore";
+import userStore from "../../../../../stores/user/userStore";
+import commentStore from "../../../../../stores/comment/commentStore";
 
 const { Title } = Typography;
 // Drawer içinde yorum kartını gösterecek bir bileşen
@@ -64,6 +77,17 @@ const CommentDrawer: React.FC<{
   const [createLike, setCreateLike] = useState<CreateLikeCommand>(
     {} as CreateLikeCommand
   );
+
+  const [replyComment, setReplyComment] = useState<CreateReplyCommentCommand>(
+    {} as CreateReplyCommentCommand
+  );
+
+  const [isUserLoggedInInfo, setIsUserLoggedInInfo] =
+    useState<GetByIdUserResponse>({} as GetByIdUserResponse);
+
+  useEffect(() => {
+    isUserLoggedIn();
+  }, []);
 
   const showEditModal = () => {
     setIsEditModalVisible(true);
@@ -113,6 +137,68 @@ const CommentDrawer: React.FC<{
     }
   };
 
+  const isUserLoggedIn = async () => {
+    try {
+      await authStore.initializeAuthState();
+      if (authStore.isAuthenticated) {
+        let userInformation = await userStore.getFromAuth();
+        setIsUserLoggedInInfo(userInformation);
+      }
+    } catch (error) {
+      handleApiError(error);
+    }
+  };
+
+  const handleReplyInputChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setReplyComment((prevState) => ({
+      ...prevState,
+      content: e.target.value,
+    }));
+  };
+
+  const handleReplyComment = async () => {
+    try {
+      if (
+        replyComment.authorName === undefined ||
+        replyComment.authorEmail === undefined
+      ) {
+        replyComment.authorName =
+          isUserLoggedInInfo.firstName + " " + isUserLoggedInInfo.lastName;
+        replyComment.authorEmail = isUserLoggedInInfo.email;
+        replyComment.userId = isUserLoggedInInfo.id;
+      }
+      replyComment.articleId = comment?.article?.id;
+      replyComment.parentCommentId = comment?.comment?.id;
+
+      let response = await commentStore.createReplyComment(replyComment);
+      if (response.id !== undefined) {
+        message.success("Yorumunuz başarıyla gönderildi.");
+      }
+    } catch (error) {
+      handleApiError(error);
+      message.error("Yorumunuz gönderilemedi.");
+    } finally {
+      setReplyComment({} as CreateReplyCommentCommand);
+      onClose();
+    }
+  };
+
+  const handleDeleteComment = async (commentId: string) => {
+    try {
+      let response = await commentStore.deleteComment(commentId);
+      if (response.id !== undefined) {
+        message.success("Yorum başarıyla silindi.");
+      }
+    } catch (error) {
+      handleApiError(error);
+      throw error;
+    } finally {
+      onClose();
+    }
+  };
+
   return (
     <Drawer
       title="Yorum Detayları"
@@ -143,7 +229,10 @@ const CommentDrawer: React.FC<{
           <Button icon={<EditOutlined />} onClick={showEditModal}></Button>
         </Tooltip>
         <Tooltip title="Sil" color="volcano" key="volcano" placement="bottom">
-          <Button icon={<DeleteOutlined />}></Button>
+          <Button
+            icon={<DeleteOutlined />}
+            onClick={() => handleDeleteComment(comment?.comment.id)}
+          ></Button>
         </Tooltip>
       </div>
 
@@ -152,10 +241,14 @@ const CommentDrawer: React.FC<{
           <TextArea
             rows={4}
             placeholder={`${comment?.comment?.authorName} adlı kişiye cevap ver`}
+            onChange={handleReplyInputChange}
+            value={replyComment.content}
           />
         </div>
         <div className={styles.sendButton}>
-          <button className={styles.button}>Gönder</button>
+          <button className={styles.button} onClick={handleReplyComment}>
+            Gönder
+          </button>
         </div>
       </div>
       <EditCommentModal
