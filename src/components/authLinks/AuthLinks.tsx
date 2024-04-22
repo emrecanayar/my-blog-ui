@@ -19,6 +19,12 @@ const AuthLinks = observer(() => {
 
   useEffect(() => {
     fetchNotificationCount();
+
+    const interval = setInterval(() => {
+      fetchNotificationCount();
+    }, 5000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const fetchNotificationCount = async () => {
