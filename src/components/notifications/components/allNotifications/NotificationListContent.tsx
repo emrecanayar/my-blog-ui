@@ -39,7 +39,7 @@ const NotificationListContent: React.FC = () => {
         <List.Item>
           <List.Item.Meta
             avatar={
-              <Badge count={item.badgeCount} overflowCount={99}>
+              <Badge count={item.badgeCount}>
                 {item.icon}
               </Badge>
             }
