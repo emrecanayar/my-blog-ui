@@ -6,6 +6,7 @@ import { CreateNotificationCommand } from "./dtos/createNotificationCommand";
 import { CreatedNotificationResponse } from "./dtos/createdNotificationResponse";
 import { GetByIdNotificationResponse } from "./dtos/getByIdNotificationResponse";
 import { GetByUserIdNotificationResponse } from "./dtos/getByUserIdNotificationResponse";
+import { GetNotificationCountDto } from "./dtos/getNotificationCountDto";
 import { MarkAsReadNotificationCommand } from "./dtos/markAsReadNotificationCommand";
 import { MarkAsReadNotificationResponse } from "./dtos/markAsReadNotificationResponse";
 import { NotificationListModel } from "./dtos/notificationListModel";
@@ -65,6 +66,15 @@ export class NotificationService {
   ): Promise<CustomResponseDto<GetByIdNotificationResponse>> => {
     try {
       let response = await apiService.get(`/Notifications/${id}`);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  getByUserIdCount = async (): Promise<CustomResponseDto<GetNotificationCountDto>> => {
+    try {
+      let response = await apiService.get(`/Notifications/GetByUserIdCount`);
       return response;
     } catch (error) {
       throw error;

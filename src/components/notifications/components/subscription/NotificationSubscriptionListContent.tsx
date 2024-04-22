@@ -8,7 +8,9 @@ import notificationStore from "../../../../stores/notification/notificationStore
 import { handleApiError } from "../../../../helpers/errorHelpers";
 import { StarOutlined } from "@ant-design/icons";
 
-interface NotificationSubscriptionListContentProps {}
+interface NotificationSubscriptionListContentProps {
+  onDataStatus?: (status: boolean) => void
+}
 
 const NotificationSubscriptionListContent = forwardRef(
   (props: NotificationSubscriptionListContentProps, ref) => {
@@ -18,12 +20,12 @@ const NotificationSubscriptionListContent = forwardRef(
     );
 
     useEffect(() => {
-      fetchNotificationCommentListData();
+      fetchNotificationSubscriptionListData();
     }, []);
 
     useImperativeHandle(ref, () => ({
       reloadData() {
-        fetchNotificationCommentListData();
+        fetchNotificationSubscriptionListData();
       },
     }));
 
@@ -31,35 +33,39 @@ const NotificationSubscriptionListContent = forwardRef(
       emptyText: "Okunacak abonelik bildirimi bulunamadı.",
     };
 
-    const fetchNotificationCommentListData = async () => {
+    const fetchNotificationSubscriptionListData = async () => {
       setLoading(true);
       try {
-        let response = await notificationStore.getListByDynamic(
-          { pageIndex: 0, pageSize: 4 },
-          {
-            sort: [{ field: "createdDate", dir: "desc" }],
-            filter: {
-              field: "type",
-              operator: "eq",
-              value: "Subscription",
-              logic: "and",
-              filters: [
-                {
-                  field: "userId",
-                  operator: "eq",
-                  value: `${userStore.userInformation.id}`,
-                  logic: "and",
-                },
-                {
-                  field: "isRead",
-                  operator: "eq",
-                  value: "false",
-                },
-              ],
-            },
-          }
-        );
-        setNotifications(response.data);
+        await notificationStore
+          .getListByDynamic(
+            { pageIndex: 0, pageSize: 4 },
+            {
+              sort: [{ field: "createdDate", dir: "desc" }],
+              filter: {
+                field: "type",
+                operator: "eq",
+                value: "Subscription",
+                logic: "and",
+                filters: [
+                  {
+                    field: "userId",
+                    operator: "eq",
+                    value: `${userStore.userInformation.id}`,
+                    logic: "and",
+                  },
+                  {
+                    field: "isRead",
+                    operator: "eq",
+                    value: "false",
+                  },
+                ],
+              },
+            }
+          )
+          .then((response) => {
+            setNotifications(response.data);
+            props.onDataStatus?.(response.data.items.length > 0);
+          });
       } catch (error) {
         handleApiError(error);
       } finally {

@@ -10,6 +10,7 @@ import { MarkAsReadNotificationResponse } from "../../services/notification/dtos
 import { PageRequest } from "../../services/base/models/PageRequest";
 import { DynamicQuery } from "../../services/base/models/DynamicQuery";
 import { GetByIdNotificationResponse } from "../../services/notification/dtos/getByIdNotificationResponse";
+import { GetNotificationCountDto } from "../../services/notification/dtos/getNotificationCountDto";
 
 export class NotificationStore extends BaseStore {
   @observable addedNotification: CreatedNotificationResponse =
@@ -26,6 +27,9 @@ export class NotificationStore extends BaseStore {
 
   @observable notificationDetail: GetByIdNotificationResponse =
     {} as GetByIdNotificationResponse;
+
+  @observable notificationCount: GetNotificationCountDto =
+    {} as GetNotificationCountDto;
 
   @action
   createNotification = async (data: CreateNotificationCommand) => {
@@ -86,6 +90,18 @@ export class NotificationStore extends BaseStore {
     try {
       let response = await notificationService.getById(id);
       this.notificationDetail = response.data;
+      return response.data;
+    } catch (error) {
+      this.handleApiError(error);
+      throw error;
+    }
+  };
+
+  @action
+  getByUserIdCount = async () => {
+    try {
+      let response = await notificationService.getByUserIdCount();
+      this.notificationCount = response.data;
       return response.data;
     } catch (error) {
       this.handleApiError(error);

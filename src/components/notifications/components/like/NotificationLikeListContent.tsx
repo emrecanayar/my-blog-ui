@@ -10,7 +10,9 @@ import { Link } from "react-router-dom";
 import { GetByIdNotificationResponse } from "../../../../services/notification/dtos/getByIdNotificationResponse";
 import LikeDrawer from "../drawers/like/LikeDrawer";
 
-interface NotificationLikeListContentProps {}
+interface NotificationLikeListContentProps {
+  onDataStatus?: (status: boolean) => void;
+}
 
 const NotiticationsLikeListContent = forwardRef(
   (props: NotificationLikeListContentProps, ref) => {
@@ -95,6 +97,11 @@ const NotiticationsLikeListContent = forwardRef(
           postLikePromise,
           commentLikePromise,
         ]);
+
+        props.onDataStatus?.(
+          postLikeResults.data.items.length > 0 ||
+            commentLikeResults.data.items.length > 0
+        );
 
         const combinedNotifications: NotificationListModel = {
           items: [

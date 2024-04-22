@@ -13,6 +13,7 @@ const NotificationList: React.FC = () => {
   const commentListRef = useRef<any>(null);
   const likeListRef = useRef<any>(null);
   const subscriptionListRef = useRef<any>(null);
+  const allListRef = useRef<any>(null);
 
   const handleTabChange = (activeKey: string) => {
     if (activeKey === "3") {
@@ -21,6 +22,8 @@ const NotificationList: React.FC = () => {
       likeListRef.current?.reloadData();
     } else if (activeKey === "4") {
       subscriptionListRef.current?.reloadData();
+    } else if (activeKey === "1") {
+      allListRef.current?.reloadData();
     }
   };
 
@@ -29,7 +32,7 @@ const NotificationList: React.FC = () => {
       <Menu.Item>
         <Tabs defaultActiveKey="1" onChange={handleTabChange}>
           <TabPane tab="Hepsi" key="1">
-            <NotificationListContent />
+            <NotificationListContent ref={allListRef} />
           </TabPane>
           <TabPane tab="Yorumlar" key="3">
             <NotificationCommentListContent ref={commentListRef} />
@@ -61,6 +64,7 @@ const NotificationList: React.FC = () => {
                 handleTabChange("3");
                 handleTabChange("5");
                 handleTabChange("4");
+                handleTabChange("1");
               }}
             />
           </Link>

@@ -12,7 +12,9 @@ import styles from "./notificationCommentListContent.module.css";
 import CommentDrawer from "../drawers/comment/CommentDrawer";
 import { GetByIdNotificationResponse } from "../../../../services/notification/dtos/getByIdNotificationResponse";
 
-interface NotificationCommentListContentProps {}
+interface NotificationCommentListContentProps {
+  onDataStatus?: (status: boolean) => void;
+}
 
 const NotificationCommentListContent = forwardRef(
   (props: NotificationCommentListContentProps, ref) => {
@@ -77,36 +79,40 @@ const NotificationCommentListContent = forwardRef(
     const fetchNotificationCommentListData = async () => {
       setLoading(true);
       try {
-        let response = await notificationStore.getListByDynamic(
-          { pageIndex: 0, pageSize: 4 },
-          {
-            sort: [{ field: "createdDate", dir: "desc" }],
-            filter: {
-              field: "type",
-              operator: "eq",
-              value: "Comment",
-              logic: "and",
-              filters: [
-                {
-                  field: "userId",
-                  operator: "eq",
-                  value: `${
-                    isUserLoggedInInfo &&
-                    isUserLoggedInInfo !== undefined &&
-                    isUserLoggedInInfo.id
-                  }`,
-                  logic: "and",
-                },
-                {
-                  field: "isRead",
-                  operator: "eq",
-                  value: "false",
-                },
-              ],
-            },
-          }
-        );
-        setNotifications(response.data);
+        let response = await notificationStore
+          .getListByDynamic(
+            { pageIndex: 0, pageSize: 4 },
+            {
+              sort: [{ field: "createdDate", dir: "desc" }],
+              filter: {
+                field: "type",
+                operator: "eq",
+                value: "Comment",
+                logic: "and",
+                filters: [
+                  {
+                    field: "userId",
+                    operator: "eq",
+                    value: `${
+                      isUserLoggedInInfo &&
+                      isUserLoggedInInfo !== undefined &&
+                      isUserLoggedInInfo.id
+                    }`,
+                    logic: "and",
+                  },
+                  {
+                    field: "isRead",
+                    operator: "eq",
+                    value: "false",
+                  },
+                ],
+              },
+            }
+          )
+          .then((response) => {
+            setNotifications(response.data);
+            props.onDataStatus?.(response.data.items.length > 0);
+          });
       } catch (error) {
         handleApiError(error);
       } finally {

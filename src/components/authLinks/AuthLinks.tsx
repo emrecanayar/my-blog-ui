@@ -1,16 +1,36 @@
 import { Link } from "react-router-dom";
 import styles from "./authLinks.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import authStore from "../../stores/auth/authStore";
 import { observer } from "mobx-react";
 import { Avatar, Badge, Dropdown, Menu } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import userStore from "../../stores/user/userStore";
 import NotificationList from "../notifications/NotificationList";
+import notificationStore from "../../stores/notification/notificationStore";
+import { GetNotificationCountDto } from "../../services/notification/dtos/getNotificationCountDto";
+import { handleApiError } from "../../helpers/errorHelpers";
 
 const AuthLinks = observer(() => {
   const [open, setOpen] = useState(false);
   const status = authStore.isAuthenticated;
+  const [notificationCount, setNotificationCount] =
+    useState<GetNotificationCountDto>({} as GetNotificationCountDto);
+
+  useEffect(() => {
+    fetchNotificationCount();
+  }, []);
+
+  const fetchNotificationCount = async () => {
+    try {
+      var response = await notificationStore.getByUserIdCount();
+      if (response) {
+        setNotificationCount(response);
+      }
+    } catch (error) {
+      handleApiError(error);
+    }
+  };
 
   const menu = (
     <Menu>
@@ -58,7 +78,7 @@ const AuthLinks = observer(() => {
             />
           </Dropdown>
 
-          <Badge count={3}>
+          <Badge count={notificationCount.totalCount}>
             <NotificationList />
           </Badge>
         </>
