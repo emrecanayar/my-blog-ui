@@ -1,0 +1,55 @@
+.customDropdownMenu {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    background: #fff;
+    /* Örnek arka plan rengi */
+    border-radius: 8px;
+    /* Örnek kenar yuvarlatması */
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    /* Örnek gölge efekti */
+    padding: 16px;
+    /* Menünün iç boşluğu */
+}
+
+.customDropdownMenu .ant-dropdown-menu-item {
+    margin: 0;
+}
+
+.menuItem {
+    display: flex;
+    flex-direction: column;
+    /* İçeriği dikey olarak sıralamak için */
+    align-items: center;
+    /* Yatay eksende ortalamak için */
+    justify-content: center;
+    /* Dikey eksende ortalamak için */
+    text-align: center;
+    /* Metin hizalaması */
+    padding: 8px;
+    /* MenuItem iç boşluğu */
+    border-radius: 8px;
+    /* Yuvarlatılmış köşeler için */
+    margin: 4px;
+    /* Öğeler arası boşluk */
+}
+
+.categoryImage {
+    width: 60px;
+    /* Resim boyutu */
+    height: 60px;
+    /* Resim boyutu */
+    object-fit: cover;
+    border-radius: 50%;
+    /* Resmi yuvarlak yapar */
+    margin-bottom: 8px;
+    /* Resim ile metin arası boşluk */
+}
+
+.menuText {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    /* Metnin tek satırda olmasını sağlar */
+}

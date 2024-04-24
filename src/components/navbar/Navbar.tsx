@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import AuthLinks from "../authLinks/AuthLinks";
 import ThemeToggle from "../themeToggle/ThemeToggle";
 import WhatsAppButton from "../whatsAppButton/WhatsAppButton";
+import CategoryItem from "../categoryItem/CategoryItem";
 
 const Navbar = () => {
   return (
@@ -33,6 +34,9 @@ const Navbar = () => {
         <Link to="/trending" className={styles.link}>
           Trendler
         </Link>
+        <div>
+          <CategoryItem />
+        </div>
         <Link to="/contact" className={styles.link}>
           İletişim
         </Link>

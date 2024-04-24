@@ -80,7 +80,6 @@ const AuthLinks = observer(() => {
           <Dropdown overlay={menu} trigger={["click"]}>
             <Avatar
               style={{ cursor: "pointer" }}
-              shape="square"
               icon={<UserOutlined />}
             />
           </Dropdown>
