@@ -57,6 +57,10 @@ const CategoryArticleList = () => {
     }
   };
 
+  const goToPage = (pageNumber: any) => {
+    setCurrentPage(pageNumber); // Seçilen sayfa numarasına güncelle
+  };
+
   function HandleCategoryArticleList({ articles }: any) {
     if (!articles || !articles.items || articles.items.length === 0) {
       return (
@@ -97,10 +101,12 @@ const CategoryArticleList = () => {
       {articles.pages > 1 && (
         <Pagination
           page={currentPage}
+          totalPages={articles.pages} // totalPages değerini doğru bir şekilde articles'dan almalısınız
           hasPrev={articles.hasPrevious}
           hasNext={articles.hasNext}
           onPrev={goToPrevPage}
           onNext={goToNextPage}
+          onPageSelect={goToPage} // İşte burada goToPage fonksiyonunu prop olarak geçiriyoruz
         />
       )}
     </div>

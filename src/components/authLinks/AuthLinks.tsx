@@ -29,6 +29,7 @@ const AuthLinks = observer(() => {
 
   const fetchNotificationCount = async () => {
     try {
+      if (userStore.userInformation.id === undefined) return;
       var response = await notificationStore.getByUserIdCount();
       if (response) {
         setNotificationCount(response);

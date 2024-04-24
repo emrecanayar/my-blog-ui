@@ -1,24 +1,47 @@
 .container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
+  padding: 10px; /* İç padding eklendi */
 }
 
-.paginationButton {
-  width: 100px;
-  border: none;
-  padding: 16px;
-  background-color: crimson; /* Butonun varsayılan arka plan rengi */
-  color: white; /* Butonun varsayılan yazı rengi */
+.paginationButton, .pageButton {
+  margin: 0 5px;
+  padding: 8px 16px; /* Daha fazla iç boşluk */
+  border: 1px solid #ddd; /* Kenarlık eklendi */
+  background-color: #f8f9fa; /* Butonun varsayılan arka plan rengi */
+  color: #333; /* Butonun varsayılan yazı rengi */
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px; /* Font boyutu ayarlandı */
+  transition: all 0.3s; /* Renk değişimi animasyonu yumuşatıldı */
+  border-radius: 4px; /* Köşeleri yuvarlaklaştırıldı */
   cursor: pointer;
-  transition: background-color 0.3s, color 0.3s; /* Renk değişiklikleri için yumuşak geçiş */
+  user-select: none; /* Metnin seçilmesini engelle */
 }
 
-.paginationButton:hover {
-  background-color: darkred; /* Butonun üzerine gelindiğinde arka plan rengi */
-  color: yellow; /* Butonun üzerine gelindiğinde yazı rengi (isteğe bağlı) */
+.paginationButton:hover, .pageButton:not(.active):hover {
+  background-color: #e2e6ea; /* Butonun üzerine gelindiğinde arka plan rengi */
+}
+
+.pageButton {
+  background-color: #f8f9fa; /* Sayfa numaraları için varsayılan arka plan rengi */
+}
+
+.active {
+  background-color: #007bff; /* Seçili sayfa numarası için arka plan rengi */
+  color: white;
+  border-color: #007bff;
 }
 
 .paginationButton:disabled {
-  background-color: rgba(220, 20, 60, 0.473); /* Disabled buton için arka plan rengi */
+  background-color: #f8f9fa; /* Disabled buton için arka plan rengi */
+  color: #ccc;
   cursor: not-allowed;
+}
+
+/* Butonların odaklanma durumu için stil */
+.paginationButton:focus, .pageButton:focus {
+  outline: none; /* Tarayıcı odak çerçevesini kaldır */
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Bootstrap tarzı odaklanma gölgesi */
 }

@@ -387,6 +387,10 @@ const Comments = ({
     );
   };
 
+  const goToPage = (pageNumber: any) => {
+    setCurrentPage(pageNumber); // Seçilen sayfa numarasına güncelle
+  };
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Yorum bırakın</h1>
@@ -497,10 +501,13 @@ const Comments = ({
       <div>
         <Pagination
           style={{ display: "flex", justifyContent: "center" }}
+          page={currentPage}
+          totalPages={comments.pages} // totalPages değerini doğru bir şekilde articles'dan almalısınız
           hasPrev={comments.hasPrevious}
           hasNext={comments.hasNext}
           onPrev={goToPrevPage}
           onNext={goToNextPage}
+          onPageSelect={goToPage} // İşte burada goToPage fonksiyonunu prop olarak geçiriyoruz
         />
       </div>
     </div>

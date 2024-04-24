@@ -48,6 +48,10 @@ const UserFavoriteList = () => {
     }
   };
 
+  const goToPage = (pageNumber: any) => {
+    setCurrentPage(pageNumber); // Seçilen sayfa numarasına güncelle
+  };
+
   function HandleFavoriteUserArticleList({ articles }: any) {
     if (!articles || !articles.items || articles.items.length === 0) {
       return (
@@ -88,12 +92,14 @@ const UserFavoriteList = () => {
       </div>
       {favoriteArticles.pages > 1 && (
         <Pagination
-          page={currentPage}
-          hasPrev={favoriteArticles.hasPrevious}
-          hasNext={favoriteArticles.hasNext}
-          onPrev={goToPrevPage}
-          onNext={goToNextPage}
-        />
+        page={currentPage}
+        totalPages={favoriteArticles.pages} // totalPages değerini doğru bir şekilde articles'dan almalısınız
+        hasPrev={favoriteArticles.hasPrevious}
+        hasNext={favoriteArticles.hasNext}
+        onPrev={goToPrevPage}
+        onNext={goToNextPage}
+        onPageSelect={goToPage} // İşte burada goToPage fonksiyonunu prop olarak geçiriyoruz
+      />
       )}
     </div>
   );

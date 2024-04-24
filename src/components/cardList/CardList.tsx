@@ -20,16 +20,14 @@ const CardList = () => {
     fetchArticlesData();
   }, [currentPage]);
 
-
-// Yeni içeriğin yüklenmesini takiben scroll işlemi için ek useEffect.
-useEffect(() => {
-  // currentPage'nin ilk yüklenme anında olmamasını sağlamak için kontrol.
-  // Eğer ilk sayfa ise ve kullanıcı daha önce "ileri" butonuna basmadıysa scroll yapılmaz.
-  if (currentPage !== 0) {
-    scrollToTopOfTheList();
-  }
-}, [articles]); // articles değiştiğinde tetiklenir.
-
+  // Yeni içeriğin yüklenmesini takiben scroll işlemi için ek useEffect.
+  useEffect(() => {
+    // currentPage'nin ilk yüklenme anında olmamasını sağlamak için kontrol.
+    // Eğer ilk sayfa ise ve kullanıcı daha önce "ileri" butonuna basmadıysa scroll yapılmaz.
+    if (currentPage !== 0) {
+      scrollToTopOfTheList();
+    }
+  }, [articles]); // articles değiştiğinde tetiklenir.
 
   const fetchArticlesData = async () => {
     setLoading(true);
@@ -68,9 +66,16 @@ useEffect(() => {
     }
   };
 
+  const goToPage = (pageNumber: any) => {
+    setCurrentPage(pageNumber); // Seçilen sayfa numarasına güncelle
+    scrollToTopOfTheList(); // Liste başına otomatik kaydır
+  };
+
   return (
     <div className={styles.container}>
-      <h1 className={styles.title} ref={topOfTheListRef}>En Son Gönderiler</h1>
+      <h1 className={styles.title} ref={topOfTheListRef}>
+        En Son Gönderiler
+      </h1>
       <div className={styles.posts}>
         {loading ? (
           <div className={styles.spinnerContainer}>
@@ -85,10 +90,12 @@ useEffect(() => {
       {articles.pages > 1 && (
         <Pagination
           page={currentPage}
+          totalPages={articles.pages} // totalPages değerini doğru bir şekilde articles'dan almalısınız
           hasPrev={articles.hasPrevious}
           hasNext={articles.hasNext}
           onPrev={goToPrevPage}
           onNext={goToNextPage}
+          onPageSelect={goToPage} // İşte burada goToPage fonksiyonunu prop olarak geçiriyoruz
         />
       )}
     </div>
