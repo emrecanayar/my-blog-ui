@@ -15,12 +15,15 @@ const CategoryItem = () => {
 
   useEffect(() => {
     fetchCategoriesData();
-    const itemsPerColumn = 4; // Her sütunda gösterilecek maksimum öğe sayısı
-    const columnCount = Math.ceil(
-      categories ? categories?.count : 0 / itemsPerColumn
-    );
-    setMenuColumns(`repeat(${columnCount}, 1fr)`);
-  }, []);
+  }, []); // Bağımsız değişkenler (dependencies) listesi
+
+  useEffect(() => {
+    if (categories) {
+      const itemsPerColumn = 4;
+      const columnCount = Math.ceil(categories.count / itemsPerColumn);
+      setMenuColumns(`repeat(${columnCount}, 1fr)`);
+    }
+  }, [categories]); // categories'i bağımlılık listesine ekleyin
 
   const fetchCategoriesData = async () => {
     setLoading(true);
