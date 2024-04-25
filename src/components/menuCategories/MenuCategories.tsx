@@ -6,6 +6,7 @@ import categoryStore from "../../stores/category/categoryStore";
 import { CategoryListModel } from "../../services/category/dtos/categoryListModel";
 import { set } from "mobx";
 import { Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const MenuCategories = () => {
   const [categories, setCategories] = useState<CategoryListModel>(
@@ -41,7 +42,9 @@ const MenuCategories = () => {
     <div className={styles.categoryList}>
       {loading ? (
         <div className={styles.spinnerContainer}>
-          <Spin style={{ alignContent: "center" }} size="large" />{" "}
+          <Spin
+            indicator={<LoadingOutlined style={{ fontSize: 24,alignContent: "center" }} spin />}
+          ></Spin>
         </div>
       ) : (
         categories.items?.map((category, index) => {

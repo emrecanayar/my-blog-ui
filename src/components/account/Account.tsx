@@ -19,6 +19,7 @@ import config from "../../config";
 import { cultureLabels } from "../../complexTypes/enumLabels";
 import { UpdateUserInformationCommand } from "../../services/user/dtos/updateUserInformationCommand";
 import { ToastContainer, toast } from "react-toastify";
+import { LoadingOutlined } from "@ant-design/icons";
 
 type FieldType = {
   firstName?: string;
@@ -146,7 +147,10 @@ const Account = () => {
     >
       {userInformationLoading ? (
         <div className={styles.spinnerContainer}>
-          <Spin style={{ alignContent: "center" }} size="large" />{" "}
+          <Spin
+            // eslint-disable-next-line react/jsx-no-undef
+            indicator={<LoadingOutlined style={{ fontSize: 24,alignContent: "center" }} spin />}
+          ></Spin>
         </div>
       ) : (
         <>

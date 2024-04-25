@@ -15,6 +15,7 @@ import { GetListResponse } from "../../services/base/models/GetListResponse";
 import { GetListFooterListItemDto } from "../../services/footer/dtos/getListFooterListItemDto";
 import footerStore from "../../stores/footer/footerStore";
 import WhatsAppButton from "../whatsAppButton/WhatsAppButton";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const Footer = () => {
   const [categories, setCategories] = useState<CategoryListModel>(
@@ -86,7 +87,14 @@ const Footer = () => {
       <div className={styles.info}>
         {footerLoading ? (
           <div className={styles.spinnerContainer}>
-            <Spin style={{ alignContent: "center" }} size="large" />
+            <Spin
+              indicator={
+                <LoadingOutlined
+                  style={{ fontSize: 24, alignContent: "center" }}
+                  spin
+                />
+              }
+            ></Spin>
           </div>
         ) : (
           <>
@@ -134,7 +142,14 @@ const Footer = () => {
           <span className={styles.listTitle}>Kategoriler</span>
           {categoryLoading ? (
             <div className={styles.spinnerContainer}>
-              <Spin style={{ alignContent: "center" }} size="large" />
+              <Spin
+                indicator={
+                  <LoadingOutlined
+                    style={{ fontSize: 24, alignContent: "center" }}
+                    spin
+                  />
+                }
+              ></Spin>
             </div>
           ) : (
             <>
@@ -154,7 +169,14 @@ const Footer = () => {
           <span className={styles.listTitle}>Etiketler</span>
           {tagLoading ? (
             <div className={styles.spinnerContainer}>
-              <Spin style={{ alignContent: "center" }} size="large" />
+              <Spin
+                indicator={
+                  <LoadingOutlined
+                    style={{ fontSize: 24, alignContent: "center" }}
+                    spin
+                  />
+                }
+              ></Spin>
             </div>
           ) : (
             <>

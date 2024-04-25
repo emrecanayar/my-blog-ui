@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { CategoryListModel } from "../../services/category/dtos/categoryListModel";
 import config from "../../config";
 import { Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const CategoryList = () => {
   const [popularCategories, setPopularCategories] =
@@ -38,7 +39,9 @@ const CategoryList = () => {
       <h1 className={styles.title}>Popüler Kategoriler</h1>
       {loading ? (
         <div className={styles.spinnerContainer}>
-          <Spin style={{ alignContent: "center" }} size="large" />{" "}
+          <Spin
+            indicator={<LoadingOutlined style={{ fontSize: 24,alignContent: "center" }} spin />}
+          ></Spin>
         </div>
       ) : (
         <div className={styles.categories}>

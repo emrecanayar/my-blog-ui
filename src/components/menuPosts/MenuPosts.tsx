@@ -11,6 +11,7 @@ import editorArticlePickStore from "../../stores/editorArticlePick/editorArticle
 import { EditorArticlePickListModel } from "../../services/editorArticlePick/dtos/editorArticlePickListModel";
 import { GetListResponse } from "../../services/base/models/GetListResponse";
 import { GetListByRatingItemDto } from "../../services/article/dtos/getListByRatingItemDto";
+import { LoadingOutlined } from "@ant-design/icons";
 
 export interface MenuPostsProps {
   withImage: boolean;
@@ -238,7 +239,9 @@ const MenuPosts = ({ withImage, type }: MenuPostsProps) => {
     <div className={styles.items}>
       {loading ? (
         <div className={styles.spinnerContainer}>
-          <Spin style={{ alignContent: "center" }} size="large" />{" "}
+         <Spin
+            indicator={<LoadingOutlined style={{ fontSize: 24,alignContent: "center" }} spin />}
+          ></Spin>
         </div>
       ) : (
         <>{componentMap[type] || <div>Unknown Type</div>}</>

@@ -8,6 +8,7 @@ import NotFoundResult from "../../components/results/notFoundResult/notFoundResu
 import { Spin } from "antd";
 import ArticleCard from "../../components/articleCard/ArticleCard";
 import Pagination from "../../components/pagination/Pagination";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const UserFavoriteList = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -81,7 +82,9 @@ const UserFavoriteList = () => {
       <div className={styles.posts}>
         {loading ? (
           <div className={styles.spinnerContainer}>
-            <Spin style={{ alignContent: "center" }} size="large" />{" "}
+         <Spin
+            indicator={<LoadingOutlined style={{ fontSize: 24,alignContent: "center" }} spin />}
+          ></Spin>
           </div>
         ) : (
           favoriteArticles.items &&

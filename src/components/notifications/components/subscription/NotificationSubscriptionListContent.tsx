@@ -6,10 +6,10 @@ import { NotificationListModel } from "../../../../services/notification/dtos/no
 import userStore from "../../../../stores/user/userStore";
 import notificationStore from "../../../../stores/notification/notificationStore";
 import { handleApiError } from "../../../../helpers/errorHelpers";
-import { StarOutlined } from "@ant-design/icons";
+import { LoadingOutlined, StarOutlined } from "@ant-design/icons";
 
 interface NotificationSubscriptionListContentProps {
-  onDataStatus?: (status: boolean) => void
+  onDataStatus?: (status: boolean) => void;
 }
 
 const NotificationSubscriptionListContent = forwardRef(
@@ -85,7 +85,14 @@ const NotificationSubscriptionListContent = forwardRef(
 
     return loading ? (
       <div className={styles.spinnerContainer}>
-        <Spin size="small" />
+        <Spin
+          indicator={
+            <LoadingOutlined
+              style={{ fontSize: 24, alignContent: "center" }}
+              spin
+            />
+          }
+        ></Spin>
       </div>
     ) : (
       <div>

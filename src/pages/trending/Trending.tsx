@@ -11,6 +11,7 @@ import categoryStore from "../../stores/category/categoryStore";
 import { ArticleSearchListModel } from "../../services/article/dtos/articleSearchListModel";
 import { Filter } from "../../services/base/models/Filter";
 import noResultImage from "../../assets/noResult.png";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const Trending = () => {
   const [trendArticles, setTrendArticles] = useState<ArticleListModel>(
@@ -313,7 +314,9 @@ const Trending = () => {
           lineHeight: "32px",
         }}
       >
-        <Spin />
+        <Spin
+            indicator={<LoadingOutlined style={{ fontSize: 24,alignContent: "center" }} spin />}
+          ></Spin>
       </div>
     ) : null;
   };
@@ -434,7 +437,9 @@ const Trending = () => {
     <>
       {isSearching && (
         <div className={styles.loadingContainer}>
-          <Spin size="large" />
+         <Spin
+            indicator={<LoadingOutlined style={{ fontSize: 24,alignContent: "center" }} spin />}
+          ></Spin>
         </div>
       )}
       <div

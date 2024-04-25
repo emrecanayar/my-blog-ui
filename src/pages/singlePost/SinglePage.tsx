@@ -20,7 +20,7 @@ import { CreateFavoriteArticleCommand } from "../../services/favoriteArticle/dto
 import favoriteArticleStore from "../../stores/favoriteArticle/favoriteArticleStore";
 import { GetByArticleIdFavoriteArticleResponse } from "../../services/favoriteArticle/dtos/getByArticleIdFavoriteArticleResponse";
 import ShareMenu from "../../components/shareMenu/ShareMenu";
-import { ShareAltOutlined } from "@ant-design/icons";
+import { LoadingOutlined, ShareAltOutlined } from "@ant-design/icons";
 import userStore from "../../stores/user/userStore";
 
 const SinglePage = observer(() => {
@@ -213,7 +213,9 @@ const SinglePage = observer(() => {
     <div className={styles.container}>
       {loading ? (
         <div className={styles.spinnerContainer}>
-          <Spin style={{ alignContent: "center" }} size="large" />{" "}
+          <Spin
+            indicator={<LoadingOutlined style={{ fontSize: 24,alignContent: "center" }} spin />}
+          ></Spin>
         </div>
       ) : (
         <div>
@@ -272,7 +274,7 @@ const SinglePage = observer(() => {
               <div>
                 <div className={styles.actionsContainer}>
                   <div className={styles.rateAndUpdate}>
-                    {isThere && isThere.id ? (
+                    {isThere && isThere !== undefined && isThere.id ? (
                       <Popover
                         content={updateRatingContent}
                         title="Değerlendirme Güncelle"

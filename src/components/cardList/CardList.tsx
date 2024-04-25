@@ -6,6 +6,7 @@ import { ArticleListModel } from "../../services/article/dtos/articleListModel";
 import { handleApiError } from "../../helpers/errorHelpers";
 import { Spin } from "antd";
 import ArticleCard from "../articleCard/ArticleCard";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const CardList = () => {
   const topOfTheListRef = useRef<HTMLDivElement>(null);
@@ -79,7 +80,14 @@ const CardList = () => {
       <div className={styles.posts}>
         {loading ? (
           <div className={styles.spinnerContainer}>
-            <Spin style={{ alignContent: "center" }} size="large" />{" "}
+            <Spin
+              indicator={
+                <LoadingOutlined
+                  style={{ fontSize: 24, alignContent: "center" }}
+                  spin
+                />
+              }
+            ></Spin>
           </div>
         ) : (
           articles.items?.map((item, index) => (

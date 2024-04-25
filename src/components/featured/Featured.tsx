@@ -10,6 +10,7 @@ import { GetListHeadArticleFeatureListItemDto } from "../../services/headArticle
 import { GetListResponse } from "../../services/base/models/GetListResponse";
 import config from "../../config";
 import { Link } from "react-router-dom";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const Featured = () => {
   const [feature, setFeature] = useState<GetListFeatureListItemDto[]>(
@@ -59,7 +60,14 @@ const Featured = () => {
       <h1 className={styles.title}>
         {titleLoading ? (
           <div className={styles.spinnerContainer}>
-            <Spin style={{ alignContent: "center" }} size="large" />{" "}
+            <Spin
+              indicator={
+                <LoadingOutlined
+                  style={{ fontSize: 24, alignContent: "center" }}
+                  spin
+                />
+              }
+            ></Spin>
           </div>
         ) : (
           <div
@@ -72,7 +80,9 @@ const Featured = () => {
       <div className={styles.post}>
         {headArticleFeatureLoading ? (
           <div className={styles.spinnerContainer}>
-            <Spin style={{ alignContent: "center" }} size="large" />{" "}
+            <Spin
+            indicator={<LoadingOutlined style={{ fontSize: 24,alignContent: "center" }} spin />}
+          ></Spin>
           </div>
         ) : (
           <>

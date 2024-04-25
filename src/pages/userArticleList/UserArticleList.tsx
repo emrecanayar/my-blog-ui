@@ -8,6 +8,7 @@ import Pagination from "../../components/pagination/Pagination";
 import { useParams } from "react-router";
 import NotFoundResult from "../../components/results/notFoundResult/notFoundResult";
 import ArticleCard from "../../components/articleCard/ArticleCard";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const UserArticleList = () => {
   const [articles, setArticles] = useState<ArticleListModel>(
@@ -91,7 +92,9 @@ const UserArticleList = () => {
       <div className={styles.posts}>
         {loading ? (
           <div className={styles.spinnerContainer}>
-            <Spin style={{ alignContent: "center" }} size="large" />{" "}
+           <Spin
+            indicator={<LoadingOutlined style={{ fontSize: 24,alignContent: "center" }} spin />}
+          ></Spin>
           </div>
         ) : (
           articles.items &&

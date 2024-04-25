@@ -5,7 +5,7 @@ import { handleApiError } from "../../../../helpers/errorHelpers";
 import { NotificationListModel } from "../../../../services/notification/dtos/notificationListModel";
 import { Badge, List, Spin } from "antd";
 import styles from "./notificationLikeListContent.module.css";
-import { LikeOutlined, SunOutlined } from "@ant-design/icons";
+import { LikeOutlined, LoadingOutlined, SunOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { GetByIdNotificationResponse } from "../../../../services/notification/dtos/getByIdNotificationResponse";
 import LikeDrawer from "../drawers/like/LikeDrawer";
@@ -158,7 +158,14 @@ const NotiticationsLikeListContent = forwardRef(
 
     return loading ? (
       <div className={styles.spinnerContainer}>
-        <Spin size="small" />
+        <Spin
+          indicator={
+            <LoadingOutlined
+              style={{ fontSize: 24, alignContent: "center" }}
+              spin
+            />
+          }
+        ></Spin>
       </div>
     ) : (
       <div>

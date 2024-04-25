@@ -4,7 +4,7 @@ import { NotificationListModel } from "../../../../services/notification/dtos/no
 import { handleApiError } from "../../../../helpers/errorHelpers";
 import { Badge, List, Spin } from "antd";
 import { Link } from "react-router-dom";
-import { CommentOutlined } from "@ant-design/icons";
+import { CommentOutlined, LoadingOutlined } from "@ant-design/icons";
 import { GetByIdUserResponse } from "../../../../services/user/dtos/getByIdUserResponse";
 import authStore from "../../../../stores/auth/authStore";
 import userStore from "../../../../stores/user/userStore";
@@ -132,7 +132,14 @@ const NotificationCommentListContent = forwardRef(
 
     return loading ? (
       <div className={styles.spinnerContainer}>
-        <Spin size="small" />
+        <Spin
+          indicator={
+            <LoadingOutlined
+              style={{ fontSize: 24, alignContent: "center" }}
+              spin
+            />
+          }
+        ></Spin>
       </div>
     ) : (
       <div>

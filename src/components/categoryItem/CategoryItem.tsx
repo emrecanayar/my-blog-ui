@@ -6,6 +6,7 @@ import { CategoryListModel } from "../../services/category/dtos/categoryListMode
 import categoryStore from "../../stores/category/categoryStore";
 import config from "../../config";
 import { useNavigate } from "react-router-dom";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const CategoryItem = () => {
   const [menuColumns, setMenuColumns] = useState("repeat(3, 1fr)");
@@ -44,7 +45,14 @@ const CategoryItem = () => {
 
   const menu = loading ? (
     <div className={styles.spinnerContainer}>
-      <Spin style={{ alignContent: "center" }} size="large" />
+      <Spin
+        indicator={
+          <LoadingOutlined
+            style={{ fontSize: 24, alignContent: "center" }}
+            spin
+          />
+        }
+      ></Spin>
     </div>
   ) : (
     <Menu

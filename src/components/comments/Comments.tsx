@@ -10,6 +10,7 @@ import {
   CloseOutlined,
   DislikeOutlined,
   LikeOutlined,
+  LoadingOutlined,
   MailOutlined,
   UserOutlined,
 } from "@ant-design/icons";
@@ -492,7 +493,9 @@ const Comments = ({
       <div className={styles.comments}>
         {loading ? (
           <div className={styles.spinnerContainer}>
-            <Spin size="large" />
+           <Spin
+            indicator={<LoadingOutlined style={{ fontSize: 24,alignContent: "center" }} spin />}
+          ></Spin>
           </div>
         ) : (
           renderComments(comments.items)
