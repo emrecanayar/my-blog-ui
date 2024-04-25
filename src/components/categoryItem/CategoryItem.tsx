@@ -54,7 +54,7 @@ const CategoryItem = () => {
       {categories &&
         categories?.items.map((category, index) => (
           <Menu.Item
-            key={category.id}
+            key={index}
             className={styles.menuItem}
             onClick={() => navigate(`/category/${category.id}`)}
           >

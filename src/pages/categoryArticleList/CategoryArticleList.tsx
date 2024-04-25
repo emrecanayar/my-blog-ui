@@ -20,7 +20,7 @@ const CategoryArticleList = () => {
 
   useEffect(() => {
     fetchArticlesData();
-  }, [currentPage]);
+  }, [id, currentPage]);
 
   const fetchArticlesData = async () => {
     setLoading(true);
