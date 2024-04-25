@@ -10,6 +10,7 @@ import NotificationList from "../notifications/NotificationList";
 import notificationStore from "../../stores/notification/notificationStore";
 import { GetNotificationCountDto } from "../../services/notification/dtos/getNotificationCountDto";
 import { handleApiError } from "../../helpers/errorHelpers";
+import config from "../../config";
 
 const AuthLinks = observer(() => {
   const [open, setOpen] = useState(false);
@@ -81,6 +82,7 @@ const AuthLinks = observer(() => {
             <Avatar
               style={{ cursor: "pointer" }}
               icon={<UserOutlined />}
+              src={`${config.FILE_BASE_URL}${userStore.userInformation.userUploadedFiles?.[0]?.newPath}`}
             />
           </Dropdown>
 

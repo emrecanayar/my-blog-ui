@@ -77,16 +77,12 @@
 }
 
 .link {
-  border-bottom: 1px solid crimson;
   width: max-content;
   overflow: hidden;
-  /* Sağa doğru taşma olmasını engeller */
   display: block;
-  /* Çizginin genişliğini kontrol etmek için */
   position: relative;
-  /* before pseudo-element için konum referansı */
   margin-right: auto;
-  /* Diğer öğeleri sağa itmek için */
+  color: crimson;
 }
 
 .link::after {
@@ -96,14 +92,14 @@
   height: 1px;
   bottom: 0;
   left: 0;
-  background-color: crimson;
-  transform: scaleX(0);
+  background-color: crimson; /* Aynı renk, böylece başlangıçta farkedilmez */
+  transform: scaleX(0); /* Başlangıçta sıfır genişlikte */
   transform-origin: bottom left;
   transition: transform 0.3s ease-out;
 }
 
 .link:hover::after {
-  transform: scaleX(1);
+  transform: scaleX(1); /* Hover durumunda tam genişliğe genişler */
 }
 
 .actions {

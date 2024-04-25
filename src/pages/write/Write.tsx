@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./write.module.css";
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css"; // Quill'in temel stil dosyası
+import 'quill/dist/quill.snow.css';
 import categoryStore from "../../stores/category/categoryStore";
 import { CategoryListModel } from "../../services/category/dtos/categoryListModel";
 import { handleApiError } from "../../helpers/errorHelpers";

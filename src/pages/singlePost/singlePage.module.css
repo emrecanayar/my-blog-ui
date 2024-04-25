@@ -123,7 +123,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%; /* Container'ın tam genişliği kaplamasını sağla */
+  width: 100%;
+  /* Container'ın tam genişliği kaplamasını sağla */
 }
 
 
@@ -137,27 +138,35 @@
 }
 
 .favoriteButton {
-  position: absolute; /* Butonun pozisyonunu göreli yapın */
-  top: 20px; /* Üstten 20px boşluk */
-  right: 20px; /* Sağdan 20px boşluk */
-  background-color: #ff4500; /* Butonun arka plan rengi */
-  color: white; /* Butonun yazı rengi */
-  border: none; /* Kenarlık kaldır */
-  padding: 10px 20px; /* İç boşluk */
-  border-radius: 5px; /* Kenar yuvarlaklığı */
-  cursor: pointer; /* Fare imlecini düğme üzerine getirdiğinde el simgesi */
-  z-index: 10; /* Z-index ile diğer içeriklerin üzerinde görünmesini sağlayın */
-  
+  position: absolute;
+  /* Butonun pozisyonunu göreli yapın */
+  top: 20px;
+  /* Üstten 20px boşluk */
+  right: 20px;
+  /* Sağdan 20px boşluk */
+  background-color: #ff4500;
+  /* Butonun arka plan rengi */
+  color: white;
+  /* Butonun yazı rengi */
+  border: none;
+  /* Kenarlık kaldır */
+  padding: 10px 20px;
+  /* İç boşluk */
+  border-radius: 5px;
+  /* Kenar yuvarlaklığı */
+  cursor: pointer;
+  /* Fare imlecini düğme üzerine getirdiğinde el simgesi */
+  z-index: 10;
+  /* Z-index ile diğer içeriklerin üzerinde görünmesini sağlayın */
+
   /* Butonun diğer olası stilleri... */
 }
 
 .favoriteButton:hover {
-  background-color: #ff6b81; /* Butona hover olduğunda rengini hafifçe değiştir */
+  background-color: #ff6b81;
+  /* Butona hover olduğunda rengini hafifçe değiştir */
 }
 
-.postContent p {
-  text-align: center;
-}
 
 
 @media screen and (max-width: 1536px) {
@@ -181,7 +190,8 @@
 @media (max-width: 768px) {
   .actionsContainer {
     flex-direction: column;
-    align-items: flex-start; /* veya `center` dikey hizalama için */
+    align-items: flex-start;
+    /* veya `center` dikey hizalama için */
   }
 }
 

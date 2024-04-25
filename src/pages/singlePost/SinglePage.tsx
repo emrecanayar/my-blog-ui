@@ -250,11 +250,12 @@ const SinglePage = observer(() => {
               />
             </div>
           </div>
+
           <div className={styles.content}>
             <div className={styles.post}>
               <p className={styles.description}>
                 <div
-                  className={styles.postContent}
+                  className="ql-editor"
                   dangerouslySetInnerHTML={{
                     __html: article.content,
                   }}

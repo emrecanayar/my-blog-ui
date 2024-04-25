@@ -22,6 +22,9 @@ import Profile from "./pages/profile/Profile";
 import Account from "./components/account/Account";
 import UserFavoriteList from "./pages/userFavoriteList/UserFavoriteList";
 import Trending from "./pages/trending/Trending";
+import 'quill/dist/quill.snow.css';
+
+
 
 function App({ children }: any) {
   useEffect(() => {
