@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import styles from "./write.module.css";
 import ReactQuill from "react-quill";
-import 'quill/dist/quill.snow.css';
+import "quill/dist/quill.snow.css";
 import categoryStore from "../../stores/category/categoryStore";
 import { CategoryListModel } from "../../services/category/dtos/categoryListModel";
 import { handleApiError } from "../../helpers/errorHelpers";
 import Select from "react-select";
 import UploadFile from "../../components/uploadFile/UploadFile";
 import TagInput from "../../components/tagInput/TagInput";
-import { Card, Image } from "antd";
+import { Card, Image, Modal } from "antd";
 import { CreateArticleCommand } from "../../services/article/dtos/createArticleCommand";
 import { modules, formats } from "../../options/reactQuillOptions";
 import uploadedFileStore from "../../stores/uploadedFile/uploadedFileStore";
@@ -36,6 +36,8 @@ const WritePage = observer(() => {
   );
 
   const [loadingSubmit, setLoadingSubmit] = useState(false);
+  const [previewContent, setPreviewContent] = useState("");
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
     fetchCategoriesData();
@@ -111,6 +113,19 @@ const WritePage = observer(() => {
     }));
   };
 
+  const showModal = () => {
+    handlePreview();
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
   const handleSubmit = async (event: any) => {
     setLoadingSubmit(true);
     event?.preventDefault();
@@ -132,6 +147,10 @@ const WritePage = observer(() => {
     } finally {
       setLoadingSubmit(false);
     }
+  };
+
+  const handlePreview = () => {
+    setPreviewContent(createArticle.content); // Quill editöründen alınan içerik
   };
   const options: OptionsTypes[] = [];
 
@@ -204,6 +223,14 @@ const WritePage = observer(() => {
           </div>
         </Card>
         <button
+          type="button"
+          className={styles.previewButton}
+          onClick={showModal}
+        >
+          Önizle
+        </button>
+
+        <button
           type="submit"
           className={styles.publish}
           disabled={loadingSubmit}
@@ -211,6 +238,14 @@ const WritePage = observer(() => {
           Yayınla
         </button>
       </div>
+      <Modal
+        title="Makale Önizlemesi"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <div dangerouslySetInnerHTML={{ __html: previewContent }} />
+      </Modal>
     </form>
   );
 });

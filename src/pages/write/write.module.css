@@ -81,6 +81,15 @@
   left: 50px;
 }
 
+.previewButton {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 .input {
   padding: 50px;
   font-size: 64px;
@@ -141,4 +150,13 @@
   width: 100%; /* Araç çubuğunun tam genişlikte olmasını sağlar */
   z-index: 1000; /* Diğer içeriklerin üzerinde kalır */
   background-color: white; /* Arka plan rengi */
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modalFadeIn {
+  animation: fadeIn 1s;
 }
