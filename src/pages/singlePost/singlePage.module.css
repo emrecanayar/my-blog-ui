@@ -1,3 +1,9 @@
+.container {
+  max-width: 1200px; /* Maksimum genişlik */
+  margin: auto; /* Otomatik marj ile ortala */
+  padding: 0 20px; /* Sağdan ve soldan boşluk */
+}
+
 .infoContainer {
   display: flex;
   align-items: center;
@@ -18,13 +24,6 @@
   align-items: center;
   gap: 20px;
   flex-wrap: wrap;
-  /* Eğer ekran daralırsa alt alta sıralansın */
-}
-
-/* Ant Design'ın Rate bileşeni için ekstra stiller */
-.ant-rate {
-  font-size: 20px;
-  /* Yıldızların boyutunu artır */
 }
 
 .userImageContainer {
@@ -72,11 +71,12 @@
 
 .content {
   display: flex;
+  flex-direction: column; /* Sütun şeklinde sıralansın */
   gap: 50px;
 }
 
 .post {
-  flex: 5;
+  flex: 1;
   margin-top: 60px;
 }
 
@@ -88,86 +88,56 @@
 
 .tags {
   margin-top: 20px;
-  /* Etiketler ve makale içeriği arasında boşluk */
 }
 
 .spinnerContainer {
   display: flex;
   justify-content: center;
-  /* Yatayda ortala */
   align-items: center;
-  /* Dikeyde ortala */
-  /* height: 100vh; Bu satırı kaldırıyoruz. */
   flex: 1;
-  /* Esnek bir şekilde içeriği doldur. */
 }
 
 .rateContainer {
   padding: 8px 12px;
   margin-left: 50px;
   background-color: #f3f4f6;
-  /* Hafif gri bir arka plan rengi */
   border-radius: 8px;
-  /* Kenarları yuvarlak yap */
   display: inline-flex;
-  /* İç elemanları yanyana sırala */
   align-items: center;
-  /* İçerikleri dikey olarak ortala */
   gap: 10px;
-  /* Yıldızlar ve metin arasında boşluk bırak */
 }
-
 
 .actionsContainer {
   margin-top: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
-  /* Container'ın tam genişliği kaplamasını sağla */
+  flex-wrap: wrap; /* Satır atlamayı sağlar */
 }
-
 
 .rateText {
   font-size: 16px;
   font-weight: 600;
-  /* Biraz kalınlaştır */
   color: #333;
   margin-right: 5px;
-  /* Koyu gri bir renk */
 }
 
 .favoriteButton {
   position: absolute;
-  /* Butonun pozisyonunu göreli yapın */
   top: 20px;
-  /* Üstten 20px boşluk */
   right: 20px;
-  /* Sağdan 20px boşluk */
   background-color: #ff4500;
-  /* Butonun arka plan rengi */
   color: white;
-  /* Butonun yazı rengi */
   border: none;
-  /* Kenarlık kaldır */
   padding: 10px 20px;
-  /* İç boşluk */
   border-radius: 5px;
-  /* Kenar yuvarlaklığı */
   cursor: pointer;
-  /* Fare imlecini düğme üzerine getirdiğinde el simgesi */
   z-index: 10;
-  /* Z-index ile diğer içeriklerin üzerinde görünmesini sağlayın */
-
-  /* Butonun diğer olası stilleri... */
 }
 
 .favoriteButton:hover {
   background-color: #ff6b81;
-  /* Butona hover olduğunda rengini hafifçe değiştir */
 }
-
-
 
 @media screen and (max-width: 1536px) {
   .title {
@@ -191,7 +161,6 @@
   .actionsContainer {
     flex-direction: column;
     align-items: flex-start;
-    /* veya `center` dikey hizalama için */
   }
 }
 
@@ -206,18 +175,13 @@
 
   .rateContainer {
     padding: 6px 10px;
-    /* Mobil için padding'i azalt */
   }
 
   .rateText {
     font-size: 14px;
-    /* Mobil için metin boyutunu azalt */
   }
-
 
   .ant-rate {
     font-size: 18px;
-    /* Mobil için yıldız boyutunu azalt */
   }
-
 }
