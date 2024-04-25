@@ -25,29 +25,47 @@
   /* Başlangıçta buton görünmez */
   position: absolute;
   /* Pozisyonunu Card'a göre ayarlar */
-  top: 0;
-  /* Üst kenardan sıfır pixel */
-  right: 0;
-  /* Sağ kenardan sıfır pixel */
-  background-color: rgba(0, 0, 0, 0.5);
-  /* Buton için yarı saydam bir arka plan */
-  color: white;
-  /* Yazı rengi */
-  padding: 8px;
+  top: -25px;
+  /* Üst kenardan 0 pixel, kartın üst sınırına hizalanmış */
+  right: -3px;
+  /* Sağ kenardan 0 pixel, kartın sağ sınırına hizalanmış */
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  /* Buton için beyaz tonunda saydam arka plan */
+  color: #333 !important;
+  /* Başlangıç yazı rengi */
+  padding: 6px 12px;
   /* İçerik ile buton kenarı arasında boşluk */
-  border-bottom-left-radius: 8px;
-  /* Sadece sol alt köşe yuvarlak */
+  border-radius: 12px;
+  /* Köşeleri yuvarlak yapar */
   cursor: pointer;
   /* Mouse üzerine geldiğinde el işaretini gösterir */
-  transition: all 0.3s ease;
-  /* Görünürlük için yumuşak geçiş */
+  transition: background-color 0.3s ease, color 0.3s ease;
+  /* Renk değişiminde yumuşak geçiş */
   font-size: 12px;
   /* Yazı boyutu */
+  font-weight: bold;
+  /* Yazı tipini kalın yapar */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+  /* Gölgelendirme ekler */
+  z-index: 10;
+  /* Üst katmanda olması için */
 }
 
-/* Card'ın üzerine gelindiğinde Devamını Oku butonunu göster */
 .cardHover:hover .readMoreButton {
   display: block;
+  /* Kartın üzerine gelindiğinde buton görünür olur */
+  background-color: rgba(0, 123, 255, 0.9);
+  /* Mavi tonunda saydam arka plan */
+  color: white;
+  /* Yazı rengini beyaz yap */
+}
+
+/* Kartın üzerine gelindiğinde butonun arka planını değiştir */
+.cardHover:hover .readMoreButton:hover {
+  background-color: rgba(0, 123, 255, 0.9)  !important;
+  /* Mavi tonunda saydam arka plan */
+  color: white  !important;
+  /* Yazı rengini beyaz yap */
 }
 
 .ant-card-body:hover .readMoreButton {
@@ -111,12 +129,14 @@
   border-radius: 50%;
   background-color: #ff4500;
   transition: opacity 0.3s, width 0.3s ease, height 0.3s ease, border-radius 0.3s ease;
-  opacity: 0; /* Başlangıçta tamamen görünmez */
+  opacity: 0;
+  /* Başlangıçta tamamen görünmez */
   z-index: 10;
 }
 
 .potentialHotLabel {
-  opacity: 0; /* Hover olmadan önce yine görünmez olmalı, eğer bugün ise */
+  opacity: 0;
+  /* Hover olmadan önce yine görünmez olmalı, eğer bugün ise */
   content: "HOT";
   display: block;
   color: white;
@@ -131,9 +151,12 @@
 }
 
 .trendingArticleCard:hover .potentialHotLabel {
-  width: 50px; /* Genişliği artır */
-  height: 20px; /* Yüksekliği düzelt */
-  border-radius: 4px; /* Köşeleri düzelt */
-  opacity: 1; /* Şimdi görünür yap */
+  width: 50px;
+  /* Genişliği artır */
+  height: 20px;
+  /* Yüksekliği düzelt */
+  border-radius: 4px;
+  /* Köşeleri düzelt */
+  opacity: 1;
+  /* Şimdi görünür yap */
 }
-
