@@ -1,0 +1,129 @@
+.container {
+    max-width: 1200px; /* Maksimum genişlik */
+    margin: auto; /* Otomatik marj ile ortala */
+    padding: 0 20px; /* Sağdan ve soldan boşluk */
+  }
+  
+  .infoContainer {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+  }
+  
+  .textContainer {
+    flex: 1;
+  }
+  
+  .title {
+    font-size: 64px;
+    margin-bottom: 50px;
+  }
+  
+  .user {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .userImageContainer {
+    width: 50px;
+    height: 50px;
+    position: relative;
+  }
+  
+  .avatar {
+    border-radius: 50%;
+    object-fit: cover;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    inset: 0px;
+    color: transparent;
+  }
+  
+  .userTextContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    color: var(--softTextColor);
+  }
+  
+  .username {
+    font-size: 20px;
+    font-weight: 500;
+  }
+  
+  .imageContainer {
+    flex: 1;
+    height: 350px;
+    position: relative;
+  }
+  
+  .image {
+    object-fit: cover;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    inset: 0px;
+    color: transparent;
+  }
+  
+  .content {
+    display: flex;
+    flex-direction: column; /* Sütun şeklinde sıralansın */
+    gap: 50px;
+  }
+  
+  .post {
+    flex: 1;
+    margin-top: 60px;
+  }
+  
+  .description p {
+    font-size: 20px;
+    font-weight: 300;
+    margin-bottom: 20px;
+  }
+  
+  .tags {
+    margin-top: 20px;
+  }
+  
+  .spinnerContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+  }
+  
+  @media screen and (max-width: 1536px) {
+    .title {
+      font-size: 54px;
+    }
+  }
+  
+  @media screen and (max-width: 1280px) {
+    .title {
+      font-size: 48px;
+    }
+  }
+  
+  @media screen and (max-width: 1024px) {
+    .imageContainer {
+      display: none;
+    }
+  }
+  
+  
+  @media screen and (max-width: 640px) {
+    .title {
+      font-size: 36px;
+    }
+  
+    .description p {
+      font-size: 18px;
+    }
+
+  }
+  

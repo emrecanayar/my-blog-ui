@@ -28,6 +28,9 @@
 }
 
 
+
+
+
 .container {
   display: flex;
   flex-direction: column;
@@ -110,36 +113,50 @@
   gap: 10px;
 }
 
-.publish {
+
+.cardContainer .buttonGroup {
+  display: flex;
   position: absolute;
   bottom: 10px;
-  /* Alt kısımdan boşluk bırak */
   right: 20px;
-  /* Sağ kısımdan boşluk bırak */
+  display: flex;
+  gap: 10px;
+}
+
+.publish,
+.previewButton {
   padding: 10px 20px;
   border: none;
-  background-color: #1a8917;
   color: white;
   cursor: pointer;
   border-radius: 20px;
 }
 
+.previewButton {
+  background-color: #007BFF;
+  /* Mavi renk tonu */
+}
 
-.publish:disabled {
+.publish {
+  background-color: #1a8917;
+  /* Mevcut yeşil ton */
+}
+
+.publish:disabled,
+.previewButton:disabled {
   background-color: #ccc;
-  /* Gri tonu, pasif olduğunu belirtir */
   color: #666;
-  /* Yazı rengini koyu gri yap */
   cursor: not-allowed;
-  /* Üzerine gelindiğinde cursor'u yasak işareti yap */
 }
 
 
 .fixedToolbar {
   position: fixed;
   top: 0;
-  width: 100%; /* Araç çubuğunun tam genişlikte olmasını sağlar */
-  z-index: 1000; /* Diğer içeriklerin üzerinde kalır */
-  background-color: white; /* Arka plan rengi */
+  width: 100%;
+  /* Araç çubuğunun tam genişlikte olmasını sağlar */
+  z-index: 1000;
+  /* Diğer içeriklerin üzerinde kalır */
+  background-color: white;
+  /* Arka plan rengi */
 }
-

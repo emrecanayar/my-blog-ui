@@ -8,7 +8,7 @@ import { handleApiError } from "../../helpers/errorHelpers";
 import Select from "react-select";
 import UploadFile from "../../components/uploadFile/UploadFile";
 import TagInput from "../../components/tagInput/TagInput";
-import { Card, Image } from "antd";
+import { Card, Image, Modal } from "antd";
 import { CreateArticleCommand } from "../../services/article/dtos/createArticleCommand";
 import { modules, formats } from "../../options/reactQuillOptions";
 import uploadedFileStore from "../../stores/uploadedFile/uploadedFileStore";
@@ -16,6 +16,7 @@ import { observer } from "mobx-react";
 import config from "../../config";
 import articleStore from "../../stores/article/articleStore";
 import { toast } from "react-toastify";
+import Preview from "../../components/preview/Preview";
 
 export interface OptionsTypes {
   value: string;
@@ -36,6 +37,8 @@ const WritePage = observer(() => {
   );
 
   const [loadingSubmit, setLoadingSubmit] = useState(false);
+
+  const [modalStatu, setModalStatu] = useState(false);
 
   useEffect(() => {
     fetchCategoriesData();
@@ -134,6 +137,14 @@ const WritePage = observer(() => {
     }
   };
 
+  const openModal = () => {
+    setModalStatu(true);
+  };
+
+  const closeModal = () => {
+    setModalStatu(false);
+  };
+
   const options: OptionsTypes[] = [];
 
   categories.items?.forEach((category) => {
@@ -204,14 +215,42 @@ const WritePage = observer(() => {
             />
           </div>
         </Card>
-        <button
-          type="submit"
-          className={styles.publish}
-          disabled={loadingSubmit}
-        >
-          Yayınla
-        </button>
+        <div className={styles.buttonGroup}>
+          <button
+            type="button"
+            className={styles.previewButton}
+            onClick={openModal}
+          >
+            Ön İzleme
+          </button>
+          <button
+            type="submit"
+            className={styles.publish}
+            disabled={loadingSubmit}
+          >
+            Yayınla
+          </button>
+        </div>
       </div>
+      <Modal
+        title="Makalenin Ön İzlemesi"
+        style={{ top: 20 }}
+        open={modalStatu}
+        onOk={closeModal}
+        onCancel={closeModal}
+        okText="Tamam"
+        cancelText="Kapat"
+        width={1200}
+        bodyStyle={{
+          maxHeight: "calc(100vh - 200px)", // Yükseklik, görünüm alanının yüksekliğine bağlı olarak ayarlanabilir
+          overflowY: "auto",
+        }}
+      >
+        <Preview
+          article={createArticle}
+          uploadedFilePath={uploadedFileStore.uploadedFilePath}
+        />
+      </Modal>
     </form>
   );
 });
