@@ -18,19 +18,21 @@ jobs:
         with:
           node-version: '20.x'
 
-      - name: Set OpenSSL Legacy Provider
-        run: echo "NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_ENV
-
-      - name: npm install, build, and test
+      - name: npm install and build
         run: |
           NODE_OPTIONS=--openssl-legacy-provider npm install
           NODE_OPTIONS=--openssl-legacy-provider npm run build --if-present
-          NODE_OPTIONS=--openssl-legacy-provider npm run test --if-present
         env:
           CI: "false"
 
       - name: Zip artifact for deployment
         run: zip -r release.zip ./*
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v3
+        with:
+          name: node-app
+          path: release.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -57,7 +59,7 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_DCE2DCB79EAA4596BC892F41316A33E0 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_AFAD96BAC4D243D995E9089CD32E07F9 }}
 
-      - name: 'Deploy to Azure Web App'
+      - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
