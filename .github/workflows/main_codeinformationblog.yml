@@ -20,6 +20,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18.x'
+          
+      - name: Set NODE_OPTIONS environment variable
+        run: echo 'NODE_OPTIONS=--openssl-legacy-provider' >> $GITHUB_ENV
 
       - name: npm install, build, and test
         run: |
