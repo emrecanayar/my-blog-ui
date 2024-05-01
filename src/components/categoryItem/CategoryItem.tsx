@@ -4,7 +4,6 @@ import navStyles from "../navbar/navbar.module.css";
 import { useEffect, useState } from "react";
 import { CategoryListModel } from "../../services/category/dtos/categoryListModel";
 import categoryStore from "../../stores/category/categoryStore";
-import config from "../../config";
 import { useNavigate } from "react-router-dom";
 import { LoadingOutlined } from "@ant-design/icons";
 

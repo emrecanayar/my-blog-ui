@@ -8,7 +8,6 @@ import { GetByIdArticleResponse } from "../../services/article/dtos/getByIdArtic
 import { useEffect, useState } from "react";
 import { handleApiError } from "../../helpers/errorHelpers";
 import { formatDateForDate } from "../../helpers/dateHelper";
-import config from "../../config";
 import { CreateRatingCommand } from "../../services/rating/dtos/createRatingCommand";
 import ratingStore from "../../stores/rating/ratingStore";
 import { ToastContainer, toast } from "react-toastify";
@@ -30,7 +29,7 @@ const SinglePage = observer(() => {
   const [article, setArticle] = useState<GetByIdArticleResponse>(
     {} as GetByIdArticleResponse
   );
-  const [createRating, setCreateRating] = useState<CreateRatingCommand>(
+  const [createRating] = useState<CreateRatingCommand>(
     {} as CreateRatingCommand
   );
 
@@ -38,7 +37,7 @@ const SinglePage = observer(() => {
     {} as GetRatingInformationResponse
   );
 
-  const [updateRating, setUpdateRating] = useState<UpdateRatingCommand>(
+  const [updateRating] = useState<UpdateRatingCommand>(
     {} as UpdateRatingCommand
   );
 

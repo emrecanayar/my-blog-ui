@@ -1,5 +1,4 @@
 import styles from "./featured.module.css";
-import p1 from "../../assets/p1.jpeg";
 import featureStore from "../../stores/feature/featureStore";
 import { GetListFeatureListItemDto } from "../../services/feature/dtos/getListFeatureListItemDto";
 import { useEffect, useState } from "react";
@@ -8,7 +7,6 @@ import { Spin } from "antd";
 import headArticleFeatureStore from "../../stores/headArticleFeature/headArticleFeatureStore";
 import { GetListHeadArticleFeatureListItemDto } from "../../services/headArticleFeature/dtos/getListHeadArticleFeatureListItemDto";
 import { GetListResponse } from "../../services/base/models/GetListResponse";
-import config from "../../config";
 import { Link } from "react-router-dom";
 import { LoadingOutlined } from "@ant-design/icons";
 

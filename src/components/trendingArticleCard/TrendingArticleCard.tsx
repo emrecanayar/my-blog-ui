@@ -22,7 +22,6 @@ import {
 import Meta from "antd/es/card/Meta";
 import styles from "./trendingArticleCard.module.css";
 import { GetListArticleListItemDto } from "../../services/article/dtos/getListArticleListItemDto";
-import config from "../../config";
 import { Link } from "react-router-dom";
 import favoriteArticleStore from "../../stores/favoriteArticle/favoriteArticleStore";
 import { useEffect, useState } from "react";

@@ -3,7 +3,6 @@ import styles from "./categoryList.module.css";
 import categoryStore from "../../stores/category/categoryStore";
 import { useEffect, useState } from "react";
 import { CategoryListModel } from "../../services/category/dtos/categoryListModel";
-import config from "../../config";
 import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 

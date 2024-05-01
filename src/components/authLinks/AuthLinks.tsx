@@ -10,7 +10,6 @@ import NotificationList from "../notifications/NotificationList";
 import notificationStore from "../../stores/notification/notificationStore";
 import { GetNotificationCountDto } from "../../services/notification/dtos/getNotificationCountDto";
 import { handleApiError } from "../../helpers/errorHelpers";
-import config from "../../config";
 
 const AuthLinks = observer(() => {
   const [open, setOpen] = useState(false);

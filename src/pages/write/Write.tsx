@@ -13,7 +13,6 @@ import { CreateArticleCommand } from "../../services/article/dtos/createArticleC
 import { modules, formats } from "../../options/reactQuillOptions";
 import uploadedFileStore from "../../stores/uploadedFile/uploadedFileStore";
 import { observer } from "mobx-react";
-import config from "../../config";
 import articleStore from "../../stores/article/articleStore";
 import { toast } from "react-toastify";
 import Preview from "../../components/preview/Preview";

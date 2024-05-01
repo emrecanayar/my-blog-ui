@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import articleStore from "../../stores/article/articleStore";
 import { ArticleListModel } from "../../services/article/dtos/articleListModel";
 import { handleApiError } from "../../helpers/errorHelpers";
-import config from "../../config";
 import { formatDateForDate } from "../../helpers/dateHelper";
 import { Spin } from "antd";
 import editorArticlePickStore from "../../stores/editorArticlePick/editorArticlePickStore";

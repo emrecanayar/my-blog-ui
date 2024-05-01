@@ -3,7 +3,6 @@ import styles from "./preview.module.css";
 import { Spin, Tag } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { formatDateForDate } from "../../helpers/dateHelper";
-import config from "../../config";
 import userStore from "../../stores/user/userStore";
 import { CreateArticleCommand } from "../../services/article/dtos/createArticleCommand";
 import categoryStore from "../../stores/category/categoryStore";
