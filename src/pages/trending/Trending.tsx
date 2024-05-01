@@ -446,7 +446,7 @@ const Trending = () => {
         style={{ display: "flex", justifyContent: "center", margin: "20px 0" }}
       >
         <AutoComplete
-          key={autoCompleteKey} // Yeni key prop'u eklendi
+          key={autoCompleteKey}
           popupClassName="certain-category-search-dropdown"
           popupMatchSelectWidth={500}
           open={open}
