@@ -109,7 +109,7 @@ const Trending = () => {
   useEffect(() => {
     // API'den veri çekme işlemleri sonrasında options güncelle
     setOptionsWithCategoriesAndArticles();
-  }, [popularCategories, popularArticles]); // Bağımlılıklar eklendi
+  }, [popularCategories, popularArticles]);
 
   useEffect(() => {
     if (searchData && searchData.items && searchData.items.length > 0) {
