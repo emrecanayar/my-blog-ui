@@ -88,7 +88,7 @@ const Featured = () => {
           <>
             <div className={styles.imgContainer} style={{}}>
               <img
-                src={`${config.FILE_BASE_URL}${headArticleFeature.items?.[0]?.headArticleFeatureUploadedFiles?.[0]?.newPath}`}
+                src={`${process.env.REACT_APP_FILE_BASE_URL}${headArticleFeature.items?.[0]?.headArticleFeatureUploadedFiles?.[0]?.newPath}`}
                 alt="İlk Paragraf Görseli"
                 className={styles.image}
               />

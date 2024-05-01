@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://localhost:7133/api";
+const BASE_URL = process.env.REACT_APP_API_URL;
 
 const apiClient = axios.create({
   baseURL: BASE_URL,
@@ -16,7 +16,7 @@ apiClient.interceptors.response.use(
       return Promise.reject(new Error("Ağ hatası veya yanıt yok"));
     }
     const { data } = error.response;
-
+    console.log("API URL:", process.env.REACT_APP_API_URL);
     let customError = {
       generalMessage: "Beklenmeyen bir hata oluştu.",
       validationErrors: null,

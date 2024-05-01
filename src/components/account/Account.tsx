@@ -157,7 +157,7 @@ const Account = () => {
           <Image
             width={200}
             style={{ marginBottom: "2rem" }} // Resim altında boşluk bırak
-            src={`${config.FILE_BASE_URL}${userInformation.userUploadedFiles?.[0]?.newPath}`}
+            src={`${process.env.REACT_APP_FILE_BASE_URL}${userInformation.userUploadedFiles?.[0]?.newPath}`}
             preview={true} // Eğer resmin önizlemesini istemiyorsanız
           />
           <Form

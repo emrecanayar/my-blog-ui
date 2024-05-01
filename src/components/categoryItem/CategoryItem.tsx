@@ -67,7 +67,7 @@ const CategoryItem = () => {
             onClick={() => navigate(`/category/${category.id}`)}
           >
             <img
-              src={`${config.FILE_BASE_URL}${category.categoryUploadedFiles?.[0]?.newPath}`}
+              src={`${process.env.REACT_APP_FILE_BASE_URL}${category.categoryUploadedFiles?.[0]?.newPath}`}
               alt={category.name}
               className={styles.categoryImage}
             />

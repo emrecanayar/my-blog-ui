@@ -162,7 +162,7 @@ const WritePage = observer(() => {
                 <Image
                   width={750}
                   height={350}
-                  src={`${config.FILE_BASE_URL}${uploadedFileStore.uploadedFilePath}`}
+                  src={`${process.env.REACT_APP_FILE_BASE_URL}${uploadedFileStore.uploadedFilePath}`}
                   alt="Yüklenen Dosya"
                 />
               </div>

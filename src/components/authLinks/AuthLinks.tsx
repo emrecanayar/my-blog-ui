@@ -82,7 +82,7 @@ const AuthLinks = observer(() => {
             <Avatar
               style={{ cursor: "pointer" }}
               icon={<UserOutlined />}
-              src={`${config.FILE_BASE_URL}${userStore.userInformation.userUploadedFiles?.[0]?.newPath}`}
+              src={`${process.env.REACT_APP_FILE_BASE_URL}${userStore.userInformation.userUploadedFiles?.[0]?.newPath}`}
             />
           </Dropdown>
 

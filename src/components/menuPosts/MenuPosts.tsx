@@ -111,7 +111,7 @@ const MenuPosts = ({ withImage, type }: MenuPostsProps) => {
                 >
                   <div className={styles.imageContainer}>
                     <img
-                      src={`${config.FILE_BASE_URL}${article.articleUploadedFiles?.[0]?.newPath}`}
+                      src={`${process.env.REACT_APP_FILE_BASE_URL}${article.articleUploadedFiles?.[0]?.newPath}`}
                       alt=""
                       className={styles.image}
                     />
@@ -155,7 +155,7 @@ const MenuPosts = ({ withImage, type }: MenuPostsProps) => {
                 >
                   <div className={styles.imageContainer}>
                     <img
-                      src={`${config.FILE_BASE_URL}${article.articleUploadedFiles?.[0]?.newPath}`}
+                      src={`${process.env.REACT_APP_FILE_BASE_URL}${article.articleUploadedFiles?.[0]?.newPath}`}
                       alt=""
                       className={styles.image}
                     />
@@ -199,7 +199,7 @@ const MenuPosts = ({ withImage, type }: MenuPostsProps) => {
                 >
                   <div className={styles.imageContainer}>
                     <img
-                      src={`${config.FILE_BASE_URL}${article.article.articleUploadedFiles?.[0]?.newPath}`}
+                      src={`${process.env.REACT_APP_FILE_BASE_URL}${article.article.articleUploadedFiles?.[0]?.newPath}`}
                       alt=""
                       className={styles.image}
                     />

@@ -55,7 +55,7 @@ const CategoryList = () => {
                 key={category.id}
               >
                 <img
-                  src={`${config.FILE_BASE_URL}${category.categoryUploadedFiles?.[0]?.newPath}`}
+                  src={`${process.env.FILEREACT_APP_FILE_BASE_URL_BASE_URL}${category.categoryUploadedFiles?.[0]?.newPath}`}
                   alt={category.name}
                   width={32}
                   height={32}

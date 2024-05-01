@@ -59,7 +59,7 @@ const Preview = ({ article, uploadedFilePath }: IPreviewProps) => {
               <div className={styles.user}>
                 <div className={styles.userImageContainer}>
                   <img
-                    src={`${config.FILE_BASE_URL}${userStore.userInformation.userUploadedFiles?.[0]?.newPath}`}
+                    src={`${process.env.REACT_APP_FILE_BASE_URL}${userStore.userInformation.userUploadedFiles?.[0]?.newPath}`}
                     alt=""
                     className={styles.avatar}
                   />
@@ -77,7 +77,7 @@ const Preview = ({ article, uploadedFilePath }: IPreviewProps) => {
             </div>
             <div className={styles.imageContainer}>
               <img
-                src={`${config.FILE_BASE_URL}${uploadedFilePath}`}
+                src={`${process.env.REACT_APP_FILE_BASE_URL}${uploadedFilePath}`}
                 alt=""
                 className={styles.image}
               />

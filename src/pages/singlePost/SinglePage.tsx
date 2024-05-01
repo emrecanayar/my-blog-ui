@@ -243,7 +243,7 @@ const SinglePage = observer(() => {
             <div className={styles.imageContainer}>
               {authStore.isAuthenticated ? <FavoriteButton /> : ""}
               <img
-                src={`${config.FILE_BASE_URL}${
+                src={`${process.env.REACT_APP_FILE_BASE_URL}${
                   article.articleUploadedFiles &&
                   article.articleUploadedFiles?.[0]?.newPath
                 }`}

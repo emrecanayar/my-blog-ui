@@ -359,7 +359,7 @@ const TrendingArticleCard = ({
             avatar={
               // Avatar resmi
               <Avatar
-                src={`${config.FILE_BASE_URL}${article.user?.userUploadedFiles?.[0]?.newPath}`}
+                src={`${process.env.REACT_APP_FILE_BASE_URL}${article.user?.userUploadedFiles?.[0]?.newPath}`}
               />
             }
             title={
@@ -379,7 +379,7 @@ const TrendingArticleCard = ({
           <div className={styles.articleImageWrapper}>
             <img
               alt={article.category.name}
-              src={`${config.FILE_BASE_URL}${article.articleUploadedFiles?.[0]?.newPath}`} // Gerçek resim linkinizi buraya ekleyin.
+              src={`${process.env.REACT_APP_FILE_BASE_URL}${article.articleUploadedFiles?.[0]?.newPath}`} // Gerçek resim linkinizi buraya ekleyin.
             />
           </div>
           <div className={styles.readMoreButton}>
