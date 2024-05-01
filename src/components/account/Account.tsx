@@ -15,7 +15,6 @@ import userStore from "../../stores/user/userStore";
 import { GetByIdUserResponse } from "../../services/user/dtos/getByIdUserResponse";
 import { handleApiError } from "../../helpers/errorHelpers";
 import styles from "./account.module.css";
-import config from "../../config";
 import { cultureLabels } from "../../complexTypes/enumLabels";
 import { UpdateUserInformationCommand } from "../../services/user/dtos/updateUserInformationCommand";
 import { ToastContainer, toast } from "react-toastify";
@@ -52,9 +51,10 @@ const Account = () => {
       email: userInformation.email,
       cultureType: cultureLabels[userInformation.cultureType],
     });
-  }, [userInformation]); // userInformation değiştiğinde bu useEffect tetiklenir
+  }, [userInformation, form]); // userInformation değiştiğinde bu useEffect tetiklenir
 
   const onFinish = async (values: FieldType) => {
+    console.log(updateUserInformation);
     const updateCommand: UpdateUserInformationCommand = {
       id: userInformation.id, // `userInformation` state'inden `id` alınıyor
       firstName: values.firstName!,
@@ -149,7 +149,12 @@ const Account = () => {
         <div className={styles.spinnerContainer}>
           <Spin
             // eslint-disable-next-line react/jsx-no-undef
-            indicator={<LoadingOutlined style={{ fontSize: 24,alignContent: "center" }} spin />}
+            indicator={
+              <LoadingOutlined
+                style={{ fontSize: 24, alignContent: "center" }}
+                spin
+              />
+            }
           ></Spin>
         </div>
       ) : (
