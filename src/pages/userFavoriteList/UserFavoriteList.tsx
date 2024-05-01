@@ -18,23 +18,22 @@ const UserFavoriteList = () => {
   >({} as GetListResponse<GetListFavoriteArticleListItemDto>);
 
   useEffect(() => {
+    const fetchFavoriteArticlesData = async () => {
+      setLoading(true);
+      try {
+        let data = await favoriteArticleStore.getListFavoriteArticle({
+          pageIndex: currentPage,
+          pageSize: 4,
+        });
+        setFavoriteArticles(data);
+      } catch (error) {
+        handleApiError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchFavoriteArticlesData();
   }, [currentPage]);
-
-  const fetchFavoriteArticlesData = async () => {
-    setLoading(true);
-    try {
-      let data = await favoriteArticleStore.getListFavoriteArticle({
-        pageIndex: currentPage,
-        pageSize: 4,
-      });
-      setFavoriteArticles(data);
-    } catch (error) {
-      handleApiError(error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   // Sayfa değiştirme fonksiyonları
   const goToPrevPage = () => {
@@ -66,7 +65,8 @@ const UserFavoriteList = () => {
       <div>
         {articles.items[0]?.user && (
           <span>
-            {articles.items[0].user.firstName} {articles.items[0].user.lastName} - Favori Yazılar
+            {articles.items[0].user.firstName} {articles.items[0].user.lastName}{" "}
+            - Favori Yazılar
           </span>
         )}
       </div>
@@ -82,9 +82,14 @@ const UserFavoriteList = () => {
       <div className={styles.posts}>
         {loading ? (
           <div className={styles.spinnerContainer}>
-         <Spin
-            indicator={<LoadingOutlined style={{ fontSize: 24,alignContent: "center" }} spin />}
-          ></Spin>
+            <Spin
+              indicator={
+                <LoadingOutlined
+                  style={{ fontSize: 24, alignContent: "center" }}
+                  spin
+                />
+              }
+            ></Spin>
           </div>
         ) : (
           favoriteArticles.items &&
@@ -95,14 +100,14 @@ const UserFavoriteList = () => {
       </div>
       {favoriteArticles.pages > 1 && (
         <Pagination
-        page={currentPage}
-        totalPages={favoriteArticles.pages} // totalPages değerini doğru bir şekilde articles'dan almalısınız
-        hasPrev={favoriteArticles.hasPrevious}
-        hasNext={favoriteArticles.hasNext}
-        onPrev={goToPrevPage}
-        onNext={goToNextPage}
-        onPageSelect={goToPage} // İşte burada goToPage fonksiyonunu prop olarak geçiriyoruz
-      />
+          page={currentPage}
+          totalPages={favoriteArticles.pages} // totalPages değerini doğru bir şekilde articles'dan almalısınız
+          hasPrev={favoriteArticles.hasPrevious}
+          hasNext={favoriteArticles.hasNext}
+          onPrev={goToPrevPage}
+          onNext={goToNextPage}
+          onPageSelect={goToPage} // İşte burada goToPage fonksiyonunu prop olarak geçiriyoruz
+        />
       )}
     </div>
   );

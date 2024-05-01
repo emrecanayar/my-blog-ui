@@ -20,30 +20,30 @@ const UserArticleList = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    fetchArticlesData();
-  }, [currentPage]);
+    const fetchArticlesData = async () => {
+      setLoading(true);
+      try {
+        let data = await articleStore.getArticlesListByDynamic(
+          { pageIndex: currentPage, pageSize: 4 },
+          {
+            sort: [{ field: "date", dir: "desc" }],
+            filter: {
+              field: "user.id",
+              operator: "eq",
+              value: `${id}`,
+            },
+          }
+        );
+        setArticles(data);
+      } catch (error) {
+        handleApiError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const fetchArticlesData = async () => {
-    setLoading(true);
-    try {
-      let data = await articleStore.getArticlesListByDynamic(
-        { pageIndex: currentPage, pageSize: 4 },
-        {
-          sort: [{ field: "date", dir: "desc" }],
-          filter: {
-            field: "user.id",
-            operator: "eq",
-            value: `${id}`,
-          },
-        }
-      );
-      setArticles(data);
-    } catch (error) {
-      handleApiError(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    fetchArticlesData();
+  }, [currentPage, id]);
 
   // Sayfa değiştirme fonksiyonları
   const goToPrevPage = () => {
@@ -92,9 +92,14 @@ const UserArticleList = () => {
       <div className={styles.posts}>
         {loading ? (
           <div className={styles.spinnerContainer}>
-           <Spin
-            indicator={<LoadingOutlined style={{ fontSize: 24,alignContent: "center" }} spin />}
-          ></Spin>
+            <Spin
+              indicator={
+                <LoadingOutlined
+                  style={{ fontSize: 24, alignContent: "center" }}
+                  spin
+                />
+              }
+            ></Spin>
           </div>
         ) : (
           articles.items &&
